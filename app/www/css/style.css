@@ -1,1 +1,34 @@
 /* Empty. Add your own CSS if you like */
+.iips-header {
+	height: 90px;
+	background-color: #125C9C;
+}
+.iips-footer {
+	background-color: #125C9C;
+}
+.item-input {
+	height: 45px;
+	width: 250px;
+}
+.item .card {
+	border-radius: 10px;
+}
+.card, .register-list {
+	width: 250px;
+	position: relative;
+	top: -20px;
+}
+.text-calm {
+	color: #11c1f3;
+	font-style: Georgia;
+	font-size: 16px;	
+}
+.login-card > .item-input input, .login-card > .item-select .input-label{
+	    margin: -20px 0;
+}
+.item-floating-label .input-label.has-input {
+	top: -16px;
+}
+ion-content {
+	font-family: Georgia;
+}
