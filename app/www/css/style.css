@@ -1,4 +1,4 @@
-/* Empty. Add your own CSS if you like */
+/*--------------------------------------Login.html------------------------------------------------*/
 .iips-header {
 	height: 90px;
 	background-color: #125C9C;
@@ -16,7 +16,7 @@
 .card, .register-list {
 	width: 250px;
 	position: relative;
-	top: -20px;
+	top: 4.5em;
 }
 .text-calm {
 	color: #11c1f3;
@@ -31,4 +31,28 @@
 }
 ion-content {
 	font-family: Georgia;
+}
+.sign-in-text {
+	position: relative;
+	top: 6em;
+}
+
+/*-----------------------------------Register.html------------------------------------------------*/
+.register-input {
+	height:35px;
+	margin: 5px 3px;
+	border-radius: 5px;
+	font-family: Verdana;
+}
+.register-input:hover  {
+	background-color: orange;
+}
+.register-input select {
+	padding: 0 5px 0;
+}
+.input-label {
+	opacity:0.4;
+	font-family: Verdana;
+	font-size: 12px;
+	color:gray;
 }
