@@ -1,0 +1,87 @@
+<ion-header-bar class="iips-header">
+  <div class="col"></div>
+  <img src="../img/iips-logo.png" class="col col-center" height="80px" width="200px">
+  <div class="col"></div>
+</ion-header-bar>
+
+<ion-content>
+
+  <div class="row sign-in-text">
+    <i class="button button-clear button-calm icon ion-arrow-left-c col col-25 col-offest-75" ng-click = "backToLogin()">
+    </i>
+    <span class="text-calm col col-offset-40 col-center" style="text-align:right;">Register here</span>
+    <div class="col col-20"></div>
+  </div>
+
+  <form ng-submit="doLogin()">
+    <div class="row">
+      <div class="col col-10"></div>
+      <div class="list register-list">
+        <label class="item item-input register-input">
+          <input type="text" ng-model="loginData.username" placeholder="Full Name">
+        </label>
+        <label class="item item-input item-select register-input">
+          <span class="input-label">Course</span>
+          <select>
+            <option>M.Tech</option>
+            <option>MCA</option>
+            <option>MBA(ms)</option>
+            <option>MBA(apr)</option>
+            <option>MBA(tr)</option>
+            <option>B.Com</option>
+          </select>
+        </label>
+        <label class="item item-input item-select register-input">
+          <span class="input-label">Semester</span>
+          <select>
+            <option>I</option>
+            <option>II</option>
+            <option>III</option>
+            <option>IV</option>
+            <option>V</option>
+            <option>VI</option>
+            <option>VII</option>
+            <option>VIII</option>
+            <option>IX</option>
+            <option>X</option>
+            <option>XI</option>
+            <option>XII</option>
+          </select>
+        </label>
+        <label class="item item-input register-input">
+          <input type="text" placeholder="Batch">
+        </label>
+        <label class="item item-input register-input">
+          <input type="number"  placeholder="Roll No.">
+        </label>
+        <label class="item item-input register-input">
+          <input type="text" placeholder="E-mail">
+        </label>
+        <label class="item item-input register-input">
+          <input type="text" placeholder="Username">
+        </label>
+        <label class="item item-input register-input">
+          <input type="password" placeholder="Password">
+        </label>
+        <label class="item item-input register-input">
+          <input type="password" placeholder="Confirm Password">
+        </label>
+        <label class="item item-input item-select register-input">
+          <span class="input-label">Who are you?</span>
+          <select>
+            <option>Student</option>
+            <option>Faculty</option>
+          </select>
+        </label>
+      </div>
+      <div class="col"></div>
+    </div>
+  </form>
+
+</ion-content>
+
+<ion-footer-bar align-title="center" class="iips-footer">
+  <div class="col"></div>
+    <button class="button button-clear icon ion-checkmark-circled col col-50" ng-click="submit()" style="color:#FFFFFF;"></button>
+  <div class="col"></div>
+</ion-footer-bar>
