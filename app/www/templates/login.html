@@ -1,52 +1,49 @@
-  <ion-content>
-      <div class="iips-header">
-        <div class="col"></div>
-        <div class="col"></div>
-        <img src="../img/iips-logo.png" class="col-75 col-offset-25" height="70px" width="180px">
-      </div>
+<ion-header-bar class="custom-header">
+  <div class="col"></div>
+  <img src="../img/iips-logo.png" class="col col-center" height="80px" width="200px">
+  <div class="col"></div>
+</ion-header-bar>
 
-      <div class="col"></div>
-      <div class="col"></div>
+<ion-content>
+  <div class="row sign-in-text">
+    <div class="col"></div>
+    <i class="icon ion-log-in text-calm col-center"></i>
+    <span class="text-calm col col-50 col-center">Sign in here</span>
+    <div class="col col-10"></div>
+  </div>
 
-      <div class="row row-bottom">
-        <div class="col "></div>
-        <i class="icon ion-log-in text-calm col-center"></i>
-        <span class="text-calm col col-50 col-center">Sign in here</span>
-        <div class="col col-10"></div>
-      </div>
-
-    <form ng-submit="doLogin()">
-    <div class="row">
-      <div class="col col-10"></div>
-      <div class="list card login-card">
-        <label class="item item-input item-floating-label">
-          <span class="input-label">Username</span>
-          <input type="text" ng-model="loginData.username" placeholder="Username">
-        </label>
-        <label class="item item-input item-floating-label">
-          <span class="input-label">Password</span>
-          <input type="password" ng-model="loginData.password" placeholder="Password">
-        </label>
-        <label class="item item-input item-select">
-          <span class="input-label">Who are you?</span>
-          <select>
-            <option>Student</option>
-            <option>Faculty</option>
-          </select>
-        </label>
-        <label class="item">
-          <button class="button button-assertive button-full" animation="slide-left-right">Login</button>
-        </label>
-        <label style="padding:10px;">
-          <button class="button button-small button-clear button-calm">Forgot password</button>
-        </label>
-      </div>
+  <form ng-submit="doLogin()">
+  <div class="row">
+    <div class="col col-10"></div>
+    <div class="list card login-card">
+      <label class="item item-input item-floating-label">
+        <span class="input-label">Username</span>
+        <input type="text" ng-model="loginData.username" placeholder="Username">
+      </label>
+      <label class="item item-input item-floating-label">
+        <span class="input-label">Password</span>
+        <input type="password" ng-model="loginData.password" placeholder="Password">
+      </label>
+      <label class="item item-input item-select">
+        <span class="input-label">Who are you?</span>
+        <select>
+          <option>Student</option>
+          <option>Faculty</option>
+        </select>
+      </label>
+      <label class="item">
+        <button class="button button-assertive button-full" animation="slide-left-right" ng-click="login()">Login</button>
+      </label>
+      <label style="padding:10px;">
+        <button class="button button-small button-clear button-calm" ng-click="forgot()">Forgot password</button>
+      </label>
     </div>
-    </form>
-  </ion-content>
+  </div>
+  </form>
+</ion-content>
 
-  <ion-footer-bar align-title="center" class="iips-footer">
-    <div class="col"></div>
-      <button class="button button-clear icon-right ion-arrow-right-c col col-40" ng-click="register()" style="color:#FFFFFF;">Register</button>
-    <div class="col"></div>
-  </ion-footer-bar>
+<ion-footer-bar align-title="center" class="custom-footer">
+  <div class="col"></div>
+    <button class="button button-clear icon-right ion-arrow-right-c col col-40" ng-click="register()" style="color:#FFFFFF;">Register</button>
+  <div class="col"></div>
+</ion-footer-bar>
