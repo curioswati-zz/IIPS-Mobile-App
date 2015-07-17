@@ -112,7 +112,24 @@ ion-content {
 	position: relative;
 	left: 5px;
 }
-
+.details-list-item {
+	font-size: 12px;
+}
+.details-list-item .col{
+	height: 30px;
+}
+.details-list {
+	position: relative;
+	top: 10px;
+	height: 245px;
+	padding: 0;
+}
+.class-info-bar {
+	background-color: #ef473a;
+	height: 15%;
+	text-align: center;
+	color: #FFF;
+}
 /*---------------------------------------tab-dash.html--------------------------------------------*/
 .welcome-toast {
 	background-color: #11c1f3;
