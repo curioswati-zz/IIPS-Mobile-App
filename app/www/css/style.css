@@ -1,9 +1,9 @@
-/* Empty. Add your own CSS if you like */
-.custom-header {
+/*----------------------------------------login.html----------------------------------------------*/
+.iips-header {
 	height: 90px;
 	background-color: #125C9C;
 }
-.custom-footer {
+.iips-footer {
 	background-color: #125C9C;
 }
 .item-input {
@@ -59,32 +59,91 @@ ion-content {
 
 /*-----------------------------------Quote.html---------------------------------------------------*/
 .quote {
-	/*background: url("../img/learn-bg.png");*/
 	height: 100%;
 	width: 100%;
-/*	-webkit-filter: blur(3px);
+	-webkit-filter: blur(3px);
 	  -moz-filter: blur(3px);
 	  -o-filter: blur(3px);
-	  -ms-filter: blur(3px);*/
+	  -ms-filter: blur(3px);
 	  filter: blur(3px) hue-rotate(355deg);
 }
 
 .quote-card {
 	position: fixed;
-	z-index: 1;
-	left: 30px;
-	top: 150px;
-	width: 270px;
-	height: 80px;
+	width: 75%;
+	height: 15%;
 	background-color: #FF667A;
 	padding: 5px;
 	color: #FFF;
 	font-family: Georgia;
 	border-color: #FF667A;
 	box-shadow: 3px 3px 20px #32201A;
+	margin-top: 40%;
 }
 .quote-corner {
 	position: relative;
 	right: -245px;
 	bottom: 20px;
+}
+
+/*------------------------------------------tabs.html---------------------------------------------*/
+.tabs {
+	/*top: 0 !important;*/
+	font-family: Georgia;
+	font-size: 15px;
+}
+.tabs-striped.tabs-background-iips .tabs, .header-bar{
+	background-color: #125C9C;
+	font-family: Georgia;
+}
+/*.tab-item-active, .tab-item.active, .tab-item.activated {
+    color: red;
+}*/
+.active-icon {
+	color: #FFD203;//#E6195E;
+}
+.tab-item {
+  color: white;
+  opacity: 1;
+}
+.app-icon {
+	height: 30px;
+	width: 30px;
+	position: relative;
+	left: 5px;
+}
+
+/*---------------------------------------tab-dash.html--------------------------------------------*/
+.welcome-toast {
+	background-color: #11c1f3;
+	color: #FFF;
+	font-family: Verdana;
+	font-size: 16px;
+	position: relative;
+	top: 100px;
+	height: 40px;
+}
+.dash-card {
+	height: 360px;
+	position: relative;
+	top: 50px;
+}
+.service-cards {
+	height: 90px;
+	box-shadow: -2px -2px 20px #D3D3D3;
+	color: #FFF;
+	font-family: Georgia;
+}
+.div-syllabus {
+	background-color: #FF667A;
+}
+.div-schedule {
+	background-color: #FFD426;
+}
+.div-syllabus, .div-schedule {
+	font-size: 13px;
+	text-align: center;
+}
+.ion-calendar, .ion-ios-book {
+	font-size: 60px;
 }
