@@ -34,10 +34,24 @@ angular.module('starter.controllers', [])
     }, 3000);
 })
 
-.controller('TabCtrl', function($scope, $state) {
+.controller('TabCtrl', function($scope, $state, ClassDetails) {
+
+    $scope.showClassDetails = false;
+
+    $scope.showInfo = function() {
+        if ($scope.showClassDetails === true) {
+            $scope.showClassDetails = false;
+        }
+        else {
+            $scope.showClassDetails = true;
+        }
+    };
+
     $scope.logout = function() {
         $state.go('login');
     };
+
+    $scope.classDetails = ClassDetails.all();
 })
 
 .controller('DashCtrl', function($scope, $state) {
