@@ -1,7 +1,35 @@
 <ion-header-bar class="header-bar">
 	<img src="../img/ionic.png" class="app-icon">
-	<button class="button button-clear pull-right icon ion-ios-information-outline calm"></button>
+	<button class="button button-clear pull-right icon ion-ios-information-outline calm" ng-click="showInfo()"></button>
+
+	<!-- Details of the class on clicking info button -->
+	<div class="row">
+
+		<div class="col col-20"></div>
+
+		<div class="card details-list col col-75" ng-show="showClassDetails">
+
+			<div class="class-info-bar">Class-Info</div>
+
+			<ion-list>
+				<ion-item ng-repeat="detail in classDetails" class="list-item details-list-item">
+					<div class="row">
+						<div class="col col-50">{{detail.name}}</div>
+						<div class="col">:</div>
+						<div class="col col-40">{{detail.value}}</div>
+						<div class="col"></div>
+					</div>
+				</ion-item>
+			</ion-list>
+
+		</div>
+
+		<div class="col"></div>
+	</div>
+
 </ion-header-bar>
+
+<!-- Tab bar -->
 <ion-tabs class="tabs-striped tabs-icon-top tabs-background-iips tabs-color-light tabs-top">
 
 	<!--Dashboard tab-->
