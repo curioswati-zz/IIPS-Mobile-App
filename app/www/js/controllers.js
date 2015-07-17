@@ -54,7 +54,7 @@ angular.module('starter.controllers', [])
     $scope.classDetails = ClassDetails.all();
 })
 
-.controller('DashCtrl', function($scope, $state) {
+.controller('DashCtrl', function($scope, $state, Subjects) {
 
     $scope.data = {};
 
@@ -69,6 +69,8 @@ angular.module('starter.controllers', [])
     $scope.goBack = function() {
         $state.go('tab.dash');
     };
+
+    $scope.subjects = Subjects.all();
 
 })
 
