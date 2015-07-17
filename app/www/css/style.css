@@ -203,3 +203,17 @@ ion-content {
 	right: -235px;
 	top: 30px;
 }
+
+/*-----------------------------------------schedule.html------------------------------------------*/
+.list-item{
+	padding: 0;
+}
+.subject-list-item {
+	background-color: #FFD426;	
+}
+.subject-list-item .col{
+	height: 50px;
+}
+/*.subject-list {
+	border-radius: 12px;
+}*/
