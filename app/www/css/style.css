@@ -147,3 +147,42 @@ ion-content {
 .ion-calendar, .ion-ios-book {
 	font-size: 60px;
 }
+
+/*--------------------------------------tab-profile.html------------------------------------------*/
+.bg-pic {
+	background: url("../img/1600_sombrero_spitzer_galaxy.jpg");
+	position: relative;
+	top: 85px;
+	height: 110px;
+}
+.display-pic {
+	height: 80px;
+	width: 80px;
+	position: relative;
+	bottom: -80px;
+}
+.profile-card {
+	position: relative;
+	top: 150px;
+	width: 94%;
+	height: 40%;
+}
+.pro-name, .pro-roll {
+	color: #D45300;
+	position: relative;
+	top: 50px;
+	font-size: 16px;
+	font-family: Arial;
+	font-weight: bold;
+}
+.pro-roll {
+	top: 50px;
+	left: 85px;
+	font-size: 13px;
+	font-weight: normal;
+}
+.pull-right {
+	position: relative;
+	right: -235px;
+	top: 30px;
+}
