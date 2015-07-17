@@ -45,11 +45,15 @@ angular.module('starter.controllers', [])
     $scope.data = {};
 
     $scope.openSyllabus = function() {
-        alert("opening syllabus");
+        $state.go('tab.syllabus');
     };
 
     $scope.openSchedule = function() {
-        alert("opening schedule");
+        $state.go('tab.schedule');
+    };
+
+    $scope.goBack = function() {
+        $state.go('tab.dash');
     };
 
 })
