@@ -1,6 +1,35 @@
-<div class="col">
-<button class="button button-clear button-positive icon ion-arrow-left-c" style="position:relative; top:90px;" ng-click="goBack()">
-	
-</button>	
-</div>
-<span class="card assertive" style="position:relative; top:250px; left:100px; padding:10px">Coming Soon...</span>
+<ion-view view-title="Schedule">
+
+<ion-content>
+	<button class="col col-20 button button-clear button-energized icon ion-arrow-left-c" ng-click="goBack()">
+	</button>
+
+	<div class="row" style="margin-bottom:-20%;">
+		<button class="col button-icon icon ion-chevron-left calm" ng-click="goBack()"></button>
+		<div class="col col-40 calm col-center" style="text-align:center; font-size:20px;">Monday</div>
+		<button class="col button-icon icon icon-center ion-chevron-right calm" ng-click="goBack()"></button>
+	</div>
+
+	<div class="row">
+		<div class="col"></div>
+
+		<ion-list class="card subject-list col col-90">
+
+		  <ion-item ng-repeat="subject in subjects" class="list-item subject-list-item">
+
+			  <div class="row">
+				  <div class="col" style="border-right:2px solid #DDDDDD;">{{subject.id}}</div>
+				  <div class="col col-50">{{subject.name}}</div>
+				  <div class="col">:</div>
+				  <div class="col col-20">{{subject.time}}</div>
+				<div class="col "></div>
+			  </div>	
+		  </ion-item>
+		
+		</ion-list>
+		
+		<div class="col"></div>
+	</div>
+</ion-content>
+
+</ion-view>
