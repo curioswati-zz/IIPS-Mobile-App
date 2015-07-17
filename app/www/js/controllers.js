@@ -57,3 +57,18 @@ angular.module('starter.controllers', [])
     };
 
 })
+
+.controller('ProCtrl', function($scope, $state) {
+    $scope.data = {};
+    $scope.editProfile = function() {
+        $state.go('tab.edit-profile');
+    };
+
+    $scope.saveChanges = function() {
+        $state.go('tab.profile');
+    }
+
+    $scope.goBack = function() {
+        $state.go('tab.profile');
+    }
+});
