@@ -37,6 +37,51 @@ angular.module('starter', ['ionic', 'starter.controllers', 'ngCordova'])
     .state('quote', {
       url: "/quote",
       templateUrl: "templates/quote.html",
+      controller: 'QuoteCtrl'
+    })
+
+    .state('tab', {
+      url: "/tab",
+      templateUrl: "templates/tabs.html",
+      controller: 'TabCtrl'
+    })
+
+    .state('tab.dash', {
+      url: "/dash",
+      views: {
+        'tab-dash': {
+          templateUrl: "templates/tab-dash.html",
+          controller: 'DashCtrl'
+        }
+      }
+    })
+
+    .state('tab.syllabus', {
+      url: "/syllabus",
+      views: {
+        'tab-dash': {
+          templateUrl: "templates/syllabus.html",
+          controller: 'DashCtrl'          
+        }
+      }
+    })
+
+    .state('tab.schedule', {
+      url: "/schedule",
+      views: {
+        'tab-dash': {
+          templateUrl: "templates/schedule.html",
+          controller: 'DashCtrl'
+        }
+      }
+    })
+
+    .state('tab.profile', {
+      url: "/profile",
+      views: {
+        'tab-profile': {
+          templateUrl: "templates/tab-profile.html"        }
+      }
     });
 
     // if none of the above states are matched, use this as the fallback

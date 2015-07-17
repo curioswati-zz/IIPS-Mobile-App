@@ -27,3 +27,29 @@ angular.module('starter.controllers', [])
         $state.go('login');
     }
 })
+
+.controller('QuoteCtrl', function($scope, $state) {
+    setTimeout(function() {
+        $state.go('tab');
+    }, 3000);
+})
+
+.controller('TabCtrl', function($scope, $state) {
+    $scope.logout = function() {
+        $state.go('login');
+    };
+})
+
+.controller('DashCtrl', function($scope, $state) {
+
+    $scope.data = {};
+
+    $scope.openSyllabus = function() {
+        alert("opening syllabus");
+    };
+
+    $scope.openSchedule = function() {
+        alert("opening schedule");
+    };
+
+})
