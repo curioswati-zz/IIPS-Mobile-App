@@ -1,0 +1,24 @@
+<ion-header-bar class="header-bar">
+	<img src="../img/ionic.png" class="app-icon">
+	<button class="button button-clear pull-right icon ion-ios-information-outline calm"></button>
+</ion-header-bar>
+<ion-tabs class="tabs-striped tabs-icon-top tabs-background-iips tabs-color-light tabs-top">
+
+	<!--Dashboard tab-->
+	<ion-tab title="Dashboard" icon-on="ion-ios-keypad active-icon" icon-off="ion-ios-keypad-outline" href="#/tab/dash">
+		<ion-nav-view name="tab-dash"></ion-nav-view>
+	</ion-tab>
+
+	<!-- Profile tab -->
+	<ion-tab title="Profile" icon-on="ion-person active-icon" icon-off="ion-ios-person-outline" href="#/tab/profile">
+		<ion-nav-view name="tab-profile" ng-click></ion-nav-view>
+	</ion-tab>
+
+</ion-tabs>
+
+<!-- Logout footer -->
+<ion-footer-bar class="iips-footer">
+  <i class="icon ion-arrow-left-b col" style="font-size:25px; color:#FFF;"></i>
+  <button class="button button-clear col col-bottom" ng-click="logout()" style="color:#FFFFFF; font-family: Georgia;">Logout</button>
+  <div class="col col-80"></div>
+</ion-footer-bar>
