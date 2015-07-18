@@ -1,9 +1,20 @@
 <ion-view view-title="Schedule">
 
 <ion-content>
-	<button class="col col-33 button button-clear button-energized icon ion-chevron-left" ng-click="goBack()">
+	<button class="col col-33 button button-clear button-calm icon ion-chevron-left" ng-click="goBack()">
 	Go Back
 	</button>
+
+	<div class="row no-vertical-padding">
+		<div class="col"></div>
+		<span class="energized button-large">{{userCourse}}({{userSem}})</span>
+		<div class="col"></div>		
+	</div>
+	<div class="row">
+		<div class="col"></div>
+		<span class="energized">{{userSession}}</span>
+		<div class="col"></div>		
+	</div>
 
 	<div class="row">
 		
@@ -15,7 +26,7 @@
 				<button class="button button-icon icon ion-arrow-left-b" style="padding:3px;" ng-click="goBack()"></button>
 			</div>
 		
-			<h1 class="title">Monday</h1>
+			<h1 class="title">{{currentDay}}</h1>
 
 			<div class="buttons">
 				<button class="button button-icon icon ion-arrow-right-b" style="padding:0;" ng-click="goBack()"></button>
@@ -35,7 +46,7 @@
 
 		  <ion-item ng-repeat="subject in subjects" class="list-item subject-list-item">
 
-			  <div class="row" style="padding:0;">
+			  <div class="row no-padding">
 				  <div class="col col-20" style="border-right:0.14em solid #FFF;">{{subject.id}}</div>
 				  <div class="col col-33">{{subject.name}}</div>
 				  <div class="col col-10">:</div>
