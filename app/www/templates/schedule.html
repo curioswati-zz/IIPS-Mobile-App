@@ -1,14 +1,32 @@
 <ion-view view-title="Schedule">
 
 <ion-content>
-	<button class="col col-20 button button-clear button-energized icon ion-arrow-left-c" ng-click="goBack()">
+	<button class="col col-33 button button-clear button-energized icon ion-chevron-left" ng-click="goBack()">
+	Go Back
 	</button>
 
-	<div class="row" style="margin-bottom:-20%;">
-		<button class="col button-icon icon ion-chevron-left calm" ng-click="goBack()"></button>
-		<div class="col col-40 calm col-center" style="text-align:center; font-size:20px;">Monday</div>
-		<button class="col button-icon icon icon-center ion-chevron-right calm" ng-click="goBack()"></button>
+	<div class="row">
+		
+		<div class="col"></div>
+
+		<span class="card bar bar-calm bar-schedule col col-90">
+
+			<div class="buttons">
+				<button class="button button-icon icon ion-arrow-left-b" style="padding:3px;" ng-click="goBack()"></button>
+			</div>
+		
+			<h1 class="title">Monday</h1>
+
+			<div class="buttons">
+				<button class="button button-icon icon ion-arrow-right-b" style="padding:0;" ng-click="goBack()"></button>
+			</div>
+		
+		</span>
+
+		<div class="col"></div>
+
 	</div>
+
 
 	<div class="row">
 		<div class="col"></div>
@@ -17,12 +35,12 @@
 
 		  <ion-item ng-repeat="subject in subjects" class="list-item subject-list-item">
 
-			  <div class="row">
-				  <div class="col" style="border-right:2px solid #DDDDDD;">{{subject.id}}</div>
-				  <div class="col col-50">{{subject.name}}</div>
-				  <div class="col">:</div>
-				  <div class="col col-20">{{subject.time}}</div>
-				<div class="col "></div>
+			  <div class="row" style="padding:0;">
+				  <div class="col col-20" style="border-right:0.14em solid #FFF;">{{subject.id}}</div>
+				  <div class="col col-33">{{subject.name}}</div>
+				  <div class="col col-10">:</div>
+				  <div class="col" style="border-left:0.14em solid #FFF;">{{subject.time}}</div>
+					<div class="col col-10"></div>
 			  </div>	
 		  </ion-item>
 		
