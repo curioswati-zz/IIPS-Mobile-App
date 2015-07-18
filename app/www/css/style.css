@@ -1,3 +1,25 @@
+.card {
+  padding-top: 1px;
+  padding-bottom: 1px;
+  box-shadow: 0 0 0 rgba(0, 0, 0, 0.3); 
+  border: 0.14em solid #FFF;
+}
+
+ion-content {
+	font-family: Georgia;
+}
+.no-vertical-padding {
+	padding-top: 0;
+	padding-bottom: 0;
+}
+.no-horizontal {
+	padding-left: 0;
+	padding-right: 0;
+}
+.no-padding {
+	padding: 0;
+}
+
 /*----------------------------------------login.html----------------------------------------------*/
 .iips-header {
 	height: 90px;
@@ -10,13 +32,14 @@
 	height: 45px;
 	width: 250px;
 }
-.item .card {
+.item .login-card {
 	border-radius: 10px;
 }
-.card, .register-list {
+.login-card, .register-list {
 	width: 250px;
 	position: relative;
 	top: 4.5em;
+	border-color: rgb(221, 221, 221);
 }
 .text-calm {
 	color: #11c1f3;
@@ -25,12 +48,11 @@
 }
 .login-card > .item-input input, .login-card > .item-select .input-label{
 	    margin: -20px 0;
+	    font-size: 14px;
+	    font-family: Georgia;
 }
 .item-floating-label .input-label.has-input {
 	top: -16px;
-}
-ion-content {
-	font-family: Georgia;
 }
 .sign-in-text {
 	position: relative;
@@ -47,7 +69,7 @@ ion-content {
 .register-input:hover  {
 	background-color: orange;
 }
-.register-input select {
+.register-input select, .login-card > .item-input select {
 	padding: 0 5px 0;
 }
 .input-label {
@@ -88,35 +110,29 @@ ion-content {
 
 /*------------------------------------------tabs.html---------------------------------------------*/
 .tabs {
-	/*top: 0 !important;*/
 	font-family: Georgia;
 	font-size: 15px;
 }
 .tabs-striped.tabs-background-iips .tabs, .header-bar{
 	background-color: #125C9C;
-	font-family: Georgia;
 }
 /*.tab-item-active, .tab-item.active, .tab-item.activated {
     color: red;
 }*/
 .active-icon {
-	color: #FFD203;//#E6195E;
+	color: #FFD203;
 }
 .tab-item {
   color: white;
   opacity: 1;
 }
 .app-icon {
-	height: 30px;
-	width: 30px;
+	height: 100%;
+	width: 12%;
 	position: relative;
-	left: 5px;
 }
 .details-list-item {
 	font-size: 12px;
-}
-.details-list-item .col{
-	height: 30px;
 }
 .details-list {
 	position: relative;
@@ -129,33 +145,35 @@ ion-content {
 	height: 15%;
 	text-align: center;
 	color: #FFF;
+	border-color: rgb(178, 178, 178);
 }
 /*---------------------------------------tab-dash.html--------------------------------------------*/
 .welcome-toast {
 	background-color: #11c1f3;
+	border-color: #11c1f3;
 	color: #FFF;
-	font-family: Verdana;
 	font-size: 16px;
 	position: relative;
-	top: 100px;
+	margin-top: 40px;
 	height: 40px;
 }
 .dash-card {
-	height: 360px;
+	height: 300px;
 	position: relative;
-	top: 50px;
+	margin: 0;
+    border: 0.15em solid rgba(17, 193, 243, 0.3);
 }
 .service-cards {
 	height: 90px;
-	box-shadow: -2px -2px 20px #D3D3D3;
 	color: #FFF;
-	font-family: Georgia;
 }
 .div-syllabus {
 	background-color: #FF667A;
+	border-color: #FF667A;
 }
 .div-schedule {
 	background-color: #FFD426;
+	border-color: #FFD426;
 }
 .div-syllabus, .div-schedule {
 	font-size: 13px;
@@ -209,11 +227,25 @@ ion-content {
 	padding: 0;
 }
 .subject-list-item {
-	background-color: #FFD426;	
+	background-color: #FFD426;
+	border-color: #FFF;
 }
 .subject-list-item .col{
-	height: 50px;
+	height: 60px;
+	padding: 1em;
+	color: #FFF;
 }
-/*.subject-list {
-	border-radius: 12px;
-}*/
+.subject-list, .bar-schedule {
+	margin: 0;
+	border-color: #FFF;
+}
+.subject-list {
+	padding: 0;
+	position: relative;
+	top: 40px;
+	border-color: #11C1F3;
+}
+.bar-schedule {
+	position: relative;
+	top: 20px;
+}
