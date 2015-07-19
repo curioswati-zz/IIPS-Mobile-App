@@ -16,16 +16,32 @@ angular.module('starter.controllers', [])
     }
 })
 
-.controller('RegisterCtrl', function($scope, $state) {
-    $scope.data = {};
- 
-    $scope.submit = function() {
+.controller('RegisterCtrl', function($scope, $state) { //, $cordovaSQLite) {
+
+    // $scope.registerData = {};
+
+    $scope.register = function() {
+        // var query = "INSERT INTO register\
+        //               (reg-id, fullname, course, sem,\
+        //                roll-no, email) VALUES (?,?,?,?,?,?,?)";
+        
+        // $cordovaSQLite.execute(db, query, [registerData.reg-id, registerData.fullname, registerData.course, registerData.sem,
+        //                registerData.roll-no, registerData.email, registerData.course])
+
+        //                 .then(function(res) {
+        //                     console.log("INSERT ID -> " + res.registerData.reg-id);
+        //                 },
+
+        //                 function (err) {
+        //                     console.error(err);
+        //                 });
+
         $state.go('login');
     };
 
     $scope.backToLogin = function() {
         $state.go('login');
-    }
+    };
 })
 
 .controller('QuoteCtrl', function($scope, $state) {
@@ -71,6 +87,10 @@ angular.module('starter.controllers', [])
     };
 
     $scope.subjects = Subjects.all();
+    $scope.userCourse='M.Tech';
+    $scope.userSem='VII';
+    $scope.userSession='July-Dec 2015';
+    $scope.currentDay='Monday';
 
 })
 
