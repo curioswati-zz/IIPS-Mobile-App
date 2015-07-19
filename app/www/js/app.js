@@ -5,7 +5,7 @@
 // the 2nd parameter is an array of 'requires'
 angular.module('starter', ['ionic', 'starter.controllers', 'starter.services', 'ngCordova'])
 
-.run(function($ionicPlatform) {
+.run(function($ionicPlatform) { //, $cordovaSQLite) {
   $ionicPlatform.ready(function() {
     // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
     // for form inputs)
@@ -16,6 +16,11 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services', '
       StatusBar.styleDefault();
     }
      // navigator.splashscreen.hide()
+    // db = $cordovaSQLite.openDB("iips-app-db.db");
+    // $cordovaSQLite.execute(db, "CREATE TABLE IF NOT EXISTS register\
+    //                              (reg-id integer primary key, fullname text, course text,\
+    //                              sem integer, roll-no text, email text, username text,\
+    //                              password text)");
   });
 })
 
