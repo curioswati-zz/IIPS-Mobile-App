@@ -7,6 +7,7 @@
 
 ion-content {
 	font-family: Georgia;
+	/*background-color: rgba(239, 71, 58, 0.8);*/
 }
 .no-vertical-padding {
 	padding-top: 0;
@@ -19,7 +20,12 @@ ion-content {
 .no-padding {
 	padding: 0;
 }
-
+.white {
+	color:#FFF;
+}
+.bar-white {
+	background-color: #FFF;
+}
 /*----------------------------------------login.html----------------------------------------------*/
 .iips-header {
 	height: 90px;
@@ -172,8 +178,8 @@ ion-content {
 	border-color: #FF667A;
 }
 .div-schedule {
-	background-color: #FFD426;
-	border-color: #FFD426;
+	background-color: #FFC900;
+	border-color: #FFC900;
 }
 .div-syllabus, .div-schedule {
 	font-size: 13px;
@@ -226,24 +232,23 @@ ion-content {
 .list-item{
 	padding: 0;
 }
-.subject-list-item {
-	background-color: #FFD426;
-	border-color: #FFF;
-}
 .subject-list-item .col{
 	height: 60px;
 	padding: 1em;
 	color: #FFF;
 }
-.subject-list, .bar-schedule {
+.subject-list, .subject-list-item, .bar-schedule {
 	margin: 0;
+	background-color: #FFC900;
+	border-color: #FFC900;
+}
+.subject-list-item {
 	border-color: #FFF;
 }
 .subject-list {
 	padding: 0;
 	position: relative;
 	top: 40px;
-	border-color: #11C1F3;
 }
 .bar-schedule {
 	position: relative;
