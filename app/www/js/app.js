@@ -3,7 +3,13 @@
 // angular.module is a global place for creating, registering and retrieving Angular modules
 // 'starter' is the name of this angular module example (also set in a <body> attribute in index.html)
 // the 2nd parameter is an array of 'requires'
-angular.module('starter', ['ionic', 'starter.controllers', 'starter.services', 'ngCordova'])
+angular.module('starter',
+                ['ionic', 
+                'ngCordova',
+                'ionic.service.core',
+                'ionic.service.push',
+                'starter.controllers',
+                'starter.services'])
 
 .run(function($ionicPlatform) { //, $cordovaSQLite) {
   $ionicPlatform.ready(function() {
@@ -23,6 +29,18 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services', '
     //                              password text)");
   });
 })
+
+.config(['$ionicAppProvider', function($ionicAppProvider) {
+  // Identify app
+  $ionicAppProvider.identify({
+    // The App ID (from apps.ionic.io) for the server
+    app_id: '6c5cd62e',
+    // The public API key all services will use for this app
+    api_key: '8549532d70a7b6a46e6419ac821a152b725324a4c891d230',
+    // Set the app to use development pushes
+    dev_push: true
+  });
+}])
 
 .config(function($stateProvider, $urlRouterProvider) {
   $stateProvider
