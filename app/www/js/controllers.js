@@ -1,5 +1,12 @@
 angular.module('starter.controllers', [])
 
+.controller('AppCtrl', function($scope, $cordovaSplashscreen) {
+    $cordovaSplashscreen.show();
+    $setTimeout(function() {
+        $cordovaSplashscreen.hide();
+    }, 3000);
+})
+
 .controller('LoginCtrl', function($scope, $state) { 
     
     $scope.data = {};
@@ -21,21 +28,6 @@ angular.module('starter.controllers', [])
     // $scope.registerData = {};
 
     $scope.register = function() {
-        // var query = "INSERT INTO register\
-        //               (reg-id, fullname, course, sem,\
-        //                roll-no, email) VALUES (?,?,?,?,?,?,?)";
-        
-        // $cordovaSQLite.execute(db, query, [registerData.reg-id, registerData.fullname, registerData.course, registerData.sem,
-        //                registerData.roll-no, registerData.email, registerData.course])
-
-        //                 .then(function(res) {
-        //                     console.log("INSERT ID -> " + res.registerData.reg-id);
-        //                 },
-
-        //                 function (err) {
-        //                     console.error(err);
-        //                 });
-
         $state.go('login');
     };
 
