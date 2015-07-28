@@ -1,4 +1,4 @@
-angular.module('starter.controllers', [])
+angular.module('iips-app.controllers', [])
 
 .controller('AppCtrl', function($scope, $cordovaSplashscreen) {
     $cordovaSplashscreen.show();
@@ -15,7 +15,7 @@ angular.module('starter.controllers', [])
       $state.go('register');
     };
     $scope.login = function() {
-        $state.go('quote');
+        $state.go('tab');
     }
 
     $scope.forgot = function() {
@@ -23,9 +23,7 @@ angular.module('starter.controllers', [])
     }
 })
 
-.controller('RegisterCtrl', function($scope, $state) { //, $cordovaSQLite) {
-
-    // $scope.registerData = {};
+.controller('RegisterCtrl', function($scope, $state) {
 
     $scope.register = function() {
         $state.go('login');
@@ -65,6 +63,15 @@ angular.module('starter.controllers', [])
 .controller('DashCtrl', function($scope, $state, $rootScope, $ionicUser, $ionicPush, Subjects) {
 
     $scope.data = {};
+    $scope.showQuote = true;
+
+    setTimeout(function() {
+        $scope.swipeCard();
+    }, 1500);
+
+    $scope.swipeCard = function() {
+        $scope.showQuote = false;
+    }
 
     $scope.openSyllabus = function() {
         $state.go('tab.syllabus');

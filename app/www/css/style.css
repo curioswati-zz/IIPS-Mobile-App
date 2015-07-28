@@ -34,15 +34,10 @@ ion-content {
 .iips-footer {
 	background-color: #125C9C;
 }
-.item-input {
-	height: 45px;
-	width: 250px;
-}
 .item .login-card {
 	border-radius: 10px;
 }
 .login-card, .register-list {
-	width: 250px;
 	position: relative;
 	top: 4.5em;
 	border-color: rgb(221, 221, 221);
@@ -52,25 +47,26 @@ ion-content {
 	font-style: Georgia;
 	font-size: 16px;	
 }
-.login-card > .item-input input, .login-card > .item-select .input-label{
-	    margin: -20px 0;
+.login-card > .item-input input {
 	    font-size: 14px;
 	    font-family: Georgia;
-}
-.item-floating-label .input-label.has-input {
-	top: -16px;
 }
 .sign-in-text {
 	position: relative;
 	top: 6em;
 }
-
+.button-login {
+	box-shadow: -2px 2px 15px #d2c9c9;
+}
 /*-----------------------------------Register.html------------------------------------------------*/
 .register-input {
 	height:35px;
 	margin: 5px 3px;
 	border-radius: 5px;
-	font-family: Verdana;
+	font-family: Sans-Serif;
+}
+.input-label:after {
+	color: #FFF;
 }
 .register-input:hover  {
 	background-color: orange;
@@ -80,9 +76,12 @@ ion-content {
 }
 .input-label {
 	opacity:0.4;
-	font-family: Verdana;
 	font-size: 12px;
 	color:gray;
+}
+.register-list .item-select .input-label {
+	font-size: 14px;
+	opacity: 0.7;
 }
 
 /*-----------------------------------Quote.html---------------------------------------------------*/
@@ -95,23 +94,21 @@ ion-content {
 	  -ms-filter: blur(3px);
 	  filter: blur(3px) hue-rotate(355deg);
 }
-
 .quote-card {
-	position: fixed;
 	width: 75%;
-	height: 15%;
 	background-color: #FF667A;
-	padding: 5px;
+	padding: 10px 15px;
 	color: #FFF;
-	font-family: Georgia;
+	font-family: serif;
+	font-size: 16px;
 	border-color: #FF667A;
-	box-shadow: 3px 3px 20px #32201A;
-	margin-top: 40%;
+	box-shadow: -3px 3px 20px #c0c0c0;
+	border-radius: 5px;
 }
 .quote-corner {
 	position: relative;
-	right: -245px;
-	bottom: 20px;
+	right: -230px;
+	bottom: -5px;
 }
 
 /*------------------------------------------tabs.html---------------------------------------------*/

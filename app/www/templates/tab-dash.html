@@ -1,6 +1,17 @@
 <ion-view view-title="Dashboard">  
 
   <ion-content>
+  <div class="row">
+    <div class="col"></div>
+    <div class="quote-card" on-swipe-right="swipeCard()" ng-show="showQuote">
+      <strong>Quote of the day!</strong>
+      <p>
+        True success is when your signature becomes your autograph.
+      </p>
+      <i class="icon ion-quote quote-corner"></i>
+    </div>
+    <div class="col"></div>
+  </div>
   
   <div class="row">
     <div class="col"></div>
@@ -41,13 +52,13 @@
     <div class="col"></div>
   </div>
 
-  <button class="button button-block button-dark" ng-click="identifyUser()">
+<!--   <button class="button button-block button-dark" ng-click="identifyUser()">
     Identify a user
   </button>
   
   <button class="button button-block button-positive" ng-if="identified" ng-click="pushRegister()">
     Register for Push
-  </button>
+  --> </button>
 
   </ion-content>
 </ion-view>

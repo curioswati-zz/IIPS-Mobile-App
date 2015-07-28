@@ -1,6 +1,6 @@
 <ion-header-bar class="iips-header">
   <div class="col"></div>
-  <img src="../img/iips-logo.png" class="col col-center" height="80px" width="200px">
+  <img src="img/iips-logo.png" class="col col-50 col-center" height="80px">
   <div class="col"></div>
 </ion-header-bar>
 
@@ -15,29 +15,25 @@
   <form ng-submit="doLogin()">
   <div class="row">
     <div class="col col-10"></div>
-    <div class="list card login-card">
-      <label class="item item-input item-floating-label">
+
+    <div class="col list list-inset card login-card">
+      <label class="item item-input-inset item-floating-label">
         <span class="input-label">Username</span>
         <input type="text" ng-model="loginData.username" placeholder="Username">
       </label>
-      <label class="item item-input item-floating-label">
+      <label class="item item-input-inset item-floating-label">
         <span class="input-label">Password</span>
         <input type="password" ng-model="loginData.password" placeholder="Password">
       </label>
-      <label class="item item-input item-select">
-        <span class="input-label">Who are you?</span>
-        <select>
-          <option>Student</option>
-          <option>Faculty</option>
-        </select>
-      </label>
       <label class="item">
-        <button class="button button-assertive button-full" animation="slide-left-right" type="submit" ng-click="login()">Login</button>
+        <button class="button button-assertive button-full button-login" animation="slide-left-right" type="submit" ng-click="login()">Login</button>
       </label>
       <label style="padding:10px;">
         <button class="button button-small button-clear button-calm" ng-click="forgot()">Forgot password</button>
       </label>
     </div>
+    
+    <div class="col col-10"></div>
   </div>
   </form>
 </ion-content>

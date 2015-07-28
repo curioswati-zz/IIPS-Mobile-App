@@ -1,24 +1,25 @@
 <ion-header-bar class="iips-header">
   <div class="col"></div>
-  <img src="../img/iips-logo.png" class="col col-center" height="80px" width="200px">
+  <img src="img/iips-logo.png" class="col col-50 col-center" height="80px">
   <div class="col"></div>
 </ion-header-bar>
 
 <ion-content>
 
   <div class="row sign-in-text">
-    <i class="button button-clear button-calm icon ion-arrow-left-c col col-25 col-offest-75" ng-click = "backToLogin()">
+    <div class="col col-10"></div>
+    <i class="button button-clear button-calm icon ion-arrow-left-c col col-10" ng-click = "backToLogin()">
     </i>
-    <span class="text-calm col col-offset-40 col-center" style="text-align:right;">Register here</span>
+    <span class="text-calm col col-center" style="text-align:center;">Register here</span>
     <div class="col col-20"></div>
   </div>
 
   <form ng-submit="register()">
     <div class="row">
 
-      <div class="col col-10"></div>
+      <div class="col"></div>
     
-      <div class="list register-list">
+      <div class="col list register-list col-80">
     
         <label class="item item-input register-input">
           <input type="text" ng-model="registerData.fullname" placeholder="Full Name">
@@ -73,15 +74,6 @@
         <label class="item item-input register-input">
           <input type="password" placeholder="Confirm Password">
         </label>
-    
-<!--         <label class="item item-input item-select register-input">
-          <span class="input-label">Who are you?</span>
-          <select>
-            <option>Student</option>
-            <option>Faculty</option>
-          </select>
-        </label>
- -->    
       </div>
     
       <div class="col"></div>
