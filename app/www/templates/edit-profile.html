@@ -1,0 +1,76 @@
+<ion-view view-title="Edit Profile">
+<ion-content>
+  
+  <button class="col col-33 button button-clear button-calm icon ion-chevron-left" ng-click="goBack()">
+	Go Back
+  </button>
+
+  <form ng-submit="saveChanges()">
+    <div class="row">
+      <div class="col"></div>
+    
+      <div class="col list col-80 edit-list">
+
+	    <label for="fullname">Name</label>    
+	    <input name="fullname" type="text" ng-model="registerData.fullname" placeholder="Swati Jaiswal">
+	    
+	    <label for="course">Course</label>
+        <select ng-model="registerData.course" name="course">
+	        <option>M.Tech</option>
+	        <option>MCA</option>
+	        <option>MBA(ms)</option>
+	        <option>MBA(apr)</option>
+	        <option>MBA(tr)</option>
+	        <option>B.Com</option>
+        </select>
+        
+        <label for="sem">Sem</label>
+	    <select ng-model="registerData.sem" name="sem">
+            <option>I</option>
+            <option>II</option>
+            <option>III</option>
+            <option>IV</option>
+            <option>V</option>
+            <option>VI</option>
+            <option>VII</option>
+            <option>VIII</option>
+            <option>IX</option>
+            <option>X</option>
+            <option>XI</option>
+            <option>XII</option>
+        </select>
+        
+        <label for="roll">Roll No.</label>
+        <input name="roll" type="text" ng-model="registerData.roll_no" placeholder="IT-2K12-35">
+        
+        <label for="email">Email</label>
+        <input name="email" type="text" ng-model="registerData.email" placeholder="swatijaiswal@iips.edu.in">
+    
+        <label for="username">Uname</label>
+        <input name="username" type="text" ng-model="registerData.username" placeholder="swati-jaiswal">
+    
+        <label for="password">Passwor</label>
+        <input name="password" type="password" ng-model="registerData.password" placeholder="******">
+
+        <label for="confirm">Confirm</label>
+        <input name="confirm" type="password">
+
+        <center>
+        <button class="button button-assertive button-login button-save" type="submit" ng-click="saveChanges()">Save</button>
+        </center>
+
+      </div>
+    
+      <div class="col"></div>
+    
+    </div>
+  </form>
+
+</ion-content>
+<!-- 
+<div class="col">
+<button class="button button-clear button-positive icon ion-arrow-left-c" style="position:relative; top:90px;" ng-click="goBack()">
+	
+</button>	
+</div>
+<span class="card assertive" style="position:relative; top:250px; left:100px; padding:10px">Coming Soon...</span> -->

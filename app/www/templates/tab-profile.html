@@ -1,0 +1,27 @@
+<ion-view view-title="Dashboard">
+
+  <div class="bg-pic">
+    <div>
+      <img src="img/ionic.png" class="display-pic">
+      <span class="pro-name">Swati Jaiswal</span><br>
+      <span class="pro-roll">IT-2k12-35</span>
+      <i class="button button-clear button-assertive icon ion-edit pull-right" ng-click="editProfile()"></i>
+    </div>
+  </div>
+
+  <div class="row">
+  
+    <ion-list type="list-inset" class="col pro-details">
+  
+      <ion-item ng-repeat="user in Users" class="list-item pro-details-item">
+        <div class="row no-padding" style="margin:0;">
+          <div class="col"><strong>{{user.name}}</strong></div>
+          <div class="col col-75" style="border-left:0.20em groove #ef473a;">{{user.value}}</div>
+        </div>
+      </ion-item>
+  
+    </ion-list>
+    
+  </div>
+
+</ion-view>
