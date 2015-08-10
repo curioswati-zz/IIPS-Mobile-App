@@ -1,0 +1,53 @@
+'use strict';
+
+var util = require('util'),
+    Base = require('./base'),
+    errors = require('../Errors');
+
+var Read = function(args) {
+  Read.super_.call(this, args);
+};
+
+util.inherits(Read, Base);
+
+Read.prototype.action = 'read';
+Read.prototype.method = 'get';
+Read.prototype.plurality = 'singular';
+
+Read.prototype.fetch = function(req, res, context) {
+  var model = this.model,
+      endpoint = this.endpoint,
+      criteria = context.criteria || {},
+      include = this.include,
+      includeAttributes = this.includeAttributes,
+      options = {};
+
+  endpoint.attributes.forEach(function(attribute) {
+    criteria[attribute] = req.params[attribute];
+  });
+
+  if (Object.keys(criteria).length) {
+    options.where = criteria;
+  }
+
+  if (include.length) {
+    options.include = include;
+    options.attributes =
+      Object.keys(model.rawAttributes).filter(function(attr) {
+        return includeAttributes.indexOf(attr) === -1;
+      });
+  }
+
+  return model
+    .find(options)
+    .then(function(instance) {
+      if (!instance) {
+        throw new errors.NotFoundError();
+      }
+
+      context.instance = instance;
+      return context.continue;
+    });
+};
+
+module.exports = Read;
