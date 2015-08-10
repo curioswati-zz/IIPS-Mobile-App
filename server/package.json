@@ -1,0 +1,23 @@
+{
+  "name": "iips-app",
+  "version": "0.0.0",
+  "description": "",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "BSD-2-Clause",
+  "dependencies": {
+    "express": "~4.13.3",
+    "body-parser": "~1.13.3",
+    "sequelize": "~3.5.1",
+    "sequelize-restful": "~0.4.3",
+    "method-override": "~2.3.5",
+    "http": "0.0.0",
+    "pg": "~4.4.1",
+    "crypto": "0.0.3",
+    "sequelize-cli": "~1.7.4",
+    "epilogue": "~0.5.2"
+  }
+}

@@ -1,0 +1,14 @@
+{
+  "dev": {
+    "driver": "mysql",
+    "user": "root",
+    "database": "iips-app",
+    "password": "root"
+  },
+ 
+  "production": {
+    "driver": "mysql",
+    "user": "root",
+    "database": "iips-app"
+  }
+}
