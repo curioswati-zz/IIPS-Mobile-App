@@ -1,4 +1,4 @@
-angular.module('iips-app.controllers', [])
+angular.module('iips-app.controllers', ['iips-app.services'])
 
 .controller('AppCtrl', function($scope, $cordovaSplashscreen) {
     $cordovaSplashscreen.show();
@@ -23,10 +23,34 @@ angular.module('iips-app.controllers', [])
     }
 })
 
-.controller('RegisterCtrl', function($scope, $state) {
+.controller('RegisterCtrl', function($rootScope, $scope, API, $state) {
+    $scope.registerData = {}
 
     $scope.register = function() {
-        $state.go('login');
+        $rootScope.show('Please wait.. Registering');        
+
+        API.signup({
+            username: $scope.registerData.username,
+            password: $scope.registerData.password,
+            email: $scope.registerData.email
+        })
+        .success(function (data) {
+            $rootScope.setToken($scope.registerData.email);
+            $rootScope.hide();
+            $state.go('login');
+        })
+        .error(function (error) {
+            $rootScope.hide();
+            if(error.error && error.error.code == 11000)
+            {
+                $rootScope.notify("A user with this email already exists");
+            }
+            else
+            {
+                $rootScope.notify("Oops something went wrong, Please try again!");
+            }
+            
+        });
     };
 
     $scope.backToLogin = function() {
@@ -138,8 +162,10 @@ angular.module('iips-app.controllers', [])
 
 })
 
-.controller('ProCtrl', function($scope, $state) {
+.controller('ProCtrl', function($scope, $state, User) {
     $scope.data = {};
+    $scope.Users = User.all();
+
     $scope.editProfile = function() {
         $state.go('tab.edit-profile');
     };

@@ -1,50 +1,33 @@
-angular.module('starter.services', [])
+angular.module('iips-app.services', [])
 
-.factory('Subjects', function() {
+.factory('API', function($rootScope, $http, $ionicLoading, $window) {
+	var base = "http://localhost:8080";
 
-	var subjects = [{
-		id: 708,
-		name: 'Bio. info.',
-		time: '10:00 AM'
-	}, {
-		id: 701,
-		name: 'Comp. arch.',
-		time: '11:00 AM'		
-	}, {
-		id: 703,
-		name: 'Disc. str.',
-		time: '12:00 AM'
-	}];
-
-	return {
-		all: function() {
-			return subjects;
-		}
-	};
-})
-
-.factory('ClassDetails', function() {
-
-	var classDetails = [{
-		name: 'Room No.',
-		value: '201'
-	}, {
-		name: 'Department',
-		value: 'Technical'
-	}, {
-		name: 'HOD',
-		value: 'Unknown'
-	}, {
-		name: 'Program Incharge',
-		value: 'Kirti Mathur'
-	}, {
-		name: 'Batch Mentor',
-		value: 'Rajesh Verma'
-	}];
-
-	return {
-		all: function() {
-			return classDetails;
-		}
-	};
+	$rootScope.show = function (text) {
+            $rootScope.loading = $ionicLoading.show({
+                content: text ? text : 'Loading',
+                animation: 'fade-in',
+                showBackdrop: true,
+                maxWidth: 200,
+                showDelay: 0
+            });
+        };
+        $rootScope.hide = function () {
+            $ionicLoading.hide();
+        };
+        $rootScope.notify =function(text){
+            $rootScope.show(text);
+            $window.setTimeout(function () {
+              $rootScope.hide();
+            }, 1999);
+        };
+        $rootScope.setToken = function (token) {
+            return $window.localStorage.token = token;
+        }
+        return {
+        	signup: function(form) {
+        		return $http.post(base+'/api/Users', form);
+        	}
+        }
+	return $resource('http://localhost:8080/api/Users');
 });
