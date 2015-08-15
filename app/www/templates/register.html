@@ -14,20 +14,29 @@
     <div class="col col-20"></div>
   </div>
 
-  <form ng-submit="register()">
+  <div ng-controller="RegisterCtrl">
+  <form id="registerForm" name="registerForm" novalidate="" ng-submit="register(registerForm)">
     <div class="row">
 
       <div class="col"></div>
     
       <div class="col list register-list col-80">
     
-        <label class="item item-input register-input">
-          <input type="text" ng-model="registerData.fullname" placeholder="Full Name">
+        <label class="item item-input register-input" ng-class="{'no-errors':registerForm.fullname.$valid}">
+
+          <i class="error icon ion-alert assertive" ng-show="nameError"></i>
+          <input name="fullname" type="text" ng-model="registerData.fullname" placeholder="Full Name" required ng-pattern="/^[a-zA-Z ]+$/">
+        
         </label>
-    
-        <label class="item item-input item-select register-input">
+
+        <div class="error-container" ng-show="registerForm.fullname.$error" ng-messages="registerForm.fullname.$error">
+        <div ng-messages-include="templates/form-error.html"></div>
+        </div>
+
+        <label class="item item-input item-select register-input" ng-class="{'no-errors':registerForm.course.$valid}">
+          <i class="error icon ion-alert assertive" ng-show="courseError"></i>
           <span class="input-label">Course</span>
-          <select ng-model="registerData.course">
+          <select name="course" ng-model="registerData.course" required>
             <option>M.Tech</option>
             <option>MCA</option>
             <option>MBA(ms)</option>
@@ -36,10 +45,15 @@
             <option>B.Com</option>
           </select>
         </label>
-    
-        <label class="item item-input item-select register-input">
+
+        <div class="error-container" ng-show="registerForm.course.$error" ng-messages="registerForm.course.$error">
+        <div ng-messages-include="templates/form-error.html"></div>
+        </div>
+
+        <label class="item item-input item-select register-input" ng-class="{'no-errors':registerForm.sem.$valid}">
+          <i class="error icon ion-alert assertive" ng-show="semError"></i>
           <span class="input-label">Semester</span>
-          <select ng-model="registerData.sem">
+          <select name="sem" ng-model="registerData.sem" required>
             <option>I</option>
             <option>II</option>
             <option>III</option>
@@ -54,37 +68,67 @@
             <option>XII</option>
           </select>
         </label>
+
+        <div class="error-container" ng-show="registerForm.sem.$error" ng-messages="registerForm.sem.$error">
+        <div ng-messages-include="templates/form-error.html"></div>
+        </div>
     
-        <label class="item item-input register-input">
-          <input type="text" ng-model="registerData.roll_no" placeholder="Roll No.">
+        <label class="item item-input register-input" ng-class="{'no-errors':registerForm.roll.$valid}">
+          <i class="error icon ion-alert assertive" ng-show="rollError"></i>
+          <input name="roll" type="text" ng-model="registerData.rollno" placeholder="Roll No." required ng-pattern="/^[a-zA-Z0-9-]+$/">
         </label>
+
+        <div class="error-container" ng-show="registerForm.roll.$error" ng-messages="registerForm.roll.$error">
+        <div ng-messages-include="templates/form-error.html"></div>
+        </div>
         
-        <label class="item item-input register-input">
-          <input type="text" ng-model="registerData.email" placeholder="E-mail">
+        <label class="item item-input register-input" ng-class="{'no-errors':registerForm.email.$valid}">
+          <i class="error icon ion-alert assertive" ng-show="emailError"></i>
+          <input name="email" type="email" ng-model="registerData.email" placeholder="E-mail" required>
         </label>
+ 
+        <div class="error-container" ng-show="registerForm.email.$error" ng-messages="registerForm.email.$error">
+        <div ng-messages-include="templates/form-error.html"></div>
+        </div>
+
+        <label class="item item-input register-input" ng-class="{'no-errors':registerForm.username.$valid}">
+          <i class="error icon ion-alert assertive" ng-show="usernameError"></i>
+          <input name="username" type="text" ng-model="registerData.username" placeholder="Username" required ng-pattern="/^[a-z0-9-_]+$/">
+        </label>
+
+        <div class="error-container" ng-show="registerForm.username.$error" ng-messages="registerForm.username.$error">
+        <div ng-messages-include="templates/form-error.html"></div>
+        </div>
     
-        <label class="item item-input register-input">
-          <input type="text" ng-model="registerData.username" placeholder="Username">
+        <label class="item item-input register-input" ng-class="{'no-errors':registerForm.password.$valid}">
+          <i class="error icon ion-alert assertive" ng-show="passwordError"></i>
+          <input name="password" id="password" type="password" ng-model="registerData.password" placeholder="Password" required ng-minlength=4 ng-maxlength=20>
         </label>
-    
-        <label class="item item-input register-input">
-          <input type="password" ng-model="registerData.password" placeholder="Password">
+ 
+        <div class="error-container" ng-show="registerForm.password.$error" ng-messages="registerForm.password.$error">
+        <div ng-messages-include="templates/form-error.html"></div>
+        </div>
+
+        <label class="item item-input register-input" ng-class="{'no-errors':registerForm.verify.$valid}">
+          <i class="error icon ion-alert assertive" ng-show="verifyError"></i>
+          <input name="verify" type="password" ng-model="registerData.verify" placeholder="Confirm Password" pw-check="registerData.password" required>
         </label>
-    
-        <label class="item item-input register-input">
-          <input type="password" placeholder="Confirm Password">
-        </label>
+
+        <div class="error-container" ng-show="registerForm.verify.$error" ng-messages="registerForm.verify.$error">
+        <div ng-messages-include="templates/form-error.html"></div>
+        </div>
+
       </div>
     
       <div class="col"></div>
     
     </div>
   </form>
-
+  </div>
 </ion-content>
 
 <ion-footer-bar align-title="center" class="iips-footer">
   <div class="col"></div>
-    <button class="button button-clear icon ion-checkmark-circled col col-50 white" type="submit" ng-click="register()"></button>
+    <button class="button button-clear icon ion-checkmark-circled col col-50 white" type="submit" form="registerForm" ng-click=""></button>
   <div class="col"></div>
 </ion-footer-bar>

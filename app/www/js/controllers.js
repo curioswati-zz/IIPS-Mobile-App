@@ -24,33 +24,56 @@ angular.module('iips-app.controllers', ['iips-app.services'])
 })
 
 .controller('RegisterCtrl', function($rootScope, $scope, API, $state) {
-    $scope.registerData = {}
+    $scope.registerData = {};
 
-    $scope.register = function() {
-        $rootScope.show('Please wait.. Registering');        
+    $scope.register = function(form) {
 
-        API.signup({
-            username: $scope.registerData.username,
-            password: $scope.registerData.password,
-            email: $scope.registerData.email
-        })
-        .success(function (data) {
-            $rootScope.setToken($scope.registerData.email);
-            $rootScope.hide();
-            $state.go('login');
-        })
-        .error(function (error) {
-            $rootScope.hide();
-            if(error.error && error.error.code == 11000)
-            {
-                $rootScope.notify("A user with this email already exists");
-            }
-            else
-            {
-                $rootScope.notify("Oops something went wrong, Please try again!");
-            }
-            
-        });
+        $scope.form = form;
+        $scope.nameError = form.fullname.$invalid;
+        $scope.courseError = form.course.$invalid;
+        $scope.semError = form.sem.$invalid;
+        $scope.rollError = form.roll.$invalid;
+        $scope.emailError = form.email.$invalid;
+        $scope.usernameError = form.username.$invalid;
+        $scope.passwordError = form.password.$invalid;
+        $scope.verifyError = form.verify.$invalid;
+
+        if (form.$valid) {
+            $rootScope.show('Please wait.. Registering');
+            API.userSignup({
+                username: $scope.registerData.username,
+                password: $scope.registerData.password,
+                verify:   $scope.registerData.verify,
+                email:    $scope.registerData.email
+            });
+            API.studentSignup({
+                fullname: $scope.registerData.fullname,
+                course:   $scope.registerData.course,
+                sem:      $scope.registerData.sem,
+                rollno:   $scope.registerData.rollno
+            })
+            .success(function (data) {
+                $rootScope.setToken($scope.registerData.username);
+                $rootScope.hide();
+                if($scope.form.$valid) {
+                    console.log("submitted");
+                    $state.go('login');                
+                }
+            })
+            .error(function (error) {
+                $rootScope.hide();
+                if(error.error && error.error.code == 11000)
+                {
+                    $rootScope.notify("A user with this username already exists");
+                }
+                else
+                {
+                    $rootScope.notify("Oops something went wrong, Please try again!");
+                }
+                
+            });
+        }
+
     };
 
     $scope.backToLogin = function() {

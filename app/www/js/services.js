@@ -25,9 +25,13 @@ angular.module('iips-app.services', [])
             return $window.localStorage.token = token;
         }
         return {
-        	signup: function(form) {
-        		return $http.post(base+'/api/Users', form);
-        	}
+        	userSignup: function(userForm) {
+        		return $http.post(base+'/api/Users', userForm);
+        	},
+            studentSignup: function(studentForm) {
+                return $http.post(base+'/api/Students', studentForm);
+            }
+
         }
 	return $resource('http://localhost:8080/api/Users');
 });
