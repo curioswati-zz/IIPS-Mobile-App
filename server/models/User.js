@@ -1,13 +1,50 @@
 var Sequelize = require('sequelize');
 var crypto    = require('crypto');
+var validator = require('validator');
 
 // creating Models
 module.exports = function(sequelize) {
 	var UserSchema = sequelize.define('User',
 		{
-			username: Sequelize.STRING,
-			email: Sequelize.STRING,
-			password: Sequelize.STRING
+			username: {
+				type: Sequelize.STRING,
+				validate: {
+					is: /^[a-z0-9-_]+$/,
+					notNull: true,
+					notEmpty: true
+				}
+
+			},
+			email: {
+				type: Sequelize.STRING,
+				validate: {
+					isEmail: true,
+					notNull: true,
+					notEmpty: true
+				}
+			},
+			password: {
+				type: Sequelize.STRING,
+				validate: {
+					notNull: true,
+					notEmpty: true,
+					len: [4,20]
+				}
+			},
+			verify: {
+				type: Sequelize.STRING,
+				validate: {
+				isSame: function (value, next) {
+                    if (value == this.values.password)
+                    {
+                        next();
+                    }
+                    else{
+                        next('Passwords differ');
+                    }
+	                }					
+	            }
+			}
 		},
 		{
 			instanceMethods: {
@@ -57,5 +94,79 @@ module.exports = function(sequelize) {
 				}
 			}
 		});
-	return UserSchema;
+
+    var StudentSchema = sequelize.define('Student', 
+	    {
+	    	fullname: {
+	    		type: Sequelize.STRING,
+			    validate: {
+					is: /^[a-zA-Z ]+$/,
+					notNull: true,
+					notEmpty: true
+				}	    		
+	    	},
+	    	course: {
+	    		type: Sequelize.STRING,
+	    		validate: {
+					notNull: true,
+				}
+	    	},
+	    	sem: {
+	    		type: Sequelize.STRING,
+	    		validate: {
+					notNull: true,
+				}
+	    	},
+	    	rollno: {
+	    		type: Sequelize.STRING,
+	    		validate: {
+					is: /^[a-zA-Z0-9-]+$/,
+					notNull: true,
+					notEmpty: true
+				}
+	    	}
+	    },
+	    {
+			instanceMethods: {
+				retrieveAll: function(onSuccess, onError) {
+					StudentSchema.findAll({}, {raw: true})
+					.success(onSuccess)
+					.error(onError);
+				},
+				retrieveById: function(user_id, onSuccess, onError) {
+					StudentSchema.find({where: {id: user_id}}, {raw: true})
+					.success(onSuccess)
+					.error(onError);
+				},
+				add: function(onSuccess, onError) {
+					var fullname = this.fullname;
+					var course = this.course;
+					var sem = this.sem;
+					var rollno = this.rollno;
+
+					StudentSchema.build({ fullname: fullname, course: course, sem: sem, rollno: rollno })
+					.save()
+					.success(onSuccess)
+					.error(onError);
+				},
+				updateById: function(user_id, onSuccess, onError) {
+					var id = user_id;
+					var fullname = this.fullname;
+					var course = this.course;
+					var sem = this.sem;
+					var rollno = this.rollno;
+
+					StudentSchema.update({ fullname: fullname, course: course, sem: sem, rollno: rollno },
+										{where: {id: id} })
+					.success(onSuccess)
+					.error(onError);
+				},
+				removeById: function(user_id, onSuccess, onError) {
+					StudentSchema.destroy({where: {id: user_id}})
+					.success(onSuccess)
+					.error(onError);
+				}
+			}
+		});
+	return StudentSchema;
 };
