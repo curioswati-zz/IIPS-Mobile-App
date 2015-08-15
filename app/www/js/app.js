@@ -5,10 +5,12 @@
 angular.module('iips-app',
                 ['ionic', 
                 'ngCordova',
+                'ngMessages',
                 'ionic.service.core',
                 'ionic.service.push',
                 'iips-app.controllers',
-                'iips-app.services'])
+                'iips-app.services',
+                'iips-app.directives'])
 
 .run(function($ionicPlatform) {
  
