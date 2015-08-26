@@ -58,6 +58,9 @@ ion-content {
 .button-login {
 	box-shadow: -2px 2px 15px #d2c9c9;
 }
+.no-login-errors {
+  border: 1px solid green;
+}
 /*-----------------------------------Register.html------------------------------------------------*/
 .register-input {
 	height:35px;
@@ -86,7 +89,7 @@ ion-content {
 .has-errors {
   border-bottom: 3px solid #B83E2C;
 }
-.no-errors {
+.no-register-errors {
   border-bottom: 3px solid green;
 }
 .error-container {

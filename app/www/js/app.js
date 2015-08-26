@@ -10,7 +10,8 @@ angular.module('iips-app',
                 'ionic.service.push',
                 'iips-app.controllers',
                 'iips-app.services',
-                'iips-app.directives'])
+                'iips-app.directives',
+                'iips-app.constants'])
 
 .run(function($ionicPlatform) {
  
@@ -25,8 +26,7 @@ angular.module('iips-app',
     }
     // $cordovaSplashscreen.hide();
      // navigator.splashscreen.hide()
-  });
-
+  })
 })
 
 .config(['$ionicAppProvider', function($ionicAppProvider) {
@@ -44,27 +44,16 @@ angular.module('iips-app',
 .config(function($stateProvider, $urlRouterProvider) {
   $stateProvider
 
-    .state('main', {
-      url: '/',
-      controller: 'AppCtrl'
-    })
-
     .state('login', {
         url: '/login',
         templateUrl: 'templates/login.html',
-        controller: 'LoginCtrl'
+        controller: 'LoginCtrl',
     })
 
     .state('register', {
         url: "/register",
         templateUrl: "templates/register.html",
-        controller: 'RegisterCtrl'
-    })
-
-    .state('quote', {
-      url: "/quote",
-      templateUrl: "templates/quote.html",
-      controller: 'QuoteCtrl'
+        controller: 'RegisterCtrl',
     })
 
     .state('tab', {

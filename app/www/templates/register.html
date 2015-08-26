@@ -22,7 +22,7 @@
     
       <div class="col list register-list col-80">
     
-        <label class="item item-input register-input" ng-class="{'no-errors':registerForm.fullname.$valid}">
+        <label class="item item-input register-input" ng-class="{'no-register-errors':registerForm.fullname.$valid}">
 
           <i class="error icon ion-alert assertive" ng-show="nameError"></i>
           <input name="fullname" type="text" ng-model="registerData.fullname" placeholder="Full Name" required ng-pattern="/^[a-zA-Z ]+$/">
@@ -33,7 +33,7 @@
         <div ng-messages-include="templates/form-error.html"></div>
         </div>
 
-        <label class="item item-input item-select register-input" ng-class="{'no-errors':registerForm.course.$valid}">
+        <label class="item item-input item-select register-input" ng-class="{'no-register-errors':registerForm.course.$valid}">
           <i class="error icon ion-alert assertive" ng-show="courseError"></i>
           <span class="input-label">Course</span>
           <select name="course" ng-model="registerData.course" required>
@@ -50,7 +50,7 @@
         <div ng-messages-include="templates/form-error.html"></div>
         </div>
 
-        <label class="item item-input item-select register-input" ng-class="{'no-errors':registerForm.sem.$valid}">
+        <label class="item item-input item-select register-input" ng-class="{'no-register-errors':registerForm.sem.$valid}">
           <i class="error icon ion-alert assertive" ng-show="semError"></i>
           <span class="input-label">Semester</span>
           <select name="sem" ng-model="registerData.sem" required>
@@ -73,16 +73,16 @@
         <div ng-messages-include="templates/form-error.html"></div>
         </div>
     
-        <label class="item item-input register-input" ng-class="{'no-errors':registerForm.roll.$valid}">
+        <label class="item item-input register-input" ng-class="{'no-register-errors':registerForm.roll.$valid}">
           <i class="error icon ion-alert assertive" ng-show="rollError"></i>
-          <input name="roll" type="text" ng-model="registerData.rollno" placeholder="Roll No." required ng-pattern="/^[a-zA-Z0-9-]+$/">
+          <input name="roll" type="text" ng-model="registerData.rollno" placeholder="Roll No." required ng-pattern="/^[a-zA-Z]{2}-[0-9][a-zA-Z][0-9]{2}-[0-9]{1,3}$/">
         </label>
 
         <div class="error-container" ng-show="registerForm.roll.$error" ng-messages="registerForm.roll.$error">
         <div ng-messages-include="templates/form-error.html"></div>
         </div>
         
-        <label class="item item-input register-input" ng-class="{'no-errors':registerForm.email.$valid}">
+        <label class="item item-input register-input" ng-class="{'no-register-errors':registerForm.email.$valid}">
           <i class="error icon ion-alert assertive" ng-show="emailError"></i>
           <input name="email" type="email" ng-model="registerData.email" placeholder="E-mail" required>
         </label>
@@ -91,7 +91,7 @@
         <div ng-messages-include="templates/form-error.html"></div>
         </div>
 
-        <label class="item item-input register-input" ng-class="{'no-errors':registerForm.username.$valid}">
+        <label class="item item-input register-input" ng-class="{'no-register-errors':registerForm.username.$valid}">
           <i class="error icon ion-alert assertive" ng-show="usernameError"></i>
           <input name="username" type="text" ng-model="registerData.username" placeholder="Username" required ng-pattern="/^[a-z0-9-_]+$/">
         </label>
@@ -100,7 +100,7 @@
         <div ng-messages-include="templates/form-error.html"></div>
         </div>
     
-        <label class="item item-input register-input" ng-class="{'no-errors':registerForm.password.$valid}">
+        <label class="item item-input register-input" ng-class="{'no-register-errors':registerForm.password.$valid}">
           <i class="error icon ion-alert assertive" ng-show="passwordError"></i>
           <input name="password" id="password" type="password" ng-model="registerData.password" placeholder="Password" required ng-minlength=4 ng-maxlength=20>
         </label>
@@ -109,7 +109,7 @@
         <div ng-messages-include="templates/form-error.html"></div>
         </div>
 
-        <label class="item item-input register-input" ng-class="{'no-errors':registerForm.verify.$valid}">
+        <label class="item item-input register-input" ng-class="{'no-register-errors':registerForm.verify.$valid}">
           <i class="error icon ion-alert assertive" ng-show="verifyError"></i>
           <input name="verify" type="password" ng-model="registerData.verify" placeholder="Confirm Password" pw-check="registerData.password" required>
         </label>
