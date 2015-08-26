@@ -12,24 +12,27 @@
     <div class="col col-10"></div>
   </div>
 
-  <form ng-submit="doLogin()">
+  <form name="loginForm" id="loginForm" novalidate="" ng-submit="login(loginForm)">
   <div class="row">
     <div class="col col-10"></div>
 
     <div class="col list list-inset card login-card">
-      <label class="item item-input-inset item-floating-label">
-        <span class="input-label">Username</span>
-        <input type="text" ng-model="loginData.username" placeholder="Username">
+      <label class="item item-input-inset item-floating-label" ng-class="{'no-login-errors':loginForm.username.$valid}">
+
+        <i class="error icon ion-alert assertive" ng-show="usernameError"></i>
+        <input name="username" type="text" ng-model="loginData.username" placeholder="Username" required>
       </label>
-      <label class="item item-input-inset item-floating-label">
-        <span class="input-label">Password</span>
-        <input type="password" ng-model="loginData.password" placeholder="Password">
+
+      <label class="item item-input-inset item-floating-label" ng-class="{'no-login-errors':loginForm.password.$valid}">
+        <i class="error icon ion-alert assertive" ng-show="passwordError"></i>
+        <input name="password" type="password" ng-model="loginData.password" placeholder="Password" required>
       </label>
+
       <label class="item">
-        <button class="button button-assertive button-full button-login" animation="slide-left-right" type="submit" ng-click="login()">Login</button>
+        <button class="button button-assertive button-full button-login" animation="slide-left-right" type="submit" ng-click="">Login</button>
       </label>
       <label style="padding:10px;">
-        <button class="button button-small button-clear button-calm" ng-click="forgot()">Forgot password</button>
+        <button class="button button-small button-clear button-calm" ng-click="">Forgot password</button>
       </label>
     </div>
     

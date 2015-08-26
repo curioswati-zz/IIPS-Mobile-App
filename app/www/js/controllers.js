@@ -1,42 +1,56 @@
 angular.module('iips-app.controllers', ['iips-app.services'])
 
-.controller('AppCtrl', function($scope, $cordovaSplashscreen) {
-    $cordovaSplashscreen.show();
-    $setTimeout(function() {
-        $cordovaSplashscreen.hide();
-    }, 3000);
-})
-
-.controller('LoginCtrl', function($scope, $state) { 
+.controller('LoginCtrl', function($scope, $state, Auth, $rootScope) { 
     
-    $scope.data = {};
+    $scope.loginData = {};
 
-    $scope.register = function() {
+    $scope.login = function(form) {
+        $scope.form = form;
+        $scope.usernameError = form.username.$error.required;
+        $scope.passwordError = form.password.$error.required;
+
+        if(form.$valid) {
+            $rootScope.show('Signing in...');
+            Auth.login({
+                username: $scope.loginData.username,
+                password: $scope.loginData.password
+            })
+            .success(function(data) {
+                Auth.saveToken(data.token);
+                $rootScope.hide();
+                if($scope.form.$valid) {
+                    console.log("login submitted");
+                    $state.go('tab');
+                }
+            })
+            .error(function(error) {
+                $rootScope.hide();
+                $rootScope.notify("Oops something went wrong, Please try again!");
+            })
+        }
+    };
+    $scope.register = function(data) {
       $state.go('register');
     };
-    $scope.login = function() {
-        $state.go('tab');
-    }
-
     $scope.forgot = function() {
         alert("How could you forget your password");
-    }
+    };
 })
 
-.controller('RegisterCtrl', function($rootScope, $scope, API, $state) {
+.controller('RegisterCtrl', function($rootScope, $scope, API, Auth, $state) {
     $scope.registerData = {};
 
     $scope.register = function(form) {
 
         $scope.form = form;
-        $scope.nameError = form.fullname.$invalid;
-        $scope.courseError = form.course.$invalid;
-        $scope.semError = form.sem.$invalid;
-        $scope.rollError = form.roll.$invalid;
-        $scope.emailError = form.email.$invalid;
+        $scope.nameError     = form.fullname.$invalid;
+        $scope.courseError   = form.course.$invalid;
+        $scope.semError      = form.sem.$invalid;
+        $scope.rollError     = form.roll.$invalid;
+        $scope.emailError    = form.email.$invalid;
         $scope.usernameError = form.username.$invalid;
         $scope.passwordError = form.password.$invalid;
-        $scope.verifyError = form.verify.$invalid;
+        $scope.verifyError   = form.verify.$invalid;
 
         if (form.$valid) {
             $rootScope.show('Please wait.. Registering');
@@ -53,7 +67,8 @@ angular.module('iips-app.controllers', ['iips-app.services'])
                 rollno:   $scope.registerData.rollno
             })
             .success(function (data) {
-                $rootScope.setToken($scope.registerData.username);
+                Auth.saveToken(data.token);      //check for: whether the login persist after app closes
+                // $rootScope.setToken($scope.registerData.username);
                 $rootScope.hide();
                 if($scope.form.$valid) {
                     console.log("submitted");
@@ -81,12 +96,6 @@ angular.module('iips-app.controllers', ['iips-app.services'])
     };
 })
 
-.controller('QuoteCtrl', function($scope, $state) {
-    setTimeout(function() {
-        $state.go('tab');
-    }, 3000);
-})
-
 .controller('TabCtrl', function($scope, $state, ClassDetails) {
 
     $scope.showClassDetails = false;
@@ -101,6 +110,7 @@ angular.module('iips-app.controllers', ['iips-app.services'])
     };
 
     $scope.logout = function() {
+        // AuthService.logout();
         $state.go('login');
     };
 

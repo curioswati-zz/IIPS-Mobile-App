@@ -1,6 +1,8 @@
 var Sequelize = require('sequelize');
 var crypto    = require('crypto');
 var validator = require('validator');
+var jwt       = require('jsonwebtoken');
+var config    = require('../config/config');
 
 // creating Models
 module.exports = function(sequelize) {
@@ -13,7 +15,6 @@ module.exports = function(sequelize) {
 					notNull: true,
 					notEmpty: true
 				}
-
 			},
 			email: {
 				type: Sequelize.STRING,
@@ -33,17 +34,6 @@ module.exports = function(sequelize) {
 			},
 			verify: {
 				type: Sequelize.STRING,
-				validate: {
-				isSame: function (value, next) {
-                    if (value == this.values.password)
-                    {
-                        next();
-                    }
-                    else{
-                        next('Passwords differ');
-                    }
-	                }					
-	            }
 			}
 		},
 		{
@@ -62,12 +52,17 @@ module.exports = function(sequelize) {
 					var username = this.name;
 					var email = this.email;
 					var password = this.password;
+					var verify = this.verify;
 
-					var shasum = crypto.createHash('sha1');
-					shasum.update(password);
-					password = shasum.digest('hex');
+					var salt = crypto.randomBytes(16).toString('hex');
+					password = crypto.pbkdf2Sync(password, salt, 1000, 64).toString('hex');
+					verify = crypto.pbkdf2Sync(verify, salt, 1000, 64).toString('hex');
 
-					UserSchema.build({ username: username, email: email, password: password })
+					// var shasum = crypto.createHash('sha1');
+					// shasum.update(password);
+					// password = shasum.digest('hex');
+
+					UserSchema.build({ username: username, email: email, password: password, verify: verify })
 					.save()
 					.success(onSuccess)
 					.error(onError);
@@ -77,12 +72,15 @@ module.exports = function(sequelize) {
 					var username = this.username;
 					var email = this.email;
 					var password = this.password;
+					var verify = this.verify;
 
 					var shasum = crypto.createHash('sha1');
 					shasum.update(password);
 					password = shasum.digest('hex');
+					shasum.update(verify);
+					verify = shasum.digest('hex');
 
-					UserSchema.update({ username: username,email: email, password: password},
+					UserSchema.update({ username: username,email: email, password: password, verify:verify},
 										{where: {id: id} })
 					.success(onSuccess)
 					.error(onError);
@@ -91,6 +89,22 @@ module.exports = function(sequelize) {
 					UserSchema.destroy({where: {id: user_id}})
 					.success(onSuccess)
 					.error(onError);
+				},
+				verifyPassword: function(password) {
+					var hash = crypto.pbkdf2Sync(password, salt, 1000, 64).toString('hex');
+					return this.pass === hash; 
+				},
+				generateJWT: function() {
+					var today = new Date();
+					var exp = new Date(today);
+					exp.setDate(today.getDate() + 60);
+
+					return jwt.sign({
+						_id: this._id,
+						username: this.username,
+						exp: parseInt(exp.getTime()/1000),
+					},
+					config.jwtSettings.secret);
 				}
 			}
 		});
@@ -120,7 +134,7 @@ module.exports = function(sequelize) {
 	    	rollno: {
 	    		type: Sequelize.STRING,
 	    		validate: {
-					is: /^[a-zA-Z0-9-]+$/,
+					is: /^[a-zA-Z]{2}-[0-9][a-zA-Z][0-9]{2}-[0-9]{1,3}$/,
 					notNull: true,
 					notEmpty: true
 				}
@@ -168,5 +182,6 @@ module.exports = function(sequelize) {
 				}
 			}
 		});
-	return StudentSchema;
+    // UserSchema.belongsTo(StudentSchema);
+	return UserSchema;
 };
