@@ -1,8 +1,9 @@
 var fs        = require("fs");
 var path      = require("path");
 var Sequelize = require("sequelize");
-var env       = "dev";
-var config    = require('../database.json')[env];
+var env       = process.env.NODE_ENV || "development";
+var config    = require(__dirname + '/../config/config.json')[env];
+// require('../database.json')[env];
 var password  = config.password ? config.password : null;
 
 var sequelize = new Sequelize(
