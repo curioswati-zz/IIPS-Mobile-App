@@ -1,12 +1,13 @@
-var _ = require('lodash')
-  , MySQL = require('../mysql')
+'use strict';
+
+var MySQLDialect = require('../mysql')
+  , util = require('util');
 
 var MariaDialect = function(sequelize) {
-  this.sequelize = sequelize
-}
+  MySQLDialect.call(this, sequelize);
+};
 
-MariaDialect.prototype = _.defaults({
+util.inherits(MariaDialect, MySQLDialect);
+MariaDialect.prototype.name = 'mariadb';
 
-}, MySQL.prototype)
-
-module.exports = MariaDialect
+module.exports = MariaDialect;
