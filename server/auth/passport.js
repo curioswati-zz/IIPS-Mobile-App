@@ -27,13 +27,15 @@ passport.use(new LocalStrategy(
     }).then(function (user, err) {
       if (err)
         { 
-          console.log(err);
           return done(err);
         }
       if (!user) {
-        return done(null, false, { message: 'Incorrect username.' });
+        return done(null, false, {message: 'Incorrect username.' });
       }
-      return done(null, user);
+      if (!(password == user.password)) {
+        return done(null, false, {message: 'Incorrect password.'});
+      }
+      return done(null, user, {mesage: 'Login successful'});
     });
   }
 ));
