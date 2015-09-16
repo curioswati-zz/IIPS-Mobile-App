@@ -6,14 +6,14 @@ angular.module('iips-app',
                 ['ionic', 
                 'ngCordova',
                 'ngMessages',
+                'ngResource',
                 'ionic.service.core',
                 'ionic.service.push',
                 'iips-app.controllers',
                 'iips-app.services',
-                'iips-app.directives',
-                'iips-app.constants'])
+                'iips-app.directives'])
 
-.run(function($ionicPlatform) {
+.run(function($ionicPlatform, $rootScope, $state, Auth) {
  
   $ionicPlatform.ready(function() {
     // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
@@ -26,7 +26,22 @@ angular.module('iips-app',
     }
     // $cordovaSplashscreen.hide();
      // navigator.splashscreen.hide()
-  })
+  });
+
+  $rootScope.$on('$stateChangeStart', function(event, next) {
+    if ($state.current !== 'login') {
+      if (!Auth.isLoggedIn()) {
+        $state.go('login', {reload:true});
+
+        console.log(next.name);
+
+        if(next.name !== 'login' && next.name !== 'register')
+        {
+          event.preventDefault();
+        }
+      }     
+    }
+  });
 })
 
 .config(['$ionicAppProvider', function($ionicAppProvider) {
@@ -60,6 +75,72 @@ angular.module('iips-app',
       url: "/tab",
       templateUrl: "templates/tabs.html",
       controller: 'TabCtrl'
+    })
+
+    .state('admin', {
+      url: "/admin",
+      templateUrl: "templates/admin-tabs.html",
+      controller: 'TabCtrl'
+    })
+
+    .state('admin.dash', {
+      url: "/dash",
+      views: {
+        'admin-dash': {
+          templateUrl: "templates/admin-dash.html",
+          controller: 'AdminDashCtrl'
+        }
+      }
+    })
+
+    .state('admin.profile', {
+      url: "/profile",
+      views: {
+        'admin-profile': {
+          templateUrl: "templates/tab-profile.html",
+          controller: 'ProCtrl'
+        }
+      }
+    })
+
+    .state('admin.faculty', {
+      url: "/faculty",
+      views: {
+        'admin-dash': {
+          templateUrl: "templates/submitFaculty.html",
+          controller: 'DataFormCtrl'
+        }
+      }
+    })
+
+    .state('admin.slot', {
+      url: "/slot",
+      views: {
+        'admin-dash': {
+          templateUrl: "templates/submitSlot.html",
+          controller: 'DataFormCtrl'
+        }
+      }
+    })
+
+    .state('admin.subject', {
+      url: "/subject",
+      views: {
+        'admin-dash': {
+          templateUrl: "templates/submitSubject.html",
+          controller: 'DataFormCtrl'
+        }
+      }
+    })
+
+    .state('admin.interval', {
+      url: "/interval",
+      views: {
+        'admin-dash': {
+          templateUrl: "templates/submitInterval.html",
+          controller: 'DataFormCtrl'
+        }
+      }
     })
 
     .state('tab.dash', {
