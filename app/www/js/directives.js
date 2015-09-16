@@ -20,4 +20,17 @@ angular.module('iips-app.directives', [])
       };
     }
   };
+})
+.directive('onSwipeRight', function($parse, $ionicGesture) {
+    return {
+        restrict :  'A',
+        link : function(scope, elem, attrs) {
+            var fn = $parse(attrs.onSwipeRight);
+            $ionicGesture.on('swiperight', function(event) {
+                scope.$apply(function() {
+                    fn(scope, {$event:event});
+                });
+            }, elem);
+        }
+    }
 });
