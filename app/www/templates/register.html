@@ -1,6 +1,6 @@
-<ion-header-bar class="iips-header">
+<ion-header-bar class="iips-reg-header">
   <div class="col"></div>
-  <img src="img/iips-logo.png" class="col col-50 col-center" height="80px">
+    <img src="img/avatar.jpg" class="col col-50 col-center item-thumbnail-center upload-pic" height="138px" data-tap-disabled="true" ng-click="uploadPic()">
   <div class="col"></div>
 </ion-header-bar>
 
@@ -37,11 +37,14 @@
           <i class="error icon ion-alert assertive" ng-show="courseError"></i>
           <span class="input-label">Course</span>
           <select name="course" ng-model="registerData.course" required>
-            <option>M.Tech</option>
-            <option>MCA</option>
-            <option>MBA(ms)</option>
-            <option>MBA(apr)</option>
-            <option>MBA(tr)</option>
+            <option>MTech</option>
+            <option>MCA(UG)</option>
+            <option>MCA(PG)</option>
+            <option>MBA(MS 5Yrs UG)</option>
+            <option>MBA(MS 5Yrs PG)</option>
+            <option>MBA(MS 2Yrs)</option>
+            <option>MBA(APR)</option>
+            <option>MBA(TA)</option>
             <option>B.Com</option>
           </select>
         </label>

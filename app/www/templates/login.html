@@ -28,6 +28,12 @@
         <input name="password" type="password" ng-model="loginData.password" placeholder="Password" required>
       </label>
 
+      <div class="error-container" ng-show="loginForm.password.$error" ng-messages="loginForm.password.$error">
+      <div class="error" ng-message="correctPassword">
+        Invalid username or password
+      </div>
+      </div>
+
       <label class="item">
         <button class="button button-assertive button-full button-login" animation="slide-left-right" type="submit" ng-click="">Login</button>
       </label>

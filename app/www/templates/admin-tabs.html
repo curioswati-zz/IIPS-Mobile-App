@@ -3,21 +3,20 @@
 	<button class="button button-clear pull-right icon ion-ios-information-outline calm" ng-click="showInfo()"></button>
 
 	<!-- Details of the class on clicking info button -->
-	<div class="row no-padding">
+	<div class="row">
 
-		<!-- <div class="col"></div> -->
+		<div class="col col-20"></div>
 
-		<div class="card details-list col col-100" ng-show="showClassDetails">
+		<div class="card details-list col col-75" ng-show="showClassDetails">
 
 			<div class="class-info-bar">Class-Info</div>
 
 			<ion-list>
 				<ion-item ng-repeat="detail in classDetails" class="list-item details-list-item">
 					<div class="row">
-						<div class="col col-33">{{detail.name}}</div>
+						<div class="col col-50">{{detail.name}}</div>
 						<div class="col">:</div>
-						<div class="col">{{detail.valZero}}</div>
-						<div ng-if="detail.valOne" class="col col-75">({{detail.valOne}})</div>
+						<div class="col col-40">{{detail.value}}</div>
 						<div class="col"></div>
 					</div>
 				</ion-item>
@@ -25,7 +24,7 @@
 
 		</div>
 
-		<!-- <div class="col"></div> -->
+		<div class="col"></div>
 	</div>
 
 </ion-header-bar>
@@ -34,13 +33,13 @@
 <ion-tabs class="tabs-striped tabs-icon-top tabs-background-iips tabs-color-light tabs-top">
 
 	<!--Dashboard tab-->
-	<ion-tab title="Dashboard" icon-on="ion-ios-keypad active-icon" icon-off="ion-ios-keypad-outline" href="#/tab/dash">
-		<ion-nav-view name="tab-dash"></ion-nav-view>
+	<ion-tab title="Dashboard" icon-on="ion-ios-keypad active-icon" icon-off="ion-ios-keypad-outline" href="#/admin/dash">
+		<ion-nav-view name="admin-dash"></ion-nav-view>
 	</ion-tab>
 
 	<!-- Profile tab -->
-	<ion-tab title="Profile" icon-on="ion-person active-icon" icon-off="ion-ios-person-outline" href="#/tab/profile">
-		<ion-nav-view name="tab-profile" ng-click></ion-nav-view>
+	<ion-tab title="Profile" icon-on="ion-person active-icon" icon-off="ion-ios-person-outline" href="#/admin/profile">
+		<ion-nav-view name="admin-profile" ng-click></ion-nav-view>
 	</ion-tab>
 
 </ion-tabs>

@@ -1,7 +1,7 @@
 <ion-view view-title="Schedule">
 
 <ion-content>
-	<button class="col col-33 button button-clear button-calm icon ion-chevron-left" ng-click="goBack()">
+	<button class="col col-33 button button-clear button-calm icon ion-chevron-left" height="10px" ng-click="goBack()">
 	Go Back
 	</button>
 
@@ -9,57 +9,49 @@
 
 	<div class="row no-vertical-padding">
 		<div class="col"></div>
-		<span class="button-large">{{userCourse}}({{userSem}})</span>
+		<span class="button-large">{{studentData.course}}({{studentData.sem}})</span>
 		<div class="col"></div>		
 	</div>
 	<div class="row">
 		<div class="col"></div>
-		<span>{{userSession}}</span>
+		<span>{{session}}</span>
 		<div class="col"></div>		
 	</div>
 </font>
 	<div class="row">
 		
-		<div class="col"></div>
-
-		<span class="card bar bar-schedule col col-90">
+		<span class="card bar bar-schedule col">
 
 			<div class="buttons">
-				<button class="button button-icon white icon ion-arrow-left-b" style="padding:3px;" ng-click="goBack()"></button>
+				<button class="button button-icon white icon ion-arrow-left-b" style="padding:3px;" ng-click="previous(Day)"></button>
 			</div>
 		
-			<h1 class="title white">{{currentDay}}</h1>
+			<h1 class="title white">{{Day}}</h1>
 
 			<div class="buttons">
-				<button class="button button-icon icon white ion-arrow-right-b" style="padding:0;" ng-click="goBack()"></button>
+				<button class="button button-icon icon white ion-arrow-right-b" style="padding:0;" ng-click="next(Day)"></button>
 			</div>
 		
 		</span>
-
-		<div class="col"></div>
 
 	</div>
 
 
 	<div class="row">
-		<div class="col"></div>
 
-		<ion-list class="card subject-list col col-90">
+		<ion-list class="card subject-list col">
 
-		  <ion-item ng-repeat="subject in subjects" class="list-item subject-list-item">
+		  <ion-item ng-repeat="section in sections" class="list-item subject-list-item">
 
 			  <div class="row no-padding">
-				  <div class="col col-33" style="border-right:0.14em solid #FFF;">{{subject.time}}</div>
-				  <div class="col">{{subject.id}}</div>
-				  <div class="col col-10">:</div>
-				  <div class="col col-33">{{subject.name}}</div>
-					<div class="col col-10"></div>
+				  <div class="col col-20" style="border-right:0.14em solid #FFF;">{{section.begin}}-{{section.end}}</div>
+				  <div class="col col-25">{{section.subID}}:{{section.subCode}}</div>
+				  <div class="col" style="border-left:0.14em solid #FFF;">{{section.faculty}}</div>
 			  </div>	
 		  </ion-item>
 		
 		</ion-list>
 		
-		<div class="col"></div>
 	</div>
 </ion-content>
 
