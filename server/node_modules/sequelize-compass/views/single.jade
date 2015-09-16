@@ -1,0 +1,227 @@
+extends layouts/layout
+
+block content
+  include includes/navbar
+  .container
+    if action == "edit"
+      h1 Edit #{model.name} with #{modelConfigObject.pKey}:#{modelInstance[modelConfigObject.pKey]}
+    else
+      h1 Create a new #{model.name}
+
+
+    form(method="POST", action="")
+      // attributes
+      h2 #{model.name} attributes
+
+      if modelConfigObject.attributes
+
+        each attribute in modelConfigObject.attributes
+
+          .form-group
+            h4 #{attribute.charAt(0).toUpperCase() + attribute.slice(1)}
+
+            //p #{JSON.stringify(model.rawAttributes[attribute])}
+            //p #{model.rawAttributes[attribute].type._typeName}
+
+            // determine field type
+            if model.rawAttributes[attribute].type._typeName == "INTEGER"
+              if action == "edit"
+                input.form-control(value='#{modelInstance[attribute]}', type='text', required='required', placeholder='#{attribute.charAt(0).toUpperCase() + attribute.slice(1)}', name='#{attribute}')
+              else
+                if attribute == "id"
+                  input.form-control(value='', type='text', required='required', placeholder='auto', name='#{attribute}', disabled=)
+                else
+                  input.form-control(value='', type='text', required='required', placeholder='#{attribute.charAt(0).toUpperCase() + attribute.slice(1)}', name='#{attribute}')
+
+            if model.rawAttributes[attribute].type._typeName == "VARCHAR"
+              if action == "edit"
+                input.form-control(value='#{modelInstance[attribute]}', type='text', required='required', placeholder='#{attribute.charAt(0).toUpperCase() + attribute.slice(1)}', name='#{attribute}')
+              else
+                input.form-control(value='', type='text', required='required', placeholder='#{attribute.charAt(0).toUpperCase() + attribute.slice(1)}', name='#{attribute}')
+
+            if model.rawAttributes[attribute].type == "TEXT"
+              if actipn == "edit"
+                textarea.form-control(required='required', rows="10", placeholder='#{attribute.charAt(0).toUpperCase() + attribute.slice(1)}', name='#{attribute}') #{modelInstance[attribute]}
+              else
+                textarea.form-control(required='required', rows="10", placeholder='#{attribute.charAt(0).toUpperCase() + attribute.slice(1)}', name='#{attribute}')
+
+            if model.rawAttributes[attribute].type == "TIMESTAMP WITH TIME ZONE"
+              .datetimepicker.input-group.date
+                if action == "edit"
+                  input.form-control(type='text', value='#{modelInstance[attribute]}', data-date-format="YYYY-MM-DDTHH:mm:ss", name='#{attribute}')
+                else
+                  input.form-control(type='text', value='', data-date-format="YYYY-MM-DDTHH:mm:ss", name='#{attribute}')
+                span.input-group-addon
+                  span.glyphicon.glyphicon-calendar
+
+            if model.rawAttributes[attribute].type == "INTEGER[]"
+              if action == "edit"
+                if !modelInstance[attribute]
+                  input.form-control(value='{}', type='text', required='required', placeholder='#{attribute.charAt(0).toUpperCase() + attribute.slice(1)}', name='#{attribute}')
+                else
+                  input.form-control(value='{#{modelInstance[attribute]}}', type='text', required='required', placeholder='#{attribute.charAt(0).toUpperCase() + attribute.slice(1)}', name='#{attribute}')
+              else
+                input.form-control(value='{}', type='text', required='required', placeholder='#{attribute.charAt(0).toUpperCase() + attribute.slice(1)}', name='#{attribute}')
+
+            // BOOLEAN
+            if model.rawAttributes[attribute].type == "BOOLEAN"
+              select.form-control(name="#{attribute}")
+                if action == "edit"
+                  - if ( String( modelInstance[attribute] ) === "true" ) {
+                    option(value="true", selected=) true
+                    option(value="false") false
+                  - } else {
+                    option(value="true") true
+                    option(value="false", selected=) false
+                  - }
+                else
+                  option(value="true") true
+                  option(value="false") false
+
+            // it seems to be ENUM...
+            if model.rawAttributes[attribute].values
+              if model.rawAttributes[attribute].values.length > 0
+                select.form-control(name="#{attribute}")
+                  each value in model.rawAttributes[attribute].values
+                    if action == "edit"
+                      option(value="#{value}", selected=(modelInstance[attribute] == value)) #{value}
+                    else
+                      option(value="#{value}") #{value}
+
+
+      else
+        - for ( property in model.rawAttributes ) {
+          td #{property}
+        - }
+
+
+
+      // associations
+      h2 #{model.name} associatins
+
+      if modelConfigObject.associations
+        each association in modelConfigObject.associations
+          .form-group
+            h4 `#{model.name}`.#{association.as} (with `#{association.model}`)
+
+            case association.type
+
+              when "hasMany"
+                p
+                  strong Type:&nbsp;
+                  | hasMany
+
+                p Junction table:&nbsp;
+                  code #{association.through}
+
+                select.form-control(multiple="multiple", style="height:180px;", name="#{association.as}")
+
+                  if associationInstances[association.as]
+
+
+                    // iterate over associationInstances array for current AS field association.as
+                    each associationInstance in associationInstances[association.as]
+
+                      if action == "edit"
+
+                        // compare array of associated objects in modelInstance field WITH current element in associationInstances array
+                        - if ( containsObject( modelInstance[decapitalizeFirstLetter(association.as)], associationInstance) == true ) {
+
+                        // render SELECTED element of associationInstances array
+                        option(value="#{associationInstance.dataValues.id}", selected=)
+                          each field in association.attributes
+                            | #{associationInstance.dataValues[field]} :&nbsp;
+                        - } else {
+
+                        // render NOT SELECTED element of associationInstances array
+                        option(value="#{associationInstance.dataValues.id}")
+                          each field in association.attributes
+                            | #{associationInstance.dataValues[field]} :&nbsp;
+                        - }
+
+                      else
+                        // render NOT SELECTED element of associationInstances array
+                        option(value="#{associationInstance.dataValues.id}")
+                          each field in association.attributes
+                            | #{associationInstance.dataValues[field]} :&nbsp;
+
+
+
+
+              when "belongsTo"
+
+                p
+                  strong Type:&nbsp;
+                  | belongsTo
+
+                select.form-control(name="#{association.as}")
+                  if associationInstances[association.as]
+
+
+                    each listModel in associationInstances[association.as]
+
+                      if action == "edit"
+                        - if ( listModel.dataValues.id &&  modelInstance[association.as.charAt(0).toLowerCase() + association.as.slice(1)] &&  String(listModel.dataValues.id) === String(modelInstance[association.as.charAt(0).toLowerCase() + association.as.slice(1)].id) ) {
+                        option(value="#{listModel.dataValues.id}", selected=)
+                          each field in association.attributes
+                            | #{listModel.dataValues[field]} :&nbsp;
+                        - } else {
+                        option(value="#{listModel.dataValues.id}")
+                          each field in association.attributes
+                            | #{listModel.dataValues[field]} :&nbsp;
+                        - }
+
+                      else
+                        option(value="#{listModel.dataValues.id}")
+                          each field in association.attributes
+                            | #{listModel.dataValues[field]} :&nbsp;
+
+
+              when "hasOne"
+
+                p
+                  strong Type:&nbsp;
+                  | hasOne
+
+                select.form-control(name="#{association.as}")
+                  if associationInstances[association.as]
+                    each listModel in associationInstances[association.as]
+
+                      if action == "edit"
+                        - if ( listModel.dataValues.id &&  modelInstance[association.as.charAt(0).toLowerCase() + association.as.slice(1)] &&  String(listModel.dataValues.id) === String(modelInstance[association.as.charAt(0).toLowerCase() + association.as.slice(1)].id) ) {
+                        option(value="", selected=)
+                          each field in association.attributes
+                            | #{listModel.dataValues[field]} :&nbsp;
+                        - } else {
+                        option(value="")
+                          each field in association.attributes
+                            | #{listModel.dataValues[field]} :&nbsp;
+                        - }
+
+                      else
+                        option(value="")
+                          each field in association.attributes
+                            | #{listModel.dataValues[field]} :&nbsp;
+
+
+      input.btn.btn-success(type="submit", value="Save object")
+
+      - function containsObject (array, element) {
+      -   var flag = false;
+      -   array.map (function(arrayElement){
+      -     // ==================================================================================================
+      -     // dont use .dataValues for arrayElement because modelInstance.associations (element) is plain object
+      -     //      use .dataValues for element      because elelemt is element of associationInstances SQLize objects
+      -     // ==================================================================================================
+      -     if (arrayElement.id == element.dataValues.id) {
+      -       flag = true
+      -     }
+      -   });
+      -   if (flag === true) {
+      -     return true;
+      -   } else {
+      -     return false;
+      -   }
+      - }
+
+      - function decapitalizeFirstLetter (text) { return text.charAt(0).toLowerCase() + text.slice(1) }
