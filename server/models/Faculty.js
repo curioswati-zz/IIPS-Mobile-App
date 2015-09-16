@@ -6,16 +6,36 @@ module.exports = function(sequelize, DataType) {
         unique: true,
         validate: {
           is: /^[a-zA-Z]-[0-9]{3}$/,
-          notNull: true,
-          notEmpty: true
         }
       },
       facultyName: {
         type: DataType.STRING,
         validate: {
-          is: /^[a-zA-Z ]+$/,
+          is: /^[a-zA-Z. ]+$/,
           notNull: true,
           notEmpty: true
+        }
+      },
+      designation: {
+        type: DataType.STRING,
+        defaultValue: null
+      },
+      qualification: {
+        type: DataType.STRING,
+        defaultValue: null
+      },
+      role: {
+        type: DataType.STRING,
+        validate: {
+          notNull: true,
+          notEmpty: true
+        }
+      },
+      contact: {
+        type: DataType.STRING,
+        defaultValue: ' ',
+        validate: {
+          is: /^[0-9]{10,11}$/
         }
       }
     },

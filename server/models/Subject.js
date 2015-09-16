@@ -1,20 +1,19 @@
 module.exports = function(sequelize, DataType) {
   var Subject = sequelize.define("Subject",
   {
-    subjectCode: {
+    subjectID: {
       type: DataType.STRING,
       validate: {
         is: '/^[a-zA-Z]{2}-[0-9]{3,4}$'
       }
     },
-    subjectName: DataType.STRING
-  },
-  {
-    classMethods: {
-      associate: function(models) {
-        Subject.belongsTo(models.Faculty);
+    subjectCode: {
+      type: DataType.STRING,
+      validate: {
+        is: '/^[A-Z]{1,2}$'
       }
-    }
+    },
+    subjectName: DataType.STRING
   },
   {
     instanceMethods: {
@@ -46,6 +45,12 @@ module.exports = function(sequelize, DataType) {
         Subject.destroy({where: {id: subject_id}})
         .success(onSuccess)
         .error(onError);
+      }
+    },
+    classMethods: {
+      associate: function(models) {
+        Subject.belongsTo(models.Faculty);
+        Subject.hasOne(models.Slot);
       }
     }
   });

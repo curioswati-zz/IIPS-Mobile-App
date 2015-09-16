@@ -17,6 +17,14 @@ module.exports = function(sequelize, DataType) {
           notNull: true,
           notEmpty: true
         }
+      },
+      roomNo: {
+        type: DataType.INTEGER,
+        unique: true,
+        validate: {
+          notEmpty: true,
+          notNull: true
+        }
       }
     },
     {
@@ -56,11 +64,10 @@ module.exports = function(sequelize, DataType) {
       classMethods: {
         associate: function(models) {
           Batch.belongsTo(models.Course);
+          Batch.belongsTo(models.Faculty);
           Batch.hasMany(models.Slot);
         }
       }
     });
-
-    return Batch;
-
-  };
+  return Batch;
+};

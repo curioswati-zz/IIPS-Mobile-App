@@ -8,9 +8,12 @@ module.exports = function(sequelize, DataType) {
   				notNull: true,
   				notEmpty: true
   			}
-  		},
+      },
       sem: {
         type: DataType.INTEGER
+      },
+      dept: {
+        type: DataType.STRING
       }
   	},
   	{
@@ -33,10 +36,8 @@ module.exports = function(sequelize, DataType) {
 		        .save()
 		        .success(onSuccess)
 		        .error(onError);
-		    },
-		}
-  });
-
+		    }
+  		}
+    });
 	return Course;
-
 };
