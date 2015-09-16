@@ -13,13 +13,14 @@ var passport = require('passport');
 var debug          = require('debug')('express-example');
 
 // required for creating REST end points
-var restful       = require('sequelize-restful');
+var restful       = require('sequelize-restful-extended');
 
 // Create the application
 var app = express();
 
 // env variables
-var env  = app.get('env') == 'development' ? 'dev' : app.get('env');
+// var env  = app.get('env') == 'development' ? 'dev' : app.get('env');
+var env       = process.env.NODE_ENV || "development";
 var port = process.env.PORT || 8080;
 
 // Add middleware necessary for REST API's
@@ -49,18 +50,20 @@ connection.connect();
 var router = require('./routes');
 
 // load all models
-app.models      = require('./models/index');
-require('./config/passport');
+app.models = require('./models/index');
+
+require('./auth/passport');
 
 // load routes
 app.use(restful(app.models.sequelize));
+
 app.use('/auth', router);
 
 app.models.sequelize
-	.sync()
+	.sync({force:true})
 	.then(function () {
 		var server = app.listen(port, function() {
-			console.log("listening at http:localhost:%s", port);
+			console.log("listening at http:10.0.2.2:%s", port);
 		    debug('Express server listening on port ' + server.address().port);
 	  });
 	});
