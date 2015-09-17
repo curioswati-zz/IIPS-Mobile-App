@@ -1,0 +1,23 @@
+{
+  "development": {
+    "user": "root",
+    "password": "root",
+    "database": "iips-app_dev",
+    "host": "127.0.0.1",
+    "dialect": "mysql"
+  },
+  "test": {
+    "user": "root",
+    "password": "root",
+    "database": "iips-app_test",
+    "host": "127.0.0.1",
+    "dialect": "mysql"
+  },
+  "production": {
+    "user": "root",
+    "password": "root",
+    "database": "iips-app_production",
+    "host": "127.0.0.1",
+    "dialect": "mysql"
+  }
+}
