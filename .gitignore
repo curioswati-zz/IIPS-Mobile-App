@@ -1,1 +1,3 @@
 */**/node_modules
+app/www/lib/*
+app/www/platforms/
