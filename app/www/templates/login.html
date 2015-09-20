@@ -5,14 +5,17 @@
 </ion-header-bar>
 
 <ion-content>
+  <form name="loginForm" id="loginForm" ng-if="forgotPass == false" novalidate="" ng-submit="login(loginForm)">
+
   <div class="row sign-in-text">
     <div class="col"></div>
     <i class="icon ion-log-in text-calm col-center"></i>
-    <span class="text-calm col col-50 col-center">Sign in here</span>
-    <div class="col col-10"></div>
+    <span class="text-calm col">Sign in here</span>
+    <div class="col"></div>
   </div>
 
-  <form name="loginForm" id="loginForm" novalidate="" ng-submit="login(loginForm)">
+  <div class="col"></div>
+
   <div class="row">
     <div class="col col-10"></div>
 
@@ -38,13 +41,78 @@
         <button class="button button-assertive button-full button-login" animation="slide-left-right" type="submit" ng-click="">Login</button>
       </label>
       <label style="padding:10px;">
-        <button class="button button-small button-clear button-calm" ng-click="">Forgot password</button>
+        <button class="button button-small button-clear button-calm" ng-click="forgot()">Forgot password</button>
       </label>
     </div>
     
     <div class="col col-10"></div>
   </div>
   </form>
+
+  <form name="forgotForm" id="forgotForm" ng-if="forgotPass == true" novalidate="" ng-submit="recover(forgotForm)">
+
+  <div class="row sign-in-text forgot-text">
+    <span class="button button-clear button-calm icon ion-arrow-left-c col col-30" ng-click = "backToLogin()">Go Back
+    </span>
+    <div class="col col-70"></div>
+  </div>
+
+  <div class="row">
+    <div class="col col-10"></div>
+
+    <div class="col card login-card">
+      <label class="item item-floating-label" ng-if="getOTP == false" ng-class="{'no-login-errors':forgotForm.email.$valid}">
+        <i class="error icon ion-alert assertive" ng-show="emailError"></i>
+        <input name="email" type="email" ng-model="loginData.email" placeholder="Enter your email id" required>
+      </label>
+
+      <div class="error-container" ng-show="forgotForm.email.$error" ng-messages="forgotForm.email.$error">
+      <div class="error" ng-message="correctEmail">
+        This email doesn't exist.
+      </div>
+      </div>
+
+      <label class="item item-floating-label" ng-if="getOTP == true && recoverPass == false" ng-class="{'no-login-errors':forgotForm.email.$valid}">
+        <i class="error icon ion-alert assertive" ng-show="OTPError"></i>
+        <input name="OTP" type="text" ng-model="loginData.OTP" placeholder="Enter OTP" required>
+      </label>
+
+      <div class="error-container" ng-show="forgotForm.OTP.$error" ng-messages="forgotForm.OTP.$error">
+      <div class="error" ng-message="correctOTP">
+        Invalid OTP
+      </div>
+      </div>
+
+      <label class="item item-input register-input" ng-if="recoverPass == true" ng-class="{'no-login-errors':forgotForm.password.$valid}">
+        <i class="error icon ion-alert assertive" ng-show="passwordError"></i>
+        <input name="password" id="password" type="password" ng-model="loginData.password" placeholder="Password" required ng-minlength=4 ng-maxlength=20>
+      </label>
+
+      <div class="error-container" ng-show="forgotForm.password.$error" ng-messages="forgotForm.password.$error">
+      <div ng-messages-include="templates/form-error.html"></div>
+      </div>
+
+      <label class="item item-input register-input" ng-if="recoverPass == true" ng-class="{'no-login-errors':forgotForm.verify.$valid}">
+        <i class="error icon ion-alert assertive" ng-show="verifyError"></i>
+        <input name="verify" type="password" ng-model="loginData.verify" placeholder="Confirm Password" pw-check="loginData.password" required>
+      </label>
+
+      <div class="error-container" ng-show="forgotForm.verify.$error" ng-messages="forgotForm.verify.$error">
+      <div ng-messages-include="templates/form-error.html"></div>
+      </div>
+
+      <label class="item">      
+        <center>
+        <button class="button button-assertive button-login" animation="slide-left-right" type="submit" ng-click="">Submit</button>
+        </center>
+      </label>
+    </div>
+
+    <div class="col col-10"></div>
+  </div>
+
+  </form>
+
 </ion-content>
 
 <ion-footer-bar align-title="center" class="iips-footer">

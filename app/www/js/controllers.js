@@ -1,7 +1,13 @@
 angular.module('iips-app.controllers', ['iips-app.services'])
 
-.controller('LoginCtrl', function($scope, $rootScope, $state, Auth, User, Student, $localstorage) {
+.controller('LoginCtrl', function($scope, $rootScope, $state, Auth, API, $localstorage) {
     $scope.loginData = {};
+
+    $scope.$on('$ionicView.enter', function(event) {   
+        $scope.forgotPass = false;
+        $scope.form.username.$setViewValue('');
+        $scope.form.password.$setViewValue('');
+    })
 
     $scope.login = function(form) {
         $scope.form = form;
@@ -32,17 +38,95 @@ angular.module('iips-app.controllers', ['iips-app.services'])
             .error(function(error) {
                 $rootScope.hide();
                 setTimeout(function() {
-                    $scope.form.password.$setValidity("correctPassword", false);                
+                    $scope.form.password.$setValidity("correctPassword", false);
                 }, 1000);
                 $rootScope.notify(error.message);
             })
         }
     };
+
+    $scope.recover = function(form) {
+        $scope.form = form;
+
+        if ($scope.recoverPass == true) {
+
+            $scope.passwordError = form.password.$error.required;
+            $scope.verifyError = form.verify.$error.required;
+
+            if(form.$valid) {
+                $rootScope.show('Updating...');
+
+                API.userUpdate($scope.currentUser, {
+                    password: $scope.loginData.password,
+                    verify: $scope.loginData.verify
+                })
+                .success(function (data) {
+                    $localstorage.clean();
+                    $rootScope.hide();
+
+                    $scope.forgotPass = false;
+                    $scope.form.password.$setViewValue('');
+                    $scope.form.verify.$setViewValue('');
+                })
+                .error(function (error) {
+                    console.log("error while updating");
+                    $rootScope.hide();                
+                });
+            }
+            else {
+                loginData = {};
+            }
+        }
+        if($scope.getOTP == false) {
+            $scope.form.email.$setValidity("correctEmail", true);
+            if(form.$valid) {
+                Auth.recover($scope.loginData.email)
+                .then(function(resp) {
+                    if(resp.count == 0) {
+                        $scope.form.email.$setValidity("correctEmail", false);
+                    }
+                    else {
+                        $scope.currentUser = resp[0].id;
+                        $localstorage.set('OTP', '1234');
+                        $scope.getOTP = true;
+                        $scope.form.email.$setViewValue('');
+                    }
+                },
+                function(err) {
+                    console.log(err);
+                })
+            }
+            else {
+                $scope.emailError = form.email.$error.required;
+            }
+        }
+        else if ($scope.getOTP == true && $scope.recoverPass == false) {
+
+            if($localstorage.get('OTP') == $scope.loginData.OTP) {
+                $scope.form.OTP.$setValidity("correctOTP", true);
+                $scope.recoverPass = true;
+                $scope.form.OTP.$setViewValue('');
+            }
+            else {
+                $scope.OTPError = form.OTP.$error.required;
+                if (!$scope.OTPError)
+                    $scope.form.OTP.$setValidity("correctOTP", false);
+            }
+        }
+    };
+
+    $scope.backToLogin = function() {
+        $scope.forgotPass = false;
+    }
+
     $scope.register = function(data) {
       $state.go('register');
     };
+
     $scope.forgot = function() {
-        alert("How could you forget your password");
+        $scope.forgotPass = true;
+        $scope.getOTP = false;
+        $scope.recoverPass = false;
     };
 })
 
@@ -539,7 +623,7 @@ angular.module('iips-app.controllers', ['iips-app.services'])
 
         if (form.$valid) {
             $rootScope.show('Please wait.. Saving');
-            $scope.currentUser = $localstorage.get('username');
+            $scope.currentUser = $rootScope.userData.id;
             API.userUpdate($scope.currentUser, {
                 username: $rootScope.userData.username,
                 password: $rootScope.userData.password,

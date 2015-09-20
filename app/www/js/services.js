@@ -12,7 +12,12 @@ angular.module('iips-app.services', [])
             $window.localStorage[key] = value;
         },
         get: function(key, defaultValue) {
-            return $window.localStorage[key] || defaultValue;
+            if (key in $window.localStorage && $window.localStorage[key] !== "undefined") {
+                return $window.localStorage[key];                
+            }
+            else {
+                return ' ';
+            }
         },
         setObj: function(key, value) {
             $window.localStorage[key] = JSON.stringify(value);
@@ -114,6 +119,13 @@ angular.module('iips-app.services', [])
         $ionicHistory.clearCache();
         return true;
     };
+
+    auth.recover = function(email) {
+        return $http.get(api_base+'/Users?email='+email)
+                .then(function(resp) {
+                    return resp.data.data;
+                });
+    }
 
     $rootScope.show = function (text) {
             $rootScope.loading = $ionicLoading.show({

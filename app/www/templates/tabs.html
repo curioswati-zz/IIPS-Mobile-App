@@ -17,7 +17,7 @@
 						<div class="col col-33">{{detail.name}}</div>
 						<div class="col">:</div>
 						<div class="col">{{detail.valZero}}</div>
-						<div ng-if="detail.valOne" class="col col-75">({{detail.valOne}})</div>
+						<div ng-if="typeof(detail.valOne) !== undefined" class="col col-75">({{detail.valOne}})</div>
 						<div class="col"></div>
 					</div>
 				</ion-item>

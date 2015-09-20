@@ -55,6 +55,11 @@ ion-content {
 	position: relative;
 	top: 6em;
 }
+.forgot-text {
+	top: 7em;
+	font-family: serif;
+	font-size: 10px;
+}
 .button-login {
 	box-shadow: -2px 2px 15px #d2c9c9;
 }
