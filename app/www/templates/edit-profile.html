@@ -1,9 +1,12 @@
 <ion-view view-title="Edit Profile">
 <ion-content>
 
-  <button class="col col-33 button button-clear button-calm icon ion-chevron-left" ng-click="goBack()">
-  Go Back
-  </button>
+  <div class="row">
+    <button class="col button button-clear button-small button-assertive icon ion-chevron-left" ng-click="goBack()">
+    Go Back
+    </button>
+    <div class="col col-67"></div>
+  </div>
 
   <div ng-controller="ProCtrl">
   <form id="editProfile" name="editProfile" novalidate="" ng-submit="saveChanges(editProfile)">

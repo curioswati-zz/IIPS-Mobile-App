@@ -583,22 +583,17 @@ angular.module('iips-app.controllers', ['iips-app.services'])
     }, 1000);
 
     $scope.user = [];
+    $scope.others = ['About', 'Feedback', 'Contact Support', 'Open Source License']
 
     setTimeout(function() {
         for (key in $rootScope.studentData) {
-            if (key !== 'id' && key !== 'BatchId') {
+            if (key == 'course' || key == 'sem') {
                 var studentItem = {};
                 studentItem['name'] = key;
                 studentItem['value'] = $rootScope.studentData[key];
                 $scope.user.push(studentItem);
             }
         }
-
-        var userItem = {};
-        userItem['name'] = 'username';
-        userItem['value'] = $rootScope.userData['username'];
-        $scope.user.push(userItem);
-
         userItem = {};
         userItem.name = 'email';
         userItem.value = $rootScope.userData['email'];

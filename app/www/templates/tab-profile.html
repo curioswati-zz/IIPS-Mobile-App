@@ -1,27 +1,63 @@
 <ion-view view-title="Profile">
-
+<ion-content>
   <div class="bg-pic">
-    <div>
-      <img src="img/ionic.png" class="display-pic">
+    <!-- <div> -->
+      <img src="img/swati.jpg" class="display-pic">
       <span class="pro-name">{{studentData.fullname}}</span><br>
       <span class="pro-roll">{{studentData.rollno}}</span>
-      <i class="button button-clear button-assertive icon ion-edit pull-right" ng-if="show_edit" ng-click="editProfile()"></i>
-    </div>
+    <!-- </div> -->
   </div>
 
-  <div class="row">
-  
-    <ion-list type="list-inset" class="col pro-details">
-  
-      <ion-item ng-repeat="item in user" class="list-item pro-details-item">
-        <div class="row no-padding" style="margin:0;">
-          <div class="col col-33"><strong>{{item.name}}</strong></div>
-          <div class="col col-75" style="border-left:0.20em groove #ef473a;">{{item.value}}</div>
-        </div>
+  <div class="card profile-card">
+    <span class="assertive" style="padding:0.5em;">Profile</span>
+    <i class="button button-clear button-small button-assertive icon ion-edit pull-right" ng-if="show_edit" ng-click="editProfile()"></i>
+
+    <ion-list class="list">
+
+      <ion-item ng-repeat="item in user" class="pro-details-item">
+      <div class="row no-padding" style="margin:0;">
+        <div class="col col-33"><strong>{{item.name}}</strong></div>
+        <div class="col" >{{item.value}}</div>
+      </div>
       </ion-item>
-  
+
     </ion-list>
-    
   </div>
 
+  <div class="card profile-card">
+    <span class="assertive" style="padding:0.5em;">Notifications</span>
+
+    <ion-list class="list">
+
+      <ion-item class="pro-details-item">
+      <div class="row no-padding">
+        <div class="col"><a href="#">Notification</a></div>
+      </div>
+      </ion-item>
+
+    </ion-list>
+  </div>
+
+  <div class="card profile-card">
+    <span class="assertive" style="padding:0.5em;">Other</span>
+
+    <ion-list class="list">
+
+      <ion-item ng-repeat="item in others" class="pro-details-item">
+      <div class="row no-padding">
+        <div class="col"><a href="#">{{item}}</a></div>
+      </div>
+      </ion-item>
+
+    </ion-list>
+  </div>
+
+<!--   <ion-list type="list-inset" class="col pro-details">
+
+    <ion-item ng-repeat="item in user" class="list-item pro-details-item">
+    </ion-item>
+
+  </ion-list>
+ -->
+   </ion-content>
 </ion-view>

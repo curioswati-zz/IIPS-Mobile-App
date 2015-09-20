@@ -231,21 +231,23 @@ ion-content {
 /*--------------------------------------tab-profile.html------------------------------------------*/
 .bg-pic {
 	background: url("../img/1600_sombrero_spitzer_galaxy.jpg");
-	position: relative;
-	top: 85px;
-	height: 135px;
+	height: 160px;
 }
 .display-pic {
-	height: 80px;
-	width: 80px;
+	height: 105px;
+	width: 100px;
 	position: relative;
 	bottom: -95px;
+	border-radius: 100%;
+	border: 0.4em solid white;
 }
 .profile-card {
 	position: relative;
-	top: 150px;
+	top: 20px;
 	width: 94%;
 	height: 40%;
+	border: 0.1em outset #DDDDDD;
+	/*background: rgba(226,226,226, 0.5);*/
 }
 .pro-name, .pro-roll {
 	color: #ef473a;
@@ -257,34 +259,26 @@ ion-content {
 }
 .pro-roll {
 	top: 50px;
-	left: 85px;
+	left: 105px;
 	font-size: 13px;
-	font-weight: normal;
 }
 .pull-right {
 	position: relative;
-	right: -250px;
-	top: 50px;
+	right: -21.5em;
+	top: 0.3em;
 }
-.pro-details {
-	position: relative;
-	top: 120px;
-}
-.pro-details-item:first-child {
-	border-top:2px solid #ef473a;
-	}
 .pro-details-item {
-	height: 50px;
-	border-bottom:2px solid #ef473a;
-	border-right:2px solid #ef473a;
-	border-left:2px solid #ef473a;
-	font-family: Georgia;
-	color:#7a7676;
+	font-size: 13px;
+	font-family: serif;
+	height: 3em;
+	background: rgba(226,226,226);
 }
 .pro-details-item .col {
-	margin-bottom: -50px;
-	padding: 15px;
-	color: #125C9C;
+	padding: 0;
+}
+a {
+	color: black;
+	text-decoration: none;
 }
 /*----------------------------------------edit-profile.html---------------------------------------*/
 .edit-list input, select {
