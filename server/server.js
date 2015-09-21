@@ -60,7 +60,7 @@ app.use(restful(app.models.sequelize));
 app.use('/auth', router);
 
 app.models.sequelize
-	.sync({force:true})
+	.sync({force:false})
 	.then(function () {
 		var server = app.listen(port, function() {
 			console.log("listening at http:10.0.2.2:%s", port);
