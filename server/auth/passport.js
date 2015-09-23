@@ -5,6 +5,7 @@ var LocalStrategy = require('passport-local').Strategy;
 var models      = require('../models/index');
 var User        = models.User;
 var config      = require('../config/config');
+var Password    = require('../include/password');
 
 var EXPIRES_IN_MINUTES = 60 * 24;
 var SECRET             = process.env.tokenSecret;
@@ -33,6 +34,7 @@ passport.use(new LocalStrategy(
         return done(null, false, {message: 'Incorrect username.' });
       }
       if (!(password == user.password)) {
+      //if (!Password.validate(password, user.password)) {
         return done(null, false, {message: 'Incorrect password.'});
       }
       return done(null, user, {mesage: 'Login successful'});

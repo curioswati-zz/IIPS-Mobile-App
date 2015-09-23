@@ -17,7 +17,7 @@ angular.module('iips-app.controllers', ['iips-app.services'])
             $rootScope.show('Signing in...');
             Auth.login({
                 username: $scope.loginData.username,
-                password: $scope.loginData.password
+                password: md5($scope.loginData.password)
             })
             .success(function(data) {
                 Auth.saveToken(data.token);
@@ -55,7 +55,7 @@ angular.module('iips-app.controllers', ['iips-app.services'])
                 $rootScope.show('Updating...');
 
                 API.userUpdate($scope.currentUser, {
-                    password: $scope.loginData.password,
+                    password: md5($scope.loginData.password),
                     verify: $scope.loginData.verify
                 })
                 .success(function (data) {
@@ -155,7 +155,7 @@ angular.module('iips-app.controllers', ['iips-app.services'])
             $rootScope.show('Please wait.. Registering');
             API.userSignup({
                 username: $scope.registerData.username,
-                password: $scope.registerData.password,
+                password: md5($scope.registerData.password),
                 verify:   $scope.registerData.verify,
                 email:    $scope.registerData.email
             });

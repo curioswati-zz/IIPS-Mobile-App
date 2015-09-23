@@ -1,4 +1,5 @@
-var crypto    = require('crypto');
+//var crypto    = require('crypto');
+var Password  = require('../include/password');
 var validator = require('validator');
 var jwt       = require('jsonwebtoken');
 var config    = require('../config/config');
@@ -29,7 +30,7 @@ module.exports = function(sequelize, DataType) {
 				validate: {
 					notNull: true,
 					notEmpty: true,
-					len: [4,20]
+					len: [4,32]
 				}
 			},
 			verify: {
@@ -59,13 +60,17 @@ module.exports = function(sequelize, DataType) {
 					var password = this.password;
 					var verify = this.verify;
 
-					var salt = crypto.randomBytes(16).toString('hex');
-					password = crypto.pbkdf2Sync(password, salt, 1000, 64).toString('hex');
-					verify = crypto.pbkdf2Sync(verify, salt, 1000, 64).toString('hex');
+					//var salt = crypto.randomBytes(16).toString('hex');
+					//password = crypto.pbkdf2Sync(password, salt, 1000, 64).toString('hex');
+					//verify = crypto.pbkdf2Sync(verify, salt, 1000, 64).toString('hex');
 
 					// var shasum = crypto.createHash('sha1');
 					// shasum.update(password);
 					// password = shasum.digest('hex');
+
+                    console.log(password);
+                    password = Password.hash(password);
+                    console.log(password);
 
 					User.sync({force:true}).then(function() {
 						User.build({ username: username, email: email, password: password, verify: verify })
@@ -82,11 +87,15 @@ module.exports = function(sequelize, DataType) {
 					var password = this.password;
 					var verify = this.verify;
 
-					var shasum = crypto.createHash('sha1');
+					/*var shasum = crypto.createHash('sha1');
 					shasum.update(password);
 					password = shasum.digest('hex');
 					shasum.update(verify);
-					verify = shasum.digest('hex');
+					verify = shasum.digest('hex');*/
+
+                    console.log(password);
+                    password = Password.hash(password);
+                    console.log(password);
 
 					User.update({ username: username,email: email, password: password, verify:verify},
 										{where: {id: id} })
@@ -99,8 +108,9 @@ module.exports = function(sequelize, DataType) {
 					.error(onError);
 				},
 				verifyPassword: function(password) {
-					var hash = crypto.pbkdf2Sync(password, salt, 1000, 64).toString('hex');
-					return this.pass === hash; 
+                    var hash = crypto.pbkdf2Sync(password, salt, 1000, 64).toString('hex');
+                    return this.pass === hash; 
+                    //return Password.validate(this.pass, password);
 				},
 				generateJWT: function() {
 					var today = new Date();
