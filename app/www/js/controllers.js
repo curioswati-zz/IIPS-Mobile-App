@@ -5,8 +5,6 @@ angular.module('iips-app.controllers', ['iips-app.services'])
 
     $scope.$on('$ionicView.enter', function(event) {   
         $scope.forgotPass = false;
-        $scope.form.username.$setViewValue('');
-        $scope.form.password.$setViewValue('');
     })
 
     $scope.login = function(form) {
@@ -130,7 +128,9 @@ angular.module('iips-app.controllers', ['iips-app.services'])
     };
 })
 
-.controller('RegisterCtrl', function($rootScope, $scope, $state, $cordovaCamera, API, Auth, Course) {
+.controller('RegisterCtrl', function($rootScope, $scope, $state, $cordovaDevice,
+                                    $cordovaFile, $ionicActionSheet,
+                                    ImageService, FileService, API, Auth, Course) {
 
     $scope.registerData = { "ImageURI" :  "Select Image" };
 
@@ -138,63 +138,6 @@ angular.module('iips-app.controllers', ['iips-app.services'])
                         'IV', 'V', 'VI', 'VII',
                         'VIII', 'IX', 'X',
                         'XI', 'XII'];
-
-    $scope.uploadPic = function() {
-        console.log("uploading");
-        var options = {
-            destinationType : Camera.DestinationType.FILE_URI,
-            sourceType : Camera.PictureSourceType.PHOTOLIBRARY,
-            allowEdit : false,
-            encodingType: Camera.EncodingType.JPEG,
-            popoverOptions: CameraPopoverOptions,
-        };
-
-        $cordovaCamera.getPicture(options).then(function(imageData) {
-            onImageSuccess(imageData);
-            function onImageSuccess(fileURI) {
-                createFileEntry(fileURI);
-            }
-
-            function createFileEntry(fileURI) {
-                window.resolveLocalFileSystemURL(fileURI, copyFile, fail);
-            }
-
-            function copyFile(fileEntry) {
-                var name    = fileEntry.fullPath.substr(fileEntry.fullPath.lastIndexOf('/') + 1);
-                var newName = makeid() + name;
-                window.resolveLocalFileSystemURL(cordova.file.dataDirectory, function(fileSystem2) {
-                    fileEntry.copyTo(
-                        fileSystem2,
-                        newName,
-                        onCopySuccess,
-                        fail
-                    );
-                },fail);
-            }
-
-            function fail(error) {
-                console.log("fail: " + error.code);
-            }
-
-            function makeid() {
-                var text = "";
-                var possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
-                for (var i=0; i < 5; i++) {
-                    text += possible.charAt(Math.floor(Math.random() * possible.length));
-                }
-                return text;
-            }
-        },
-        function(err) {
-            console.log(err);
-        });
-    }
-
-    $scope.urlForImage = function(imageName) {
-      var name = imageName.substr(imageName.lastIndexOf('/') + 1);
-      var trueOrigin = cordova.file.dataDirectory + name;
-      return trueOrigin;
-    }
 
     $scope.register = function(form) {
 
@@ -245,6 +188,32 @@ angular.module('iips-app.controllers', ['iips-app.services'])
     $scope.backToLogin = function() {
         $state.go('login');
     };
+
+    $scope.urlForImage = function(imageName) {
+        var trueOrigin = cordova.file.dataDirectory + imageName;
+        return trueOrigin;
+    }
+    $scope.uploadPic = function() {
+        $scope.hideSheet = $ionicActionSheet.show({
+            buttons: [
+            { text: 'Take photo' },
+            { text: 'Photo from library' }
+            ],
+            titleText: 'Add images',
+            cancelText: 'Cancel',
+
+            buttonClicked: function(index) {
+                $scope.addImage(index);
+            }
+        });
+    }
+
+    $scope.addImage = function(type) {
+        $scope.hideSheet();
+        ImageService.saveMedia(type).then(function() {
+            $scope.$apply();
+        });
+    }
 })
 
 .controller('TabCtrl', function($scope, $rootScope, $state, $localstorage, Auth, User, Student, Batch, Course, Faculty) {
@@ -571,8 +540,11 @@ angular.module('iips-app.controllers', ['iips-app.services'])
 
 })
 
-.controller('ProCtrl', function($scope, $rootScope, $localstorage, $state, API) {
+.controller('ProCtrl', function($scope, $rootScope, $state,
+                                $localstorage, $ionicPlatform, FileService,
+                                API) {
 
+    //--------------------------check whether user is admin or general user-------------------------
     setTimeout(function() {
         if ($rootScope.role == 'user') {
             $scope.show_edit = true;
@@ -581,6 +553,17 @@ angular.module('iips-app.controllers', ['iips-app.services'])
             $scope.show_edit = false;
         }
     }, 1000);
+
+    //--------------------------------prepare data for template-------------------------------------
+
+    // profile pic
+    $ionicPlatform.ready(function() {
+        var images    = FileService.getImages();
+        $scope.proPic = images[0];
+        if($scope.proPic) {
+            $scope.$apply();            
+        }
+      });
 
     $scope.user = [];
     $scope.others = ['About', 'Feedback', 'Contact Support', 'Open Source License']
@@ -601,8 +584,9 @@ angular.module('iips-app.controllers', ['iips-app.services'])
 
     }, 1000);
 
+    //---------------------------------edit profile-------------------------------------------------
     $scope.editProfile = function() {
-        $state.go('tab.edit-profile');            
+        $state.go('tab.edit-profile');
     };
 
     $scope.goBack = function() {
