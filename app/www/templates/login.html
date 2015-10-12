@@ -20,10 +20,10 @@
     <div class="col col-10"></div>
 
     <div class="col list list-inset card login-card">
-      <label class="item item-input-inset item-floating-label" ng-class="{'no-login-errors':loginForm.username.$valid}">
+      <label class="item item-input-inset item-floating-label" ng-class="{'no-login-errors':loginForm.email.$valid}">
 
-        <i class="error icon ion-alert assertive" ng-show="usernameError"></i>
-        <input name="username" type="text" ng-model="loginData.username" placeholder="Username" required>
+        <i class="error icon ion-alert assertive" ng-show="emailError"></i>
+        <input name="email" type="text" ng-model="loginData.email" placeholder="email" required>
       </label>
 
       <label class="item item-input-inset item-floating-label" ng-class="{'no-login-errors':loginForm.password.$valid}">
@@ -33,7 +33,7 @@
 
       <div class="error-container" ng-show="loginForm.password.$error" ng-messages="loginForm.password.$error">
       <div class="error" ng-message="correctPassword">
-        Invalid username or password
+        Invalid email or password
       </div>
       </div>
 

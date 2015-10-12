@@ -10,13 +10,13 @@ angular.module('iips-app.controllers', ['iips-app.services'])
     $scope.login = function(form) {
         $scope.form = form;
         $scope.form.password.$setValidity("correctPassword", true);
-        $scope.usernameError = form.username.$error.required;
+        $scope.emailError = form.email.$error.required;
         $scope.passwordError = form.password.$error.required;
 
         if(form.$valid) {
             $rootScope.show('Signing in...');
             Auth.login({
-                username: $scope.loginData.username,
+                username: $scope.loginData.email,
                 password: md5($scope.loginData.password)
             })
             .success(function(data) {
@@ -137,23 +137,19 @@ angular.module('iips-app.controllers', ['iips-app.services'])
                         'XI', 'XII'];
 
     $scope.register = function(form) {
-
         $scope.form = form;
         $scope.nameError     = form.fullname.$invalid;
         $scope.courseError   = form.course.$invalid;
         $scope.semError      = form.sem.$invalid;
         $scope.rollError     = form.roll.$invalid;
         $scope.emailError    = form.email.$invalid;
-        $scope.usernameError = form.username.$invalid;
         $scope.passwordError = form.password.$invalid;
         $scope.verifyError   = form.verify.$invalid;
 
         if (form.$valid) {
             $rootScope.show('Please wait.. Registering');
             API.userSignup({
-                username: $scope.registerData.username,
                 password: md5($scope.registerData.password),
-                verify:   $scope.registerData.verify,
                 email:    $scope.registerData.email
             });
             API.studentSignup({
@@ -172,7 +168,7 @@ angular.module('iips-app.controllers', ['iips-app.services'])
                 $rootScope.hide();
                 if(error.error && error.error.code == 11000)
                 {
-                    $rootScope.notify("A user with this username already exists");
+                    $rootScope.notify("A user with this email already exists");
                 }
                 else
                 {
@@ -206,21 +202,33 @@ angular.module('iips-app.controllers', ['iips-app.services'])
     }
 
     $scope.addImage = function(type) {
+        console.log("type: ",type);
         $scope.hideSheet();
         ImageService.saveMedia(type).then(function() {
+
+            var images          = FileService.getImages();
+            console.log("selected: ",images);
+            $scope.registerPic  = images[0];
+            $scope.registerData.pic = $scope.urlForImage($scope.registerPic);
+
             $scope.$apply();
         });
     }
+    $scope.changeClass = function() {
+        return "toggle-empty";
+    }
 })
 
-.controller('TabCtrl', function($scope, $rootScope, $state, $localstorage, Auth, User, Student, Batch, Course, Faculty) {
+.controller('TabCtrl', function($scope, $rootScope, $state,
+                                $localstorage,
+                                Auth, User, Student, Batch, Course, Faculty) {
 
     /*
      Fetch the user details from localstorage.
      If user details don't exist in the storage then fetch from database.
      Set the details in rootScope to be used by other controllers.
      */
-    $scope.currentUser = $localstorage.get('username');
+    $scope.currentUser = $localstorage.get('email');
 
     if($scope.currentUser == 'admin') {
         $rootScope.role = 'admin';

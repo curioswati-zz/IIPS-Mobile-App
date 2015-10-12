@@ -132,7 +132,7 @@ angular.module('iips-app.services', [])
         };
         $rootScope.setToken = function (token) {
             return $window.localStorage.token = token;
-        }
+        };
         return {
             userSignup: function(userForm) {
                 return $http.post(api_base+'/Users', userForm);
@@ -168,7 +168,7 @@ angular.module('iips-app.services', [])
       if(token){
         var payload = JSON.parse($window.atob(token.split('.')[1]));
 
-        $window.localStorage['username'] = payload.username;
+        $window.localStorage['email'] = payload.email;
         return payload.exp > Date.now() / 1000;
       } else {
         return false;
@@ -180,7 +180,7 @@ angular.module('iips-app.services', [])
         var token = auth.getToken();
         var payload = JSON.parse($window.atob(token.split('.')[1]));
 
-        return payload.username;
+        return payload.email;
       }
     };
     auth.login = function(loginForm) {
@@ -249,8 +249,8 @@ angular.module('iips-app.services', [])
 
 .factory('User', function($http) {
     return {
-        getUser: function(username) {
-            return $http.get(api_base+'/Users?username='+username)
+        getUser: function(email) {
+            return $http.get(api_base+'/Users?email='+email)
             .then(function(resp) {
                 return resp.data.data[0];
             });

@@ -1,5 +1,3 @@
-//var crypto    = require('crypto');
-var Password  = require('../include/password');
 var validator = require('validator');
 var jwt       = require('jsonwebtoken');
 var config    = require('../config/config');
@@ -7,15 +5,6 @@ var config    = require('../config/config');
 module.exports = function(sequelize, DataType) {
 	var User = sequelize.define("User",
 		{
-			username: {
-				type: DataType.STRING,
-				unique: true,
-				validate: {
-					is: /^[a-z0-9-_]+$/,
-					notNull: true,
-					notEmpty: true
-				}
-			},
 			email: {
 				type: DataType.STRING,
 				unique: true,
@@ -32,9 +21,6 @@ module.exports = function(sequelize, DataType) {
 					notEmpty: true,
 					len: [4,32]
 				}
-			},
-			verify: {
-				type: DataType.STRING,
 			}
 		},
 		{
@@ -49,31 +35,13 @@ module.exports = function(sequelize, DataType) {
 					.success(onSuccess)
 					.error(onError);
 				},
-				retrieveByusername: function(user_name, onSuccess, onError) {
-					User.find({where: {username: user_name}}, {raw: true})
-					.success(onSuccess)
-					.error(onError);
-				},
 				add: function(onSuccess, onError) {
-					var username = this.username;
 					var email = this.email;
 					var password = this.password;
 					var verify = this.verify;
 
-					//var salt = crypto.randomBytes(16).toString('hex');
-					//password = crypto.pbkdf2Sync(password, salt, 1000, 64).toString('hex');
-					//verify = crypto.pbkdf2Sync(verify, salt, 1000, 64).toString('hex');
-
-					// var shasum = crypto.createHash('sha1');
-					// shasum.update(password);
-					// password = shasum.digest('hex');
-
-                    console.log(password);
-                    password = Password.hash(password);
-                    console.log(password);
-
 					User.sync({force:true}).then(function() {
-						User.build({ username: username, email: email, password: password, verify: verify })
+						User.build({ email: email, password: password, verify: verify })
 						.save()
 						.success(onSuccess)
 						.error(onError);						
@@ -82,22 +50,11 @@ module.exports = function(sequelize, DataType) {
 				},
 				updateById: function(user_id, onSuccess, onError) {
 					var id = user_id;
-					var username = this.username;
 					var email = this.email;
 					var password = this.password;
 					var verify = this.verify;
 
-					/*var shasum = crypto.createHash('sha1');
-					shasum.update(password);
-					password = shasum.digest('hex');
-					shasum.update(verify);
-					verify = shasum.digest('hex');*/
-
-                    console.log(password);
-                    password = Password.hash(password);
-                    console.log(password);
-
-					User.update({ username: username,email: email, password: password, verify:verify},
+					User.update({ email: email, password: password, verify:verify},
 										{where: {id: id} })
 					.success(onSuccess)
 					.error(onError);
@@ -107,11 +64,6 @@ module.exports = function(sequelize, DataType) {
 					.success(onSuccess)
 					.error(onError);
 				},
-				verifyPassword: function(password) {
-                    var hash = crypto.pbkdf2Sync(password, salt, 1000, 64).toString('hex');
-                    return this.pass === hash; 
-                    //return Password.validate(this.pass, password);
-				},
 				generateJWT: function() {
 					var today = new Date();
 					var exp = new Date(today);
@@ -119,7 +71,7 @@ module.exports = function(sequelize, DataType) {
 
 					return jwt.sign({
 						_id: this._id,
-						username: this.username,
+						email: this.email,
 						role: 'student',
 						exp: parseInt(exp.getTime()/1000),
 					},

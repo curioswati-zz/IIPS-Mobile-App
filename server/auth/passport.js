@@ -24,7 +24,7 @@ config.jwtSettings = {
 passport.use(new LocalStrategy(
   function(username, password, done) {
     User.find({
-      where: {username: username }
+      where: {email: username }
     }).then(function (user, err) {
       if (err)
         { 
