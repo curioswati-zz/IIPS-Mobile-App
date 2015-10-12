@@ -33,44 +33,40 @@
         <div ng-messages-include="templates/form-error.html"></div>
         </div>
 
-        <label class="item item-input item-select register-input" ng-class="{'no-register-errors':registerForm.course.$valid}">
-          <i class="error icon ion-alert assertive" ng-show="courseError"></i>
-          <span class="input-label">Course</span>
-          <select name="course" ng-model="registerData.course" required>
-            <option>MTech</option>
-            <option>MCA(UG)</option>
-            <option>MCA(PG)</option>
-            <option>MBA(MS 5Yrs UG)</option>
-            <option>MBA(MS 5Yrs PG)</option>
-            <option>MBA(MS 2Yrs)</option>
-            <option>MBA(APR)</option>
-            <option>MBA(TA)</option>
-            <option>B.Com</option>
-          </select>
-        </label>
+        <i class="error icon ion-alert assertive" ng-show="courseError"></i>
+        <select class="item item-input item-select register-input empty" name="course" ng-model="registerData.course" ng-class="{'no-register-errors':registerForm.course.$valid}" required style="width:278px;">
+          <option value="" selected disabled>Course</option>
+          <option>MTech</option>
+          <option>MCA(UG)</option>
+          <option>MCA(PG)</option>
+          <option>MBA(MS 5Yrs UG)</option>
+          <option>MBA(MS 5Yrs PG)</option>
+          <option>MBA(MS 2Yrs)</option>
+          <option>MBA(APR)</option>
+          <option>MBA(TA)</option>
+          <option>B.Com</option>
+        </select>
 
         <div class="error-container" ng-show="registerForm.course.$error" ng-messages="registerForm.course.$error">
         <div ng-messages-include="templates/form-error.html"></div>
         </div>
 
-        <label class="item item-input item-select register-input" ng-class="{'no-register-errors':registerForm.sem.$valid}">
-          <i class="error icon ion-alert assertive" ng-show="semError"></i>
-          <span class="input-label">Semester</span>
-          <select name="sem" ng-model="registerData.sem" required>
-            <option>I</option>
-            <option>II</option>
-            <option>III</option>
-            <option>IV</option>
-            <option>V</option>
-            <option>VI</option>
-            <option>VII</option>
-            <option>VIII</option>
-            <option>IX</option>
-            <option>X</option>
-            <option>XI</option>
-            <option>XII</option>
-          </select>
-        </label>
+        <i class="error icon ion-alert assertive" ng-show="semError"></i>
+        <select class="item item-input item-select register-input empty" ng-class="{'no-register-errors':registerForm.sem.$valid}" name="sem" ng-model="registerData.sem" required style="width:278px;">
+          <option value="" selected disabled>Semester</option>
+          <option>I</option>
+          <option>II</option>
+          <option>III</option>
+          <option>IV</option>
+          <option>V</option>
+          <option>VI</option>
+          <option>VII</option>
+          <option>VIII</option>
+          <option>IX</option>
+          <option>X</option>
+          <option>XI</option>
+          <option>XII</option>
+        </select>
 
         <div class="error-container" ng-show="registerForm.sem.$error" ng-messages="registerForm.sem.$error">
         <div ng-messages-include="templates/form-error.html"></div>
@@ -94,15 +90,6 @@
         <div ng-messages-include="templates/form-error.html"></div>
         </div>
 
-        <label class="item item-input register-input" ng-class="{'no-register-errors':registerForm.username.$valid}">
-          <i class="error icon ion-alert assertive" ng-show="usernameError"></i>
-          <input name="username" type="text" ng-model="registerData.username" placeholder="Username" required ng-pattern="/^[a-z0-9-_]+$/">
-        </label>
-
-        <div class="error-container" ng-show="registerForm.username.$error" ng-messages="registerForm.username.$error">
-        <div ng-messages-include="templates/form-error.html"></div>
-        </div>
-    
         <label class="item item-input register-input" ng-class="{'no-register-errors':registerForm.password.$valid}">
           <i class="error icon ion-alert assertive" ng-show="passwordError"></i>
           <input name="password" id="password" type="password" ng-model="registerData.password" placeholder="Password" required ng-minlength=4 ng-maxlength=20>

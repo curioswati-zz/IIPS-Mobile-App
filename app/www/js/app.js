@@ -24,8 +24,6 @@ angular.module('iips-app',
     if(window.StatusBar) {
       StatusBar.styleDefault();
     }
-    // $cordovaSplashscreen.hide();
-     // navigator.splashscreen.hide()
   });
 
   $rootScope.$on('$stateChangeStart', function(event, next) {

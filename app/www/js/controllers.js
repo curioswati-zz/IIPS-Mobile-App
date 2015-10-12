@@ -35,9 +35,7 @@ angular.module('iips-app.controllers', ['iips-app.services'])
             })
             .error(function(error) {
                 $rootScope.hide();
-                setTimeout(function() {
-                    $scope.form.password.$setValidity("correctPassword", false);
-                }, 1000);
+                $scope.form.password.$setValidity("correctPassword", false);
                 $rootScope.notify(error.message);
             })
         }
@@ -128,8 +126,7 @@ angular.module('iips-app.controllers', ['iips-app.services'])
     };
 })
 
-.controller('RegisterCtrl', function($rootScope, $scope, $state, $cordovaDevice,
-                                    $cordovaFile, $ionicActionSheet,
+.controller('RegisterCtrl', function($rootScope, $scope, $state, $ionicActionSheet,
                                     ImageService, FileService, API, Auth, Course) {
 
     $scope.registerData = { "ImageURI" :  "Select Image" };
@@ -276,90 +273,89 @@ angular.module('iips-app.controllers', ['iips-app.services'])
         }
     };
 
-    setTimeout(function() {
-        var bid = $rootScope.studentData.BatchId;
-        $scope.classDetails = [{name: 'Room No.'}, {name: 'Dep. Incharge'},
-                                {name: 'Prog Incharge'}, {name: 'Coordinator'}];
+    var bid = $rootScope.studentData.BatchId;
+    $scope.classDetails = [{name: 'Room No.'}, {name: 'Dep. Incharge'},
+                            {name: 'Prog Incharge'}, {name: 'Coordinator'}];
 
-        $scope.batch = $localstorage.getObj('Batch');
+    $scope.batch = $localstorage.getObj('Batch');
 
-        if(Object.keys($scope.batch).length == 0) {
-            $scope.batch = {};
+    if(Object.keys($scope.batch).length == 0) {
+        $scope.batch = {};
 
-            Batch.getBatch(bid)
+        Batch.getBatch(bid)
+        .then(function(resp) {
+            $scope.classDetails[0].valZero = resp.roomNo;
+            $scope.batch.roomNo = resp.roomNo;
+
+            var fid = resp.FacultyId;
+
+            Faculty.getFaculty(fid)
             .then(function(resp) {
-                $scope.classDetails[0].valZero = resp.roomNo;
-                $scope.batch.roomNo = resp.roomNo;
+                $scope.classDetails[3].valZero = resp.facultyName;                    
+                $scope.batch.batchMentor = resp.facultyName;
 
-                var fid = resp.FacultyId;
+                $scope.classDetails[3].valOne = resp.contact;
+                $scope.batch.contact = resp.contact;
 
-                Faculty.getFaculty(fid)
-                .then(function(resp) {
-                    $scope.classDetails[3].valZero = resp.facultyName;                    
-                    $scope.batch.batchMentor = resp.facultyName;
+                $localstorage.setObj('Batch', $scope.batch);
+            })
+        });
+    }
+    else {
+        $scope.classDetails[0].valZero = $scope.batch.roomNo;
+        $scope.classDetails[3].valZero = $scope.batch.batchMentor;
+        $scope.classDetails[3].valOne  = $scope.batch.contact;
+    }
 
-                    $scope.classDetails[3].valOne = resp.contact;
-                    $scope.batch.contact = resp.contact;
+    var cName = $rootScope.studentData.course;
 
-                    $localstorage.setObj('Batch', $scope.batch);
-                })
-            });
-        }
-        else {
-            $scope.classDetails[0].valZero = $scope.batch.roomNo;
-            $scope.classDetails[3].valZero = $scope.batch.batchMentor;
-            $scope.classDetails[3].valOne  = $scope.batch.contact;
-        }
+    $scope.course = $localstorage.getObj('Course');
 
-        var cName = $rootScope.studentData.course;
+    if (Object.keys($scope.course).length == 0) {
+        $scope.course = {};
+        Course.getCourseByQuery('courseName',cName)
+        .then(function(resp) {
+            var queryPI = 'PI-'+cName
+            $scope.course.name = cName;
+            var dept = resp[0].dept;
 
-        $scope.course = $localstorage.getObj('Course');
-
-        if (Object.keys($scope.course).length == 0) {
-            $scope.course = {};
-            Course.getCourseByQuery('courseName',cName)
+            Faculty.getFacultyByQuery('role',queryPI)
             .then(function(resp) {
-                var queryPI = 'PI-'+cName
-                $scope.course.name = cName;
-                var dept = resp[0].dept;
+                $scope.classDetails[2].valZero = resp[0].facultyName;
+                $scope.course.piName = resp[0].facultyName;
+                $scope.classDetails[2].valOne = resp[0].contact;
+                $scope.course.piContact = resp[0].contact;
+            })
 
-                Faculty.getFacultyByQuery('role',queryPI)
-                .then(function(resp) {
-                    $scope.classDetails[2].valZero = resp[0].facultyName;
-                    $scope.course.piName = resp[0].facultyName;
-                    $scope.classDetails[2].valOne = resp[0].contact;
-                    $scope.course.piContact = resp[0].contact;
-                })
+            var queryInc = 'Inc-'+dept;
+            Faculty.getFacultyByQuery('role',queryInc)
+            .then(function(resp) {
 
-                var queryInc = 'Inc-'+dept;
-                Faculty.getFacultyByQuery('role',queryInc)
-                .then(function(resp) {
-
-                    if (resp.length>0) {
-                        $scope.classDetails[1].valZero = resp[0].facultyName;
-                        $scope.course.incName = resp[0].facultyName;
-                        $scope.classDetails[1].valOne = resp[0].contact;                        
-                        $scope.course.incContact = resp[0].contact;                        
-                    }
-                    else {
-                        $scope.classDetails[1].valZero = "Unknown";                        
-                        $scope.course.incName = "Unknown";                        
-                    }
-                    $localstorage.setObj('Course', $scope.course);
-                })
-            })            
-        }
-        else {
-            $scope.classDetails[2].valZero = $scope.course.piName;
-            $scope.classDetails[2].valOne = $scope.course.piContact;
-            $scope.classDetails[1].valZero = $scope.course.incName;
-            $scope.classDetails[1].valOne = $scope.course.incContact;
-        }
-
-    }, 1000);
+                if (resp.length>0) {
+                    $scope.classDetails[1].valZero = resp[0].facultyName;
+                    $scope.course.incName = resp[0].facultyName;
+                    $scope.classDetails[1].valOne = resp[0].contact;                        
+                    $scope.course.incContact = resp[0].contact;                        
+                }
+                else {
+                    $scope.classDetails[1].valZero = "Unknown";                        
+                    $scope.course.incName = "Unknown";                        
+                }
+                $localstorage.setObj('Course', $scope.course);
+            })
+        })            
+    }
+    else {
+        $scope.classDetails[2].valZero = $scope.course.piName;
+        $scope.classDetails[2].valOne = $scope.course.piContact;
+        $scope.classDetails[1].valZero = $scope.course.incName;
+        $scope.classDetails[1].valOne = $scope.course.incContact;
+    }
 })
 
-.controller('DashCtrl', function($rootScope, $scope, $state, $localstorage, $ionicUser, $ionicPush, Auth, Subject, Slot, TimeInterval, Faculty) {
+.controller('DashCtrl', function($rootScope, $scope, $state,
+                                    $localstorage, $ionicUser, $ionicPush,
+                                    Auth, Subject, Slot, TimeInterval, Faculty) {
 
     $scope.data = {};
 
@@ -372,23 +368,21 @@ angular.module('iips-app.controllers', ['iips-app.services'])
         $scope.Day = $scope.Days[0];
         $scope.sections = [];
 
-        setTimeout(function(){
-            $scope.slots = $localstorage.getObj('Slot'+$scope.Day);
+        $scope.slots = $localstorage.getObj('Slot'+$scope.Day);
 
-            if(Object.keys($scope.slots).length == 0) {
-                var bid = $rootScope.studentData.BatchId;
-                Slot.getSlot(bid, $scope.Day)
-                .then(function(resp) {
-                    $scope.slots = resp;
-                    $localstorage.setObj('Slot'+$scope.Day, resp);
-                    callEmAll($scope.slots.length);
-                })                
-            }
-            else {
-                slot = 0;
+        if(Object.keys($scope.slots).length == 0) {
+            var bid = $rootScope.studentData.BatchId;
+            Slot.getSlot(bid, $scope.Day)
+            .then(function(resp) {
+                $scope.slots = resp;
+                $localstorage.setObj('Slot'+$scope.Day, resp);
                 callEmAll($scope.slots.length);
-            }
-        }, 300);
+            })                
+        }
+        else {
+            slot = 0;
+            callEmAll($scope.slots.length);
+        }
 
         var slot = 0;
 
@@ -400,25 +394,23 @@ angular.module('iips-app.controllers', ['iips-app.services'])
             index = index + 1;
             $scope.Day = $scope.Days[index];
 
-            setTimeout(function(){
-                $scope.slots = $localstorage.getObj('Slot'+$scope.Day);
+            $scope.slots = $localstorage.getObj('Slot'+$scope.Day);
 
-                if(Object.keys($scope.slots).length == 0) {
-                    var bid = $rootScope.studentData.BatchId;
+            if(Object.keys($scope.slots).length == 0) {
+                var bid = $rootScope.studentData.BatchId;
 
-                    Slot.getSlot(bid, $scope.Day)
-                    .then(function(resp) {
-                        $scope.slots = resp;
-                        $localstorage.setObj('Slot'+$scope.Day, resp);
-                        slot = 0;
-                        callEmAll($scope.slots.length);
-                    })
-                }
-                else {
+                Slot.getSlot(bid, $scope.Day)
+                .then(function(resp) {
+                    $scope.slots = resp;
+                    $localstorage.setObj('Slot'+$scope.Day, resp);
                     slot = 0;
                     callEmAll($scope.slots.length);
-                }
-            }, 300);
+                })
+            }
+            else {
+                slot = 0;
+                callEmAll($scope.slots.length);
+            }
         }
         $scope.previous = function(day) {
             $scope.sections=[];
@@ -429,25 +421,23 @@ angular.module('iips-app.controllers', ['iips-app.services'])
             index = index - 1;
             $scope.Day = $scope.Days[index];
 
-            setTimeout(function(){
-                $scope.slots = $localstorage.getObj('Slot'+$scope.Day);
+            $scope.slots = $localstorage.getObj('Slot'+$scope.Day);
 
-                if(Object.keys($scope.slots).length == 0) {
-                    var bid = $rootScope.studentData.BatchId;
+            if(Object.keys($scope.slots).length == 0) {
+                var bid = $rootScope.studentData.BatchId;
 
-                    Slot.getSlot(bid, $scope.Day)
-                    .then(function(resp) {
-                        $scope.slots = resp;
-                        $localstorage.setObj('Slot'+$scope.Day, resp);
-                        slot = 0;
-                        callEmAll($scope.slots.length);
-                    })
-                }
-                else {
+                Slot.getSlot(bid, $scope.Day)
+                .then(function(resp) {
+                    $scope.slots = resp;
+                    $localstorage.setObj('Slot'+$scope.Day, resp);
                     slot = 0;
                     callEmAll($scope.slots.length);
-                }
-            }, 300);
+                })
+            }
+            else {
+                slot = 0;
+                callEmAll($scope.slots.length);
+            }
         }
 
         function callEmAll(noOfCalls)
@@ -545,14 +535,12 @@ angular.module('iips-app.controllers', ['iips-app.services'])
                                 API) {
 
     //--------------------------check whether user is admin or general user-------------------------
-    setTimeout(function() {
-        if ($rootScope.role == 'user') {
-            $scope.show_edit = true;
-        }
-        else if($rootScope.role == 'admin') {
-            $scope.show_edit = false;
-        }
-    }, 1000);
+    if ($rootScope.role == 'user') {
+        $scope.show_edit = true;
+    }
+    else if($rootScope.role == 'admin') {
+        $scope.show_edit = false;
+    }
 
     //--------------------------------prepare data for template-------------------------------------
 
@@ -563,26 +551,33 @@ angular.module('iips-app.controllers', ['iips-app.services'])
         if($scope.proPic) {
             $scope.$apply();            
         }
+        // else {
+        //     $scope.proPic = 
+        // }
       });
 
+    $scope.urlForImage = function(imageName) {
+        console.log("hello");
+        var trueOrigin = cordova.file.dataDirectory + imageName;
+        return trueOrigin;
+    }
+
+    $scope.imageUrl = $scope.urlForImage($scope.proPic);
     $scope.user = [];
     $scope.others = ['About', 'Feedback', 'Contact Support', 'Open Source License']
 
-    setTimeout(function() {
-        for (key in $rootScope.studentData) {
-            if (key == 'course' || key == 'sem') {
-                var studentItem = {};
-                studentItem['name'] = key;
-                studentItem['value'] = $rootScope.studentData[key];
-                $scope.user.push(studentItem);
-            }
+    for (key in $rootScope.studentData) {
+        if (key == 'course' || key == 'sem') {
+            var studentItem = {};
+            studentItem['name'] = key;
+            studentItem['value'] = $rootScope.studentData[key];
+            $scope.user.push(studentItem);
         }
-        userItem = {};
-        userItem.name = 'email';
-        userItem.value = $rootScope.userData['email'];
-        $scope.user.push(userItem);
-
-    }, 1000);
+    }
+    userItem = {};
+    userItem.name = 'email';
+    userItem.value = $rootScope.userData['email'];
+    $scope.user.push(userItem);
 
     //---------------------------------edit profile-------------------------------------------------
     $scope.editProfile = function() {

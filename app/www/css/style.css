@@ -77,28 +77,31 @@ ion-content {
 	/*background-color: #a9a9a9;*/
 }
 .register-input {
-	height:35px;
+	height:40px;
 	margin: 5px 3px;
 	border-radius: 5px;
 	font-family: Sans-Serif;
 }
-.input-label:after {
-	color: #FFF;
-}
-.register-input:hover  {
-	background-color: orange;
+.item-input input {
+	color: gray;
 }
 .register-input select, .login-card > .item-input select {
 	padding: 0 5px 0;
 }
-.input-label {
-	opacity:0.4;
-	font-size: 12px;
-	color:gray;
+select option {
+	color: black;
 }
-.register-list .item-select .input-label {
+select:first-child {
+	color: gray;
+}
+select.empty {
+	color: gray;
 	font-size: 14px;
-	opacity: 0.7;
+	font-family: sans-serif;
+	padding: 10px;
+}
+select option[disabled]:first-child {
+	display: none;
 }
 .has-errors {
   border-bottom: 3px solid #B83E2C;
