@@ -27,7 +27,7 @@ angular.module('iips-app.controllers', ['iips-app.services'])
 
                 if($scope.form.$valid) {
 
-                    if ($scope.loginData.username == 'admin' && $scope.loginData.password == 'idiot')
+                    if ($scope.loginData.email == 'admin@iips.edu.in' && $scope.loginData.password == 'idiot')
                     {
                         $state.go('admin')
                         $scope.form.$setPristine();
@@ -121,7 +121,7 @@ angular.module('iips-app.controllers', ['iips-app.services'])
     }
 
     $scope.register = function(data) {
-      $state.go('register');
+        $state.go('register');
     };
 
     $scope.forgot = function() {
@@ -244,7 +244,7 @@ angular.module('iips-app.controllers', ['iips-app.services'])
      */
     $scope.currentUser = $localstorage.get('email');
 
-    if($scope.currentUser == 'admin') {
+    if($scope.currentUser == 'admin@iips.edu.in') {
         $rootScope.role = 'admin';
     }
     else {
@@ -380,6 +380,9 @@ angular.module('iips-app.controllers', ['iips-app.services'])
                                     Auth, Subject, Slot, TimeInterval, Faculty) {
 
     $scope.data = {};
+
+    $scope.currentUser = $rootScope.userData.email.split('@')[0];
+    console.log($scope.currentUser);
 
     $scope.$on('$ionicView.enter', function(event) {
 
@@ -621,7 +624,6 @@ angular.module('iips-app.controllers', ['iips-app.services'])
             $rootScope.show('Please wait.. Saving');
             $scope.currentUser = $rootScope.userData.id;
             API.userUpdate($scope.currentUser, {
-                username: $rootScope.userData.username,
                 password: $rootScope.userData.password,
                 verify:   $rootScope.userData.verify,
                 email:    $rootScope.userData.email
