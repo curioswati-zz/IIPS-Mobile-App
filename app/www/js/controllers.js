@@ -3,13 +3,15 @@ angular.module('iips-app.controllers', ['iips-app.services'])
 .controller('LoginCtrl', function($scope, $rootScope, $state, Auth, API, $localstorage) {
     $scope.loginData = {};
 
-    $scope.$on('$ionicView.enter', function(event) {   
+    $scope.$on('$ionicView.enter', function(event) {
         $scope.forgotPass = false;
+        $rootScope.formError = false;
     })
 
     $scope.login = function(form) {
         $scope.form = form;
         $scope.form.password.$setValidity("correctPassword", true);
+
         $scope.emailError = form.email.$error.required;
         $scope.passwordError = form.password.$error.required;
 
@@ -24,14 +26,17 @@ angular.module('iips-app.controllers', ['iips-app.services'])
                 $rootScope.hide();
 
                 if($scope.form.$valid) {
+
                     if ($scope.loginData.username == 'admin' && $scope.loginData.password == 'idiot')
                     {
                         $state.go('admin')
+                        $scope.form.$setPristine();
                     }
                     else {
                         $state.go('tab');                        
+                        $scope.form.$setPristine();
                     }
-                }
+                 }
             })
             .error(function(error) {
                 $rootScope.hide();
@@ -160,6 +165,7 @@ angular.module('iips-app.controllers', ['iips-app.services'])
             })
             .success(function (data) {
                 $rootScope.hide();
+                $scope.form.$setPristine();
                 if($scope.form.$valid) {
                     $state.go('login');
                 }
@@ -177,15 +183,23 @@ angular.module('iips-app.controllers', ['iips-app.services'])
                 
             });
         }
+        else {
+            $rootScope.formError = true;
+        }
     };
     $scope.backToLogin = function() {
         $state.go('login');
+    };
+
+    $scope.clearFormError = function() {
+        $rootScope.formError = false;
     };
 
     $scope.urlForImage = function(imageName) {
         var trueOrigin = cordova.file.dataDirectory + imageName;
         return trueOrigin;
     }
+
     $scope.uploadPic = function() {
         $scope.hideSheet = $ionicActionSheet.show({
             buttons: [

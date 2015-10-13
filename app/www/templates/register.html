@@ -24,8 +24,8 @@
     
         <label class="item item-input register-input" ng-class="{'no-register-errors':registerForm.fullname.$valid}">
 
-          <i class="error icon ion-alert assertive" ng-show="nameError"></i>
-          <input name="fullname" type="text" ng-model="registerData.fullname" placeholder="Full Name" required ng-pattern="/^[a-zA-Z ]+$/">
+          <!-- <i class="error icon ion-alert assertive" ng-if="nameError == true"></i> -->
+          <input name="fullname" type="text" ng-model="registerData.fullname" placeholder="Full Name" required ng-pattern="/^[a-zA-Z ]+$/" ng-focus="clearFromError()">
         
         </label>
 
@@ -108,11 +108,16 @@
         <div ng-messages-include="templates/form-error.html"></div>
         </div>
 
+        <div class="error-container error" ng-show="formError" style="position:relative; border: 1px solid red; padding:10px 50px; border-radius:5px;">
+          <div>Please fill out all fields</div>
+        </div>
+
       </div>
     
       <div class="col"></div>
-    
+
     </div>
+
   </form>
   </div>
 </ion-content>

@@ -39,6 +39,12 @@ angular.module('iips-app.directives', [])
     restrict: 'A',
     require: 'ngModel',
     link: function (scope, element, attrs, ngModel) {
+
+      element.bind('focus', function(e) {
+        ngModel.$setValidity('rollunique', true);
+        ngModel.$setValidity('emailunique', true);        
+      })
+
       element.bind('blur', function (e) {
         if (!ngModel || !element.val())
           return;
