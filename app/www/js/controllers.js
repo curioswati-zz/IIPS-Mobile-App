@@ -216,16 +216,21 @@ angular.module('iips-app.controllers', ['iips-app.services'])
     }
 
     $scope.addImage = function(type) {
-        console.log("type: ",type);
         $scope.hideSheet();
         ImageService.saveMedia(type).then(function() {
+            var images              = FileService.getImages();
+            $scope.registerData.pic = images[0];
 
-            var images          = FileService.getImages();
-            console.log("selected: ",images);
-            $scope.registerPic  = images[0];
-            $scope.registerData.pic = $scope.urlForImage($scope.registerPic);
+            // var imageLocation = $scope.urlForImage($scope.registerPic);
+            // $scope.registerData.pic = imageLocation;
 
-            $scope.$apply();
+            setTimeout(function() {
+                console.log("hello: ", $scope.registerData.pic);
+                $scope.$apply();
+            },1000);
+        },
+        function(err) {
+            console.log(err);
         });
     }
     $scope.changeClass = function() {

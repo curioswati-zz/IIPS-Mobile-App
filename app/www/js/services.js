@@ -39,7 +39,7 @@ angular.module('iips-app.services', [])
     }
 })
 .factory('FileService', function($localstorage) {
-    var images;
+    var images = [];
     var IMAGE_STORAGE_KEY = 'images';
 
     return {
@@ -54,15 +54,16 @@ angular.module('iips-app.services', [])
             }
             return images;
         },
-        addImage: function(img) {
+        storeImage: function(img) {
             images.push(img);
             $localstorage.set(IMAGE_STORAGE_KEY, JSON.stringify(images));
         }
     }
 })
-.factory('ImageService', function($cordovaCamera, FileService, $cordovaFile, $q) {
+.factory('ImageService', function($cordovaCamera, FileService, $q, $cordovaFile) {
     imgService = {}
 
+    //--------------------------- create a random id for image -------------------------------------
     imgService.makeid = function() {
         var text = '';
         var possible = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
@@ -90,25 +91,48 @@ angular.module('iips-app.services', [])
             saveToPhotoAlbum: false
         }
     };
+
+    //----------------- select image from gallery or camera and save to app directory---------------
     imgService.saveMedia = function(type) {
         return $q(function(resolve, reject) {
             var options = imgService.optionsForType(type);
 
-            $cordovaCamera.getPicture(options).then(function(imageUrl) {
-                var name = imageUrl.substr(imageUrl.lastIndexOf('/') + 1);
-                var namePath = imageUrl.substr(0, imageUrl.lastIndexOf('/') + 1);
-                var newName = imgService.makeid() + name;
-                $cordovaFile.copyFile(namePath, name, cordova.file.dataDirectory, newName)
-                .then(function(info) {
-                    FileService.storeImage(newName);
-                    resolve();
-                },
-                function(e) {
-                    reject();
-                });
+            // get the picture
+            $cordovaCamera.getPicture(options)
+            .then(function(imageUrl) {
+
+                // if android:
+                    // import from the gallery on Android could be a security constraint,
+                    // $cordovaCamera does not return the real local URI.
+
+                if(ionic.Platform.isAndroid() && type === 1){
+
+                    // So need to get the native url using FilePath plugin.
+                    window.FilePath.resolveNativePath(imageUrl, function(nativeUrl){
+
+                        var name = nativeUrl.substr(nativeUrl.lastIndexOf('/') + 1);
+
+                        var namePath = nativeUrl.substr(0, nativeUrl.lastIndexOf('/') + 1);
+                        namePath = "file://"+namePath;
+
+                        var newName = imgService.makeid() + name;
+
+                        $cordovaFile.copyFile(namePath, name, cordova.file.dataDirectory, newName)
+                        .then(function(info) {
+                            FileService.storeImage(newName);
+                            resolve();
+                        },
+                        function(e) {
+                            reject();
+                        });
+                    },
+                    function(err) {
+                        console.log(err);
+                    });
+                }
             });
         })
-    };
+    }
     return imgService;
 })
 .factory('API', function($rootScope, $http, $ionicLoading, $window, $resource) {
