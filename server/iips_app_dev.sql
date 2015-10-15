@@ -3,8 +3,8 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Generation Time: Sep 16, 2015 at 10:32 AM
--- Server version: 5.5.44-0ubuntu0.14.04.1
+-- Generation Time: Oct 12, 2015 at 02:29 PM
+-- Server version: 5.5.43-0ubuntu0.14.04.1
 -- PHP Version: 5.5.9-1ubuntu4.11
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
@@ -17,7 +17,7 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8 */;
 
 --
--- Database: `iips-app_dev`
+-- Database: `iips_app_dev`
 --
 
 -- --------------------------------------------------------
@@ -267,19 +267,14 @@ CREATE TABLE IF NOT EXISTS `Students` (
   `BatchId` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `rollno` (`rollno`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=8 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=2 ;
 
 --
 -- Dumping data for table `Students`
 --
 
 INSERT INTO `Students` (`id`, `fullname`, `course`, `sem`, `rollno`, `BatchId`) VALUES
-(1, 'admin', 'MTech', 'VII', 'IT-2K12-00', 1),
-(2, 'Swati Jaiswal', 'MTech', 'VII', 'IT-2K12-35', 3),
-(3, 'Noopur Kulkarni', 'MCA(PG)', 'VII', 'IC-2K12-61', 9),
-(4, 'Dhaval Purohit', 'MCA(PG)', 'VII', 'IC-2K12-35', NULL),
-(6, 'fatema saifeee', 'MTech', 'VII', 'IT-2K12-13', NULL),
-(7, 'Aditi thakur', 'MBA(MS 5Yrs PG)', 'IX', 'IM-2k12-03', 13);
+(1, 'Swati Jaiswal', 'MTech', 'VII', 'IT-2K12-35', 3);
 
 -- --------------------------------------------------------
 
@@ -327,6 +322,7 @@ CREATE TABLE IF NOT EXISTS `TimeIntervals` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `beginTime` datetime DEFAULT NULL,
   `endTime` datetime DEFAULT NULL,
+  `SubjectId` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=12 ;
 
@@ -334,18 +330,18 @@ CREATE TABLE IF NOT EXISTS `TimeIntervals` (
 -- Dumping data for table `TimeIntervals`
 --
 
-INSERT INTO `TimeIntervals` (`id`, `beginTime`, `endTime`) VALUES
-(1, '2015-09-13 08:00:00', '2015-09-13 10:00:00'),
-(2, '2015-09-13 08:30:00', '2015-09-13 10:30:00'),
-(3, '2015-09-13 09:00:00', '2015-09-13 10:00:00'),
-(4, '2015-09-13 10:00:00', '2015-09-13 11:00:00'),
-(5, '2015-09-13 11:00:00', '2015-09-13 12:00:00'),
-(6, '2015-09-13 11:00:00', '2015-09-13 01:00:00'),
-(7, '2015-09-13 12:00:00', '2015-09-13 01:00:00'),
-(8, '2015-09-13 01:00:00', '0000-00-00 02:00:00'),
-(9, '2015-09-13 02:00:00', '2015-09-13 03:00:00'),
-(10, '2015-09-13 03:30:00', '2015-09-13 04:30:00'),
-(11, '2015-09-13 04:30:00', '2015-09-13 05:30:00');
+INSERT INTO `TimeIntervals` (`id`, `beginTime`, `endTime`, `SubjectId`) VALUES
+(1, '2015-09-13 08:00:00', '2015-09-13 10:00:00', NULL),
+(2, '2015-09-13 08:30:00', '2015-09-13 10:30:00', NULL),
+(3, '2015-09-13 09:00:00', '2015-09-13 10:00:00', NULL),
+(4, '2015-09-13 10:00:00', '2015-09-13 11:00:00', NULL),
+(5, '2015-09-13 11:00:00', '2015-09-13 12:00:00', NULL),
+(6, '2015-09-13 11:00:00', '2015-09-13 01:00:00', NULL),
+(7, '2015-09-13 12:00:00', '2015-09-13 01:00:00', NULL),
+(8, '2015-09-13 01:00:00', '0000-00-00 02:00:00', NULL),
+(9, '2015-09-13 02:00:00', '2015-09-13 03:00:00', NULL),
+(10, '2015-09-13 03:30:00', '2015-09-13 04:30:00', NULL),
+(11, '2015-09-13 04:30:00', '2015-09-13 05:30:00', NULL);
 
 -- --------------------------------------------------------
 
@@ -355,27 +351,19 @@ INSERT INTO `TimeIntervals` (`id`, `beginTime`, `endTime`) VALUES
 
 CREATE TABLE IF NOT EXISTS `Users` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `username` varchar(255) DEFAULT NULL,
   `email` varchar(255) DEFAULT NULL,
   `password` varchar(255) DEFAULT NULL,
-  `verify` varchar(255) DEFAULT NULL,
   `StudentId` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`),
-  UNIQUE KEY `username` (`username`),
   UNIQUE KEY `email` (`email`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=8 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=2 ;
 
 --
 -- Dumping data for table `Users`
 --
 
-INSERT INTO `Users` (`id`, `username`, `email`, `password`, `verify`, `StudentId`) VALUES
-(1, 'admin', 'jaiswalswati94@gmail.com', 'idiot', 'idiot', 1),
-(2, 'swatij', 'swatijaiswa29@yahoo.in', 'qwerty', 'qwerty', 2),
-(3, 'nkulkarni', 'nkulkarni@gmail.com', 'qwerty', 'qwerty', 3),
-(4, 'dhavalp', 'dpurohit@gmail.com', 'qwertz', 'qwertz', 4),
-(6, 'fatemas', 'fatema.saiffe@gmail.com', 'asdfg', 'asdfg', 5),
-(7, 'aditit', 'sweetbaby73@gmail.com', 'qwerty', 'qwerty', 7);
+INSERT INTO `Users` (`id`, `email`, `password`, `StudentId`) VALUES
+(1, 'swatijaiswal29@yahoo.in', 'd8578edf8458ce06fbc5bb76a58c5ca4', 1);
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
