@@ -4,13 +4,10 @@ module.exports = function(sequelize, DataType) {
   		courseName: {
   			type: DataType.STRING,
   			validate: {
-  				is: /^[a-zA-Z]+$/,
+  				is: /^[a-zA-Z()0-9 ]+$/,
   				notNull: true,
   				notEmpty: true
   			}
-      },
-      sem: {
-        type: DataType.INTEGER
       },
       dept: {
         type: DataType.STRING

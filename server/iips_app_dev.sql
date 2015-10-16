@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Generation Time: Oct 12, 2015 at 02:29 PM
+-- Generation Time: Oct 16, 2015 at 03:29 PM
 -- Server version: 5.5.43-0ubuntu0.14.04.1
 -- PHP Version: 5.5.9-1ubuntu4.11
 
@@ -86,16 +86,16 @@ CREATE TABLE IF NOT EXISTS `Courses` (
 -- Dumping data for table `Courses`
 --
 
-INSERT INTO `Courses` (`id`, `courseName`, `sem`, `dept`) VALUES
-(1, 'MTech', 11, 'Tech'),
-(2, 'MCA(UG)', 12, 'Tech'),
-(3, 'MCA(PG)', 12, 'Tech'),
-(4, 'MBA(MS 5Yrs UG)', 10, 'Mgmt'),
-(5, 'MBA(MS 5Yrs PG)', 10, 'Mgmt'),
-(6, 'MBA(MS 2Yrs)', 4, 'Mgmt'),
-(7, 'B.Com', 6, 'Mgmt'),
-(8, 'MBA(APR)', 4, 'Mgmt'),
-(9, 'MBA(TA)', 4, 'Mgmt');
+INSERT INTO `Courses` (`id`, `courseName`, `dept`) VALUES
+(1, 'MTech', 'Tech'),
+(2, 'MCA(UG)', 'Tech'),
+(3, 'MCA(PG)', 'Tech'),
+(4, 'MBA(MS 5Yrs UG)', 'Mgmt'),
+(5, 'MBA(MS 5Yrs PG)', 'Mgmt'),
+(6, 'MBA(MS 2Yrs)', 'Mgmt'),
+(7, 'BCom', 'Mgmt'),
+(8, 'MBA(APR)', 'Mgmt'),
+(9, 'MBA(TA)', 'Mgmt');
 
 -- --------------------------------------------------------
 
@@ -175,34 +175,23 @@ INSERT INTO `Faculties` (`id`, `facultyID`, `facultyName`, `designation`, `quali
 -- --------------------------------------------------------
 
 --
--- Table structure for table `Shifts`
---
-
-CREATE TABLE IF NOT EXISTS `Shifts` (
-  `shiftNo` int(11) NOT NULL DEFAULT '0',
-  PRIMARY KEY (`shiftNo`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
--- --------------------------------------------------------
-
---
 -- Table structure for table `Slots`
 --
 
 CREATE TABLE IF NOT EXISTS `Slots` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `Day` varchar(255) DEFAULT NULL,
-  `BatchId` int(11) DEFAULT NULL,
+  `SemesterId` int(11) DEFAULT NULL,
   `TimeIntervalId` int(11) DEFAULT NULL,
   `SubjectId` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=49 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=33 ;
 
 --
 -- Dumping data for table `Slots`
 --
 
-INSERT INTO `Slots` (`id`, `Day`, `BatchId`, `TimeIntervalId`, `SubjectId`) VALUES
+INSERT INTO `Slots` (`id`, `Day`, `SemesterId`, `TimeIntervalId`, `SubjectId`) VALUES
 (1, 'Monday', 3, 4, 2),
 (2, 'Monday', 3, 5, 3),
 (3, 'Monday', 3, 7, 4),
@@ -219,38 +208,22 @@ INSERT INTO `Slots` (`id`, `Day`, `BatchId`, `TimeIntervalId`, `SubjectId`) VALU
 (14, 'Saturday', 3, 1, 1),
 (15, 'Saturday', 3, 4, 2),
 (16, 'Saturday', 3, 6, 5),
-(17, 'Monday', 9, 4, 8),
-(18, 'Monday', 9, 5, 9),
-(19, 'Monday', 9, 7, 10),
-(20, 'Tuesday', 9, 4, 8),
-(21, 'Tuesday', 9, 5, 9),
-(22, 'Tuesday', 9, 7, 10),
-(23, 'Wednesday', 9, 4, 10),
-(24, 'Wednesday', 9, 5, 9),
-(25, 'Thursday', 9, 1, 7),
-(26, 'Thursday', 9, 4, 10),
-(27, 'Thursday', 9, 5, 9),
-(28, 'Friday', 9, 4, 8),
+(17, 'Monday', 9, 4, 9),
+(18, 'Monday', 9, 5, 8),
+(19, 'Monday', 9, 7, 7),
+(20, 'Tuesday', 9, 4, 9),
+(21, 'Tuesday', 9, 5, 8),
+(22, 'Tuesday', 9, 7, 7),
+(23, 'Wednesday', 9, 4, 7),
+(24, 'Wednesday', 9, 5, 8),
+(25, 'Thursday', 9, 1, 10),
+(26, 'Thursday', 9, 4, 7),
+(27, 'Thursday', 9, 5, 8),
+(28, 'Friday', 9, 4, 9),
 (29, 'Friday', 9, 6, 6),
-(30, 'Saturday', 9, 1, 7),
-(31, 'Saturday', 9, 4, 8),
-(32, 'Saturday', 9, 6, 6),
-(33, 'Monday', 13, 4, 12),
-(34, 'Monday', 13, 5, 13),
-(35, 'Monday', 13, 6, 14),
-(36, 'Tuesday', 13, 4, 12),
-(37, 'Tuesday', 13, 5, 13),
-(38, 'Tuesday', 13, 6, 14),
-(39, 'Wednesday', 13, 4, 14),
-(40, 'Wednesday', 13, 5, 13),
-(41, 'Thursday', 13, 1, 11),
-(42, 'Thursday', 13, 4, 14),
-(43, 'Thursday', 13, 5, 13),
-(44, 'Friday', 13, 4, 12),
-(45, 'Friday', 13, 7, 15),
-(46, 'Saturday', 13, 1, 11),
-(47, 'Saturday', 13, 4, 12),
-(48, 'Saturday', 13, 7, 15);
+(30, 'Saturday', 9, 1, 10),
+(31, 'Saturday', 9, 4, 9),
+(32, 'Saturday', 9, 6, 6);
 
 -- --------------------------------------------------------
 
@@ -267,14 +240,7 @@ CREATE TABLE IF NOT EXISTS `Students` (
   `BatchId` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `rollno` (`rollno`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=2 ;
-
---
--- Dumping data for table `Students`
---
-
-INSERT INTO `Students` (`id`, `fullname`, `course`, `sem`, `rollno`, `BatchId`) VALUES
-(1, 'Swati Jaiswal', 'MTech', 'VII', 'IT-2K12-35', 3);
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
 
 -- --------------------------------------------------------
 
@@ -289,7 +255,7 @@ CREATE TABLE IF NOT EXISTS `Subjects` (
   `subjectName` varchar(255) DEFAULT NULL,
   `FacultyId` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=16 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=11 ;
 
 --
 -- Dumping data for table `Subjects`
@@ -302,15 +268,10 @@ INSERT INTO `Subjects` (`id`, `subjectID`, `subjectCode`, `subjectName`, `Facult
 (4, 'IT-104', 'BI', 'Bio Informatics', 44),
 (5, 'IT-105', 'OS', 'Operating Systems', 5),
 (6, 'IC-105', 'OS', 'Operating Systems', 38),
-(7, 'IC-101', 'LS', 'Linear Systems', 50),
-(8, 'IC-102', 'DS', 'Discrete Structure', 12),
-(9, 'IC-103', 'CA', 'Computer Architecture', 31),
-(10, 'IC-104', 'BI', 'Bio Informatics', 42),
-(11, 'IM-101', 'LS', 'Linear Systems', 12),
-(12, 'IM-102', 'DS', 'Discrete Structure', 3812),
-(13, 'IM-103', 'CA', 'Computer Architecture', 531),
-(14, 'IC-104', 'BI', 'Bio Informatics', 31),
-(15, 'IM-105', 'OS', 'Operating Systems', 44);
+(7, 'IC-104', 'BI', 'Bio Informatics', 42),
+(8, 'IC-103', 'CA', 'Computer Architecture', 31),
+(9, 'IC-102', 'DS', 'Discrete Structure', 12),
+(10, 'IC-101', 'LS', 'Linear Systems', 50);
 
 -- --------------------------------------------------------
 
@@ -322,26 +283,26 @@ CREATE TABLE IF NOT EXISTS `TimeIntervals` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `beginTime` datetime DEFAULT NULL,
   `endTime` datetime DEFAULT NULL,
-  `SubjectId` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=12 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=13 ;
 
 --
 -- Dumping data for table `TimeIntervals`
 --
 
-INSERT INTO `TimeIntervals` (`id`, `beginTime`, `endTime`, `SubjectId`) VALUES
-(1, '2015-09-13 08:00:00', '2015-09-13 10:00:00', NULL),
-(2, '2015-09-13 08:30:00', '2015-09-13 10:30:00', NULL),
-(3, '2015-09-13 09:00:00', '2015-09-13 10:00:00', NULL),
-(4, '2015-09-13 10:00:00', '2015-09-13 11:00:00', NULL),
-(5, '2015-09-13 11:00:00', '2015-09-13 12:00:00', NULL),
-(6, '2015-09-13 11:00:00', '2015-09-13 01:00:00', NULL),
-(7, '2015-09-13 12:00:00', '2015-09-13 01:00:00', NULL),
-(8, '2015-09-13 01:00:00', '0000-00-00 02:00:00', NULL),
-(9, '2015-09-13 02:00:00', '2015-09-13 03:00:00', NULL),
-(10, '2015-09-13 03:30:00', '2015-09-13 04:30:00', NULL),
-(11, '2015-09-13 04:30:00', '2015-09-13 05:30:00', NULL);
+INSERT INTO `TimeIntervals` (`id`, `beginTime`, `endTime`) VALUES
+(1, '2015-09-13 08:00:00', '2015-09-13 10:00:00'),
+(2, '2015-09-13 08:30:00', '2015-09-13 10:30:00'),
+(3, '2015-09-13 09:00:00', '2015-09-13 10:00:00'),
+(4, '2015-09-13 10:00:00', '2015-09-13 11:00:00'),
+(5, '2015-09-13 11:00:00', '2015-09-13 12:00:00'),
+(6, '2015-09-13 11:00:00', '2015-09-13 01:00:00'),
+(7, '2015-09-13 12:00:00', '2015-09-13 01:00:00'),
+(8, '2015-09-13 01:00:00', '0000-00-00 02:00:00'),
+(9, '2015-09-13 02:00:00', '2015-09-13 03:00:00'),
+(10, '2015-09-13 03:30:00', '2015-09-13 04:30:00'),
+(11, '2015-09-13 04:30:00', '2015-09-13 05:30:00'),
+(12, '2015-09-13 01:00:00', '2015-09-13 03:00:00');
 
 -- --------------------------------------------------------
 
@@ -356,14 +317,7 @@ CREATE TABLE IF NOT EXISTS `Users` (
   `StudentId` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `email` (`email`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=2 ;
-
---
--- Dumping data for table `Users`
---
-
-INSERT INTO `Users` (`id`, `email`, `password`, `StudentId`) VALUES
-(1, 'swatijaiswal29@yahoo.in', 'd8578edf8458ce06fbc5bb76a58c5ca4', 1);
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;

@@ -34,8 +34,7 @@ module.exports = function(sequelize, DataType) {
       },
       classMethods: {
         associate: function(models) {
-          // Slot.belongsTo(models.Shift);
-          Slot.belongsTo(models.Batch);
+          Slot.belongsTo(models.Semester);
           Slot.belongsTo(models.TimeInterval);
         }
       }
