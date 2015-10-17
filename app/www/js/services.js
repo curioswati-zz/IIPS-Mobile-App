@@ -72,6 +72,8 @@ angular.module('iips-app.services', [])
         }
         return text;
     };
+
+    //---------------------------- select options for image upload----------------------------------
     imgService.optionsForType = function(type) {
         var source;
         switch (type) {
