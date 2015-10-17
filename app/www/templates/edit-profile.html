@@ -16,9 +16,8 @@
     
       <div class="col list edit-list col-80">
     
-        <label class="item item-input" ng-class="{'no-register-errors':editProfile.fullname.$valid}">
-
-          <input name="fullname" type="text" ng-model="studentData.fullname" placeholder={{studentData.fullname}} ng-pattern="/^[a-zA-Z ]+$/">
+        <label class="item item-input">
+          <input name="fullname" type="text" ng-model="studentData.fullname" placeholder="{{studentData.fullname}}" ng-pattern="/^[a-zA-Z ]+$/" ng-focus="clearFromError()">
         
         </label>
 
@@ -26,47 +25,45 @@
         <div ng-messages-include="templates/form-error.html"></div>
         </div>
 
-        <select class="item item-input item-select register-input empty" name="course" ng-model="studentData.course" ng-class="{'no-register-errors':editProfile.course.$valid}" required style="width:265px;">
-          <option value="" selected disabled>Course</option>
-          <option>MTech</option>
-          <option>MCA(UG)</option>
-          <option>MCA(PG)</option>
-          <option>MBA(MS 5Yrs UG)</option>
-          <option>MBA(MS 5Yrs PG)</option>
-          <option>MBA(MS 2Yrs)</option>
-          <option>MBA(APR)</option>
-          <option>MBA(TA)</option>
-          <option>B.Com</option>
+        <select ng-change="refreshRequired(editProfile.course)" class="item item-input item-select empty" name="course" ng-model="studentData.CourseId" ng-class="{'no-register-errors':editProfile.course.$valid}" style="width:265px;">
+        <option selected disabled>{{studentData.course}}</option>
+        <option ng-repeat="course in courses" value={{course.id}}>{{course.courseName}}</option>
         </select>
 
-        <select class="item item-input item-select register-input empty" ng-class="{'no-register-errors':editProfile.sem.$valid}" name="sem" ng-model="studentData.sem" required style="width:265px;">
-          <option value="" selected disabled>Semester</option>
-          <option>I</option>
-          <option>II</option>
-          <option>III</option>
-          <option>IV</option>
-          <option>V</option>
-          <option>VI</option>
-          <option>VII</option>
-          <option>VIII</option>
-          <option>IX</option>
-          <option>X</option>
-          <option>XI</option>
-          <option>XII</option>
-        </select>
-         
-        <label class="item item-input register-input" ng-class="{'no-register-errors':editProfile.email.$valid}">
-          <input name="email" type="email" ng-model="userData.email" placeholder="E-mail" required wc-unique="{property: 'email'}">
-        </label>
- 
-        <div class="error-container" ng-show="editProfile.email.$error" ng-messages="editProfile.email.$error">
+        <div class="error-container" ng-show="editProfile.course.$error" ng-messages="editProfile.course.$error">
         <div ng-messages-include="templates/form-error.html"></div>
         </div>
-    
+ 
+        <select ng-focus="getSemester(editProfile.course)" ng-change="refreshRequired(editProfile.sem)" class="item item-input item-select register-input empty" ng-class="{'no-register-errors':editProfile.sem.$valid}" name="sem" ng-model="studentData.SemesterId" style="width:265px;">
+          <option selected disabled>{{studentData.sem}}</option>
+          <option ng-repeat="sem in semesters" value={{sem.id}}>{{sem.semNo}}</option>
+        </select>
+
+        <div class="error-container" ng-show="editProfile.sem.$error" ng-messages="editProfile.sem.$error">
+        <div class="error" ng-message="semChanged">
+          Please select semester too!
+        </div>
+        </div>
+         
+        <label class="item item-input">
+          <input name="password" id="password" type="password" ng-model="studentData.password" placeholder="New Password" ng-minlength=4 ng-maxlength=20>
+        </label>
+ 
+        <div class="error-container" ng-show="editProfile.password.$error" ng-messages="editProfile.password.$error">
+        <div ng-messages-include="templates/form-error.html"></div>
+        </div>
+
+        <label class="item item-input">
+          <input name="verify" type="password" ng-model="studentData.verify" placeholder="Confirm Password" pw-check="studentData.password">
+        </label>
+
+        <div class="error-container" ng-show="editProfile.verify.$error" ng-messages="editProfile.verify.$error">
+        <div ng-messages-include="templates/form-error.html"></div>
+        </div>
+
         <center>
         <button class="button button-assertive button-login button-save" type="submit" ng-click="">Save</button>
         </center>
-
 
       </div>
     

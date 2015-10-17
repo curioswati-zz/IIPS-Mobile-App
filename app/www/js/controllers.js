@@ -67,9 +67,13 @@ angular.module('iips-app.controllers', ['iips-app.services'])
             })
             .error(function(error) {
                 $rootScope.hide();
-                $scope.form.password.$setValidity("correctPassword", false);
-                $rootScope.notify(error.message);
+                setTimeout(function() {
+                    $scope.form.password.$setValidity("correctPassword", false);
+                }, 100);
             })
+        }
+        else {
+            $rootScope.formError = true;
         }
     };
 
@@ -94,16 +98,17 @@ angular.module('iips-app.controllers', ['iips-app.services'])
                     $scope.form.verify.$setViewValue('');
                 })
                 .error(function (error) {
-                    console.log("error while updating");
                     $rootScope.hide();                
                 });
             }
             else {
+                $rootScope.formError = true;
                 loginData = {};
             }
         }
         if($scope.getOTP == false) {
             $scope.form.email.$setValidity("correctEmail", true);
+
             if(form.$valid) {
                 Auth.recover($scope.loginData.email)
                 .then(function(resp) {
@@ -122,7 +127,7 @@ angular.module('iips-app.controllers', ['iips-app.services'])
                 })
             }
             else {
-                $scope.emailError = form.email.$error.required;
+                $rootScope.formError = true;
             }
         }
         else if ($scope.getOTP == true && $scope.recoverPass == false) {
@@ -133,7 +138,6 @@ angular.module('iips-app.controllers', ['iips-app.services'])
                 $scope.form.OTP.$setViewValue('');
             }
             else {
-                $scope.OTPError = form.OTP.$error.required;
                 if (!$scope.OTPError)
                     $scope.form.OTP.$setValidity("correctOTP", false);
             }
