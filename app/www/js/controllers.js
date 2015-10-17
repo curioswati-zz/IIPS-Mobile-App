@@ -1,5 +1,35 @@
 angular.module('iips-app.controllers', ['iips-app.services'])
 
+.controller('AppCtrl', function($scope, $rootScope, $state,
+                                Course, Semester, Batch) {
+
+    Course.getCourses()
+    .then(function(resp) {
+        $rootScope.courses = resp;
+    });
+
+    Batch.getBatches()
+    .then(function(resp) {
+        $rootScope.batches = resp;
+    });
+
+    $rootScope.getSemester = function(course) {
+        console.log("selected:",course.$viewValue);
+        cid = course.$viewValue;
+
+        Semester.getSemesters(cid)
+        .then(function(resp) {
+            console.log(resp);
+            $rootScope.semesters = resp;
+        });
+    };
+
+    $rootScope.clearFormError = function() {
+        $rootScope.formError = false;
+    };
+
+})
+
 .controller('LoginCtrl', function($scope, $rootScope, $state, Auth, API, $localstorage) {
     $scope.loginData = {};
 
@@ -11,9 +41,6 @@ angular.module('iips-app.controllers', ['iips-app.services'])
     $scope.login = function(form) {
         $scope.form = form;
         $scope.form.password.$setValidity("correctPassword", true);
-
-        $scope.emailError = form.email.$error.required;
-        $scope.passwordError = form.password.$error.required;
 
         if(form.$valid) {
             $rootScope.show('Signing in...');
@@ -50,9 +77,6 @@ angular.module('iips-app.controllers', ['iips-app.services'])
         $scope.form = form;
 
         if ($scope.recoverPass == true) {
-
-            $scope.passwordError = form.password.$error.required;
-            $scope.verifyError = form.verify.$error.required;
 
             if(form.$valid) {
                 $rootScope.show('Updating...');
