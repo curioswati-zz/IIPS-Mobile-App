@@ -58,8 +58,8 @@ angular.module('iips-app.controllers', ['iips-app.services'])
                 $rootScope.show('Updating...');
 
                 API.userUpdate($scope.currentUser, {
-                    password: ($scope.loginData.password),
-                    verify: $scope.loginData.verify
+                    password: md5($scope.loginData.password),
+                    verify: md5($scope.loginData.verify)
                 })
                 .success(function (data) {
                     $localstorage.clean();
@@ -79,7 +79,6 @@ angular.module('iips-app.controllers', ['iips-app.services'])
             }
         }
         if($scope.getOTP == false) {
-            console.log("hi");
             $scope.form.email.$setValidity("correctEmail", true);
             if(form.$valid) {
                 Auth.recover($scope.loginData.email)
@@ -87,13 +86,12 @@ angular.module('iips-app.controllers', ['iips-app.services'])
                     if(resp.count == 0) {
                         $scope.form.email.$setValidity("correctEmail", false);
                     } else {
-                        $http.post('http://localhost:8080/auth/forgot_password', { email: $scope.loginData.email }).then(function() { 
-                            alert("Yo! Check yo mail dood!");
+                        $http.post(auth_base + '/forgot_password', { email: $scope.loginData.email }).then(function(respPasscode) { 
+                            $scope.currentUser = resp[0].id;
+                            $localstorage.set('OTP', respPasscode.data.passcode);
+                            $scope.getOTP = true;
+                            $scope.form.email.$setViewValue('');
                         });
-                        /*$scope.currentUser = resp[0].id;
-                        $localstorage.set('OTP', '1234');
-                        $scope.getOTP = true;
-                        $scope.form.email.$setViewValue('');*/
                     }
                 },
                 function(err) {
@@ -632,8 +630,8 @@ angular.module('iips-app.controllers', ['iips-app.services'])
             $rootScope.show('Please wait.. Saving');
             $scope.currentUser = $rootScope.userData.id;
             API.userUpdate($scope.currentUser, {
-                password: $rootScope.userData.password,
-                verify:   $rootScope.userData.verify,
+                password: md5($rootScope.userData.password),
+                verify:   md5($rootScope.userData.verify),
                 email:    $rootScope.userData.email
             });
             API.studentUpdate($rootScope.userData.StudentId, {
@@ -648,7 +646,7 @@ angular.module('iips-app.controllers', ['iips-app.services'])
                 if($scope.form.$valid) {
                     userdata = {
                         username: $rootScope.userData.username,
-                        password: $rootScope.userData.password,
+                        password: md5($rootScope.userData.password),
                         verify: $rootScope.userData.verify,
                         email: $rootScope.userData.email                        
                     }

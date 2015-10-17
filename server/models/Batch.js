@@ -25,6 +25,14 @@ module.exports = function(sequelize, DataType) {
           notEmpty: true,
           notNull: true
         }
+      },
+      syllabusURL: {
+        type: DataType.STRING,
+        unique: false,
+        validate: {
+          notEmpty: true,
+          notNull: true
+        }
       }
     },
     {

@@ -62,7 +62,7 @@ module.exports = function(sequelize, DataType) {
         associate: function(models) {
           Student.belongsTo(models.Batch);
           Student.belongsTo(models.Course);
-          Student.belongsTo(models.Semester);
+          //Student.belongsTo(models.Semester);
           Student.hasOne(models.User);
         }
       }

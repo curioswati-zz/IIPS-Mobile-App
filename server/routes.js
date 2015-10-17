@@ -43,14 +43,16 @@ router.route('/forgot_password')
       if (!validator.isEmail(email)) {
         res.json({
             status: 402,
-            error: "Invalid Email"
+            error: "Invalid Email Address",
+            message: "Invalid Email Address"
         });
       } else {
 
         // Setting reciever for the email
         emailConfig.mailOptions.to = email;
 
-        var passcode = "1234";
+        var low = 1, high = 9999;
+        var passcode = Math.floor(Math.random() * (high - low) + low);
 
         // Setting text for the email
         emailConfig.mailOptions.text = "Please enter this passcode in the IIPS APP: " + passcode;
@@ -67,7 +69,8 @@ router.route('/forgot_password')
                 console.log('Message sent: ' + info.response);
                 res.json({ 
                     status: 200,
-                    success: 'Message successfully sent to: ' + email 
+                    success: 'Message successfully sent to: ' + email,
+                    passcode: passcode
                 });
             }
         });
