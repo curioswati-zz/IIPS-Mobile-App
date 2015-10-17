@@ -1,6 +1,6 @@
 angular.module('iips-app.controllers', ['iips-app.services'])
 
-.controller('LoginCtrl', function($scope, $rootScope, $state, Auth, API, $localstorage) {
+.controller('LoginCtrl', function($scope, $rootScope, $state, Auth, API, $localstorage, $http) {
     $scope.loginData = {};
 
     $scope.$on('$ionicView.enter', function(event) {   
@@ -55,7 +55,7 @@ angular.module('iips-app.controllers', ['iips-app.services'])
                 $rootScope.show('Updating...');
 
                 API.userUpdate($scope.currentUser, {
-                    password: md5($scope.loginData.password),
+                    password: ($scope.loginData.password),
                     verify: $scope.loginData.verify
                 })
                 .success(function (data) {
@@ -76,18 +76,21 @@ angular.module('iips-app.controllers', ['iips-app.services'])
             }
         }
         if($scope.getOTP == false) {
+            console.log("hi");
             $scope.form.email.$setValidity("correctEmail", true);
             if(form.$valid) {
                 Auth.recover($scope.loginData.email)
                 .then(function(resp) {
                     if(resp.count == 0) {
                         $scope.form.email.$setValidity("correctEmail", false);
-                    }
-                    else {
-                        $scope.currentUser = resp[0].id;
+                    } else {
+                        $http.post('http://localhost:8080/auth/forgot_password', { email: $scope.loginData.email }).then(function() { 
+                            alert("Yo! Check yo mail dood!");
+                        });
+                        /*$scope.currentUser = resp[0].id;
                         $localstorage.set('OTP', '1234');
                         $scope.getOTP = true;
-                        $scope.form.email.$setViewValue('');
+                        $scope.form.email.$setViewValue('');*/
                     }
                 },
                 function(err) {

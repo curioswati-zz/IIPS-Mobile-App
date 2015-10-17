@@ -2,7 +2,13 @@ var express        = require("express");
 var passport       = require('passport');
 var router         = express.Router(); 
 var models         = require("./models/index");
+var nodemailer     = require('nodemailer');
+var validator      = require('validator');
 var User           = models.User;
+
+var emailConfig = require('./config/email');
+// create reusable transporter object using SMTP transport
+var transporter = nodemailer.createTransport(emailConfig.options);
 
 // middleware to use for all requests
 router.use(function(req, res, next) {
@@ -28,6 +34,45 @@ router.route('/login')
       return res.status(401).json(info);
     }
   }) (req, res, next);
+});
+
+router.route('/forgot_password')
+  .post(function(req, res, next) {
+      var email = req.body.email;
+      console.log("[" + Date.now() + "] Forgot Password request for email: ", email);
+      if (!validator.isEmail(email)) {
+        res.json({
+            status: 402,
+            error: "Invalid Email"
+        });
+      } else {
+
+        // Setting reciever for the email
+        emailConfig.mailOptions.to = email;
+
+        var passcode = "1234";
+
+        // Setting text for the email
+        emailConfig.mailOptions.text = "Please enter this passcode in the IIPS APP: " + passcode;
+
+        // send mail with defined transport object
+        transporter.sendMail(emailConfig.mailOptions, function(error, info){
+            if(error){
+                res.json({ 
+                    error: error,
+                    message: 'Error sending message'
+                });
+                console.log(error);
+            } else {
+                console.log('Message sent: ' + info.response);
+                res.json({ 
+                    status: 200,
+                    success: 'Message successfully sent to: ' + email 
+                });
+            }
+        });
+      
+      }
 });
 
 module.exports = router;
