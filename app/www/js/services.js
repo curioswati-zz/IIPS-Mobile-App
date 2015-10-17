@@ -39,7 +39,7 @@ angular.module('iips-app.services', [])
     }
 })
 .factory('FileService', function($localstorage) {
-    var images;
+    var images = [];
     var IMAGE_STORAGE_KEY = 'images';
 
     return {
@@ -54,15 +54,16 @@ angular.module('iips-app.services', [])
             }
             return images;
         },
-        addImage: function(img) {
+        storeImage: function(img) {
             images.push(img);
             $localstorage.set(IMAGE_STORAGE_KEY, JSON.stringify(images));
         }
     }
 })
-.factory('ImageService', function($cordovaCamera, FileService, $cordovaFile, $q) {
+.factory('ImageService', function($cordovaCamera, FileService, $q, $cordovaFile) {
     imgService = {}
 
+    //--------------------------- create a random id for image -------------------------------------
     imgService.makeid = function() {
         var text = '';
         var possible = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
@@ -90,25 +91,48 @@ angular.module('iips-app.services', [])
             saveToPhotoAlbum: false
         }
     };
+
+    //----------------- select image from gallery or camera and save to app directory---------------
     imgService.saveMedia = function(type) {
         return $q(function(resolve, reject) {
             var options = imgService.optionsForType(type);
 
-            $cordovaCamera.getPicture(options).then(function(imageUrl) {
-                var name = imageUrl.substr(imageUrl.lastIndexOf('/') + 1);
-                var namePath = imageUrl.substr(0, imageUrl.lastIndexOf('/') + 1);
-                var newName = imgService.makeid() + name;
-                $cordovaFile.copyFile(namePath, name, cordova.file.dataDirectory, newName)
-                .then(function(info) {
-                    FileService.storeImage(newName);
-                    resolve();
-                },
-                function(e) {
-                    reject();
-                });
+            // get the picture
+            $cordovaCamera.getPicture(options)
+            .then(function(imageUrl) {
+
+                // if android:
+                    // import from the gallery on Android could be a security constraint,
+                    // $cordovaCamera does not return the real local URI.
+
+                if(ionic.Platform.isAndroid() && type === 1){
+
+                    // So need to get the native url using FilePath plugin.
+                    window.FilePath.resolveNativePath(imageUrl, function(nativeUrl){
+
+                        var name = nativeUrl.substr(nativeUrl.lastIndexOf('/') + 1);
+
+                        var namePath = nativeUrl.substr(0, nativeUrl.lastIndexOf('/') + 1);
+                        namePath = "file://"+namePath;
+
+                        var newName = imgService.makeid() + name;
+
+                        $cordovaFile.copyFile(namePath, name, cordova.file.dataDirectory, newName)
+                        .then(function(info) {
+                            FileService.storeImage(newName);
+                            resolve();
+                        },
+                        function(e) {
+                            reject();
+                        });
+                    },
+                    function(err) {
+                        console.log(err);
+                    });
+                }
             });
         })
-    };
+    }
     return imgService;
 })
 .factory('API', function($rootScope, $http, $ionicLoading, $window, $resource) {
@@ -132,7 +156,7 @@ angular.module('iips-app.services', [])
         };
         $rootScope.setToken = function (token) {
             return $window.localStorage.token = token;
-        }
+        };
         return {
             userSignup: function(userForm) {
                 return $http.post(api_base+'/Users', userForm);
@@ -148,6 +172,28 @@ angular.module('iips-app.services', [])
             },
             submitData: function(model, form) {
                 return $http.post(api_base+'/'+model, form);
+            },
+            checkUniqueRoll: function(property, value) {
+                return $http.get(api_base+"/Students?"+property+"="+escape(value))
+                .then(function(resp) {
+                    if (resp.data.count > 0) {
+                        return false
+                    }
+                    else {
+                        return true;                        
+                    }
+                });
+            },
+            checkUniqueEmail: function(property, value) {
+                return $http.get(api_base+"/Users?"+property+"="+escape(value))
+                .then(function(resp) {
+                    if (resp.data.count > 0) {
+                        return false
+                    }
+                    else {
+                        return true;                        
+                    }
+                });
             }
         }
 })
@@ -168,7 +214,7 @@ angular.module('iips-app.services', [])
       if(token){
         var payload = JSON.parse($window.atob(token.split('.')[1]));
 
-        $window.localStorage['username'] = payload.username;
+        $window.localStorage['email'] = payload.email;
         return payload.exp > Date.now() / 1000;
       } else {
         return false;
@@ -180,7 +226,7 @@ angular.module('iips-app.services', [])
         var token = auth.getToken();
         var payload = JSON.parse($window.atob(token.split('.')[1]));
 
-        return payload.username;
+        return payload.email;
       }
     };
     auth.login = function(loginForm) {
@@ -249,8 +295,8 @@ angular.module('iips-app.services', [])
 
 .factory('User', function($http) {
     return {
-        getUser: function(username) {
-            return $http.get(api_base+'/Users?username='+username)
+        getUser: function(email) {
+            return $http.get(api_base+'/Users?email='+email)
             .then(function(resp) {
                 return resp.data.data[0];
             });

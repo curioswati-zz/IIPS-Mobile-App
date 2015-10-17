@@ -65,7 +65,6 @@ module.exports = function(sequelize, DataType) {
         associate: function(models) {
           Batch.belongsTo(models.Course);
           Batch.belongsTo(models.Faculty);
-          Batch.hasMany(models.Slot);
         }
       }
     });

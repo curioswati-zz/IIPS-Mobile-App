@@ -11,18 +11,6 @@ module.exports = function(sequelize, DataType) {
           notEmpty: true
         }
       },
-      course: {
-        type: DataType.STRING,
-        validate: {
-          notNull: true,
-        }
-      },
-      sem: {
-        type: DataType.STRING,
-        validate: {
-          notNull: true,
-        }
-      },
       rollno: {
         type: DataType.STRING,
         unique: true,
@@ -47,11 +35,9 @@ module.exports = function(sequelize, DataType) {
         },
         add: function(onSuccess, onError) {
           var fullname = this.fullname;
-          var course = this.course;
-          var sem = this.sem;
           var rollno = this.rollno;
 
-          Student.build({ fullname: fullname, course: course, sem: sem, rollno: rollno})
+          Student.build({ fullname: fullname, rollno: rollno})
           .save()
           .success(onSuccess)
           .error(onError);
@@ -59,11 +45,9 @@ module.exports = function(sequelize, DataType) {
         updateById: function(user_id, onSuccess, onError) {
           var id = user_id;
           var fullname = this.fullname;
-          var course = this.course;
-          var sem = this.sem;
           var rollno = this.rollno;
 
-          Student.update({ fullname: fullname, course: course, sem: sem, rollno: rollno },
+          Student.update({ fullname: fullname, rollno: rollno },
                     {where: {id: id} })
           .success(onSuccess)
           .error(onError);
@@ -77,6 +61,8 @@ module.exports = function(sequelize, DataType) {
       classMethods: {
         associate: function(models) {
           Student.belongsTo(models.Batch);
+          Student.belongsTo(models.Course);
+          Student.belongsTo(models.Semester);
           Student.hasOne(models.User);
         }
       }

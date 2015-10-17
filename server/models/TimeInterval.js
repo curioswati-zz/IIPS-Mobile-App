@@ -38,12 +38,7 @@ module.exports = function(sequelize, DataType) {
   				.success(onSuccess)
   				.error(onError);
   			}
-  		},
-      classMethods: {
-        associate: function(models) {
-          TimeInterval.belongsTo(models.Subject);
-        }
-      }
+  		}
 	});
 
 	return TimeInterval;
