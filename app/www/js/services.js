@@ -164,7 +164,10 @@ angular.module('iips-app.services', [])
                 return $http.post(api_base+'/Users', userForm);
             },
             studentSignup: function(studentForm) {
-                return $http.post(api_base+'/Students', studentForm);
+                return $http.post(api_base+'/Students', studentForm)
+                .then(function(resp) {
+                    return resp.data.data;
+                });
             },
             userUpdate: function(user_id, userForm) {
                 return $http.put(api_base+'/Users/'+user_id, userForm);
