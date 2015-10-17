@@ -70,6 +70,12 @@ module.exports = function(sequelize, DataType) {
           .success(onSuccess)
           .error(onError);
         }
+      },
+      classMethods: {
+        associate: function(models) {
+          Faculty.hasOne(models.Batch, { foreignKeyConstraint: true});
+          Faculty.hasMany(models.Subject, { foreignKeyConstraint: true});
+        }
       }
     });
 

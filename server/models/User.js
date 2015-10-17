@@ -80,7 +80,7 @@ module.exports = function(sequelize, DataType) {
 			},
 			classMethods: {
 				associate: function(models) {
-					User.belongsTo(models.Student);
+					User.belongsTo(models.Student, { foreignKeyConstraint: true, onUpdate: 'SET DEFAULT', onDelete: 'CASCADE' });
 				}
 			}
 		});

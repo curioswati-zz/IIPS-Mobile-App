@@ -20,7 +20,6 @@ module.exports = function(sequelize, DataType) {
       },
       roomNo: {
         type: DataType.INTEGER,
-        unique: true,
         validate: {
           notEmpty: true,
           notNull: true
@@ -63,8 +62,9 @@ module.exports = function(sequelize, DataType) {
       },
       classMethods: {
         associate: function(models) {
-          Batch.belongsTo(models.Course);
-          Batch.belongsTo(models.Faculty);
+          Batch.belongsTo(models.Course, { foreignKeyConstraint: true});
+          Batch.belongsTo(models.Faculty, { foreignKeyConstraint: true});
+          Batch.hasMany(models.Student, { foreignKeyConstraint: true});
         }
       }
     });

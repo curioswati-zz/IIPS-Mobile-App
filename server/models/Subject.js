@@ -49,8 +49,8 @@ module.exports = function(sequelize, DataType) {
     },
     classMethods: {
       associate: function(models) {
-        Subject.belongsTo(models.Faculty);
-        Subject.hasOne(models.Slot);
+        Subject.belongsTo(models.Faculty, { foreignKeyConstraint: true});
+        Subject.hasOne(models.Slot, { foreignKeyConstraint: true});
       }
     }
   });
