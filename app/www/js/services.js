@@ -1,7 +1,11 @@
-var api_base  = "http://ec2-54-254-218-67.ap-southeast-1.compute.amazonaws.com/api";
-var auth_base = "http://ec2-54-254-218-67.ap-southeast-1.compute.amazonaws.com/auth";
-//var api_base  = "http://localhost:8080/api";
-//var auth_base = "http://localhost:8080/auth";
+// var api_base  = "http://ec2-54-254-218-67.ap-southeast-1.compute.amazonaws.com/api";
+// var auth_base = "http://ec2-54-254-218-67.ap-southeast-1.compute.amazonaws.com/auth";
+
+var api_base  = "http://localhost:8080/api";
+var auth_base = "http://localhost:8080/auth";
+
+// var api_base  = "http://10.0.2.2:8080/api";
+// var auth_base = "http://10.0.2.2:8080/auth";
 
 angular.module('iips-app.services', [])
 
@@ -106,6 +110,8 @@ angular.module('iips-app.services', [])
                 // if android:
                     // import from the gallery on Android could be a security constraint,
                     // $cordovaCamera does not return the real local URI.
+
+                    console.log(imageUrl);
 
                 if(ionic.Platform.isAndroid() && type === 1){
 
@@ -320,10 +326,33 @@ angular.module('iips-app.services', [])
     }
 })
 
+.factory('Semester', function($http) {
+    return {
+        getSemester: function(sid) {
+            return $http.get(api_base+"/Semesters/"+sid)
+            .then(function(resp) {
+                return resp.data.data;
+            })
+        },
+        getSemesters: function(cid) {
+            return $http.get(api_base+"/Semesters?CourseId="+cid)
+            .then(function(resp) {
+                return resp.data.data;
+            })
+        }
+    }
+})
+
 .factory('Batch', function($http) {
     return {
         getBatch: function(id) {
             return $http.get(api_base+'/Batches/'+id)
+            .then(function(resp) {
+                return resp.data.data;
+            });
+        },
+        getBatches: function() {
+            return $http.get(api_base+'/Batches')
             .then(function(resp) {
                 return resp.data.data;
             });
@@ -334,7 +363,7 @@ angular.module('iips-app.services', [])
 .factory('Slot', function($http, $q) {
     return {
         getSlot: function(id, day) {
-            return $http.get(api_base+'/Slots?BatchId='+id+'&&Day='+day+'&&sort=TimeIntervalId')
+            return $http.get(api_base+'/Slots?SemesterId='+id+'&&Day='+day+'&&sort=TimeIntervalId')
             .then(function(resp) {
                 return resp.data.data;
             });
@@ -381,71 +410,3 @@ angular.module('iips-app.services', [])
         }
     }
 })
-
-.factory('Subjects', function() {
-
-    var subjects = [{
-        id: 708,
-        name: 'Bio. info.',
-        time: '10:00 AM'
-    }, {
-        id: 701,
-        name: 'Comp. arch.',
-        time: '11:00 AM'        
-    }, {
-        id: 703,
-        name: 'Disc. str.',
-        time: '12:00 AM'
-    }];
-
-    return {
-        all: function() {
-            return subjects;
-        }
-    };
-})
-
-.factory('ClassDetails', function() {
-
-    var classDetails = [{
-        name: 'Room No.',
-        value: '201'
-    }, {
-        name: 'Department',
-        value: 'Technical'
-    }, {
-        name: 'HOD',
-        value: 'Unknown'
-    }, {
-        name: 'Program Incharge',
-        value: 'Kirti Mathur'
-    }, {
-        name: 'Batch Mentor',
-        value: 'Rajesh Verma'
-    }];
-
-    return {
-        all: function() {
-            return classDetails;
-        }
-    };
-})
-// .factory('User', function() {
-
-//     var user = [{
-//         name: 'Course',
-//         value: 'M.Tech'
-//     }, {
-//         name: 'Sem',
-//         value: 'VII'
-//     }, {
-//         name: 'Email',
-//         value: 'jaiswalswati94@gmail.com'
-//     }];
-
-//     return {
-//         all: function() {
-//             return user;
-//         }
-//     };
-// });
