@@ -31,12 +31,10 @@ angular.module('iips-app.controllers', ['iips-app.services'])
     };
 
     $rootScope.urlForImage = function(imageName) {
-        console.log("h");
         if (!$rootScope.imageShown){
             $scope.imageShown = true;
 
             if(imageName == 'avatar.jpeg') {
-                console.log("image avatar");
                 return "img/"+imageName;
             }
             else {
@@ -117,7 +115,7 @@ angular.module('iips-app.controllers', ['iips-app.services'])
                     $scope.form.verify.$setViewValue('');
                 })
                 .error(function (error) {
-                    $rootScope.hide();                
+                    $rootScope.hide();
                 });
             }
             else {
@@ -463,8 +461,8 @@ angular.module('iips-app.controllers', ['iips-app.services'])
 })
 
 .controller('DashCtrl', function($rootScope, $scope, $state, $sce,
-                                    $localstorage, $ionicUser, $ionicPush,
-                                    Auth, Subject, Slot, TimeInterval, Faculty) {
+                                    $localstorage, Auth, Subject,
+                                    Slot, TimeInterval, Faculty, Quote) {
 
     //------------------------------- some globals used in the controller---------------------------
     $scope.data        = {};
