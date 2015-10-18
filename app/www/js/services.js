@@ -133,6 +133,7 @@ angular.module('iips-app.services', [])
                     },
                     function(err) {
                         console.log(err);
+                        reject();
                     });
                 }
             });

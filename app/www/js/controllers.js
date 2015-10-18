@@ -31,12 +31,10 @@ angular.module('iips-app.controllers', ['iips-app.services'])
     };
 
     $rootScope.urlForImage = function(imageName) {
-        console.log("h");
         if (!$rootScope.imageShown){
             $scope.imageShown = true;
 
             if(imageName == 'avatar.jpeg') {
-                console.log("image avatar");
                 return "img/"+imageName;
             }
             else {
@@ -117,7 +115,7 @@ angular.module('iips-app.controllers', ['iips-app.services'])
                     $scope.form.verify.$setViewValue('');
                 })
                 .error(function (error) {
-                    $rootScope.hide();                
+                    $rootScope.hide();
                 });
             }
             else {
@@ -356,6 +354,7 @@ angular.module('iips-app.controllers', ['iips-app.services'])
                     Semester.getSemester(resp.SemesterId)
                     .then(function(resp) {
                         $rootScope.studentData.sem = resp.semNo;
+                        $rootScope.studentData.syllabusUrl = resp.syllabusUrl;
                         $localstorage.setObj('studentData', $rootScope.studentData);
                     })
                 })
@@ -463,8 +462,8 @@ angular.module('iips-app.controllers', ['iips-app.services'])
 })
 
 .controller('DashCtrl', function($rootScope, $scope, $state, $sce,
-                                    $localstorage, $ionicUser, $ionicPush,
-                                    Auth, Subject, Slot, TimeInterval, Faculty) {
+                                    $localstorage, Auth, Subject,
+                                    Slot, TimeInterval, Faculty, Quote) {
 
     //------------------------------- some globals used in the controller---------------------------
     $scope.data        = {};
@@ -597,57 +596,13 @@ angular.module('iips-app.controllers', ['iips-app.services'])
         };
     });
 
-    $scope.syllabus = {
-        url: $sce.trustAsResourceUrl(base_url + '/web/viewer.html?file=' + 'MCA_I.pdf')
-    };
-
-//-------------------------------- To implement push service for ionic.io---------------------------
-
-    // $rootScope.$on('$cordovaPush:tokenReceived', function(event, data) {
-    //     alert("Successfully registered token " + data.token);
-    //     console.log('Ionic Push: Got token ', data.token, data.platform);
-    //     $scope.token = data.token;
-    // });
-
-    // $scope.identifyUser = function() {
-    //     console.log('Ionic User: Identifying with Ionic User service');
-
-    //     var user = $ionicUser.get();
-    //     if(!user.user_id) {
-    //       // Set your user_id here, or generate a random one.
-    //       user.user_id = $ionicUser.generateGUID();
-    //     };
-
-    //     // Add some metadata to your user object.
-    //     angular.extend(user, {
-    //       name: 'Ionitron',
-    //       bio: 'I come from planet Ion'
-    //     });
-
-    //     // Identify your user with the Ionic User Service
-    //     $ionicUser.identify(user).then(function(){
-    //       $scope.identified = true;
-    //       alert('Identified user ' + user.name + '\n ID ' + user.user_id);
-    //     });
-    // };
-
-    // $scope.pushRegister = function() {
-    //     console.log('Ionic Push: Registering user');
-
-    //     // Register with the Ionic Push service.  All parameters are optional.
-    //     $ionicPush.register({
-    //       canShowAlert: true, //Can pushes show an alert on your screen?
-    //       canSetBadge: true, //Can pushes update app icon badges?
-    //       canPlaySound: true, //Can notifications play a sound?
-    //       canRunActionsOnWake: true, //Can run actions outside the app,
-    //       onNotification: function(notification) {
-    //         // Handle new push notifications here
-    //         // console.log(notification);
-    //         return true;
-    //       }
-    //     });
-    // };
-//--------------------------------------------------------------------------------------------------
+    setTimeout(function() {
+        $scope.syllabus = {
+            // url: $sce.trustAsResourceUrl($rootScope.studentData.syllabusUrl)
+            url: $sce.trustAsResourceUrl(base_url + '/web/viewer.html?file=' + 'MCA_II.pdf')
+        };
+        console.log("syllabus url: ",$scope.studentData.syllabusUrl);
+    }, 200);
 })
 
 .controller('ProCtrl', function($scope, $rootScope, $state,

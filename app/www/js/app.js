@@ -7,8 +7,6 @@ angular.module('iips-app',
                 'ngCordova',
                 'ngMessages',
                 'ngResource',
-                'ionic.service.core',
-                'ionic.service.push',
                 'iips-app.controllers',
                 'iips-app.services',
                 'iips-app.directives'])
@@ -44,22 +42,6 @@ angular.module('iips-app',
 
 .config(function($compileProvider){
   $compileProvider.imgSrcSanitizationWhitelist(/^\s*(https?|file|blob|cdvfile|content):|data:image\//);
-})
-
-.config(['$ionicAppProvider', function($ionicAppProvider) {
-  // Identify app
-  $ionicAppProvider.identify({
-    // The App ID (from apps.ionic.io) for the server
-    app_id: '6c5cd62e',
-    // The public API key all services will use for this app
-    api_key: '8549532d70a7b6a46e6419ac821a152b725324a4c891d230',
-    // Set the app to use development pushes
-    dev_push: true
-  });
-}])
-
-.config(function($compileProvider){
-  $compileProvider.imgSrcSanitizationWhitelist(/^\s*(https?|ftp|mailto|file|tel):/);
 })
 
 .config(function($stateProvider, $urlRouterProvider) {
