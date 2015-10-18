@@ -33,7 +33,7 @@ passport.use(new LocalStrategy(
       if (!user) {
         return done(null, false, {message: 'Incorrect username.' });
       }
-      if (!(password == user.password)) {
+      if (!(password === user.password)) {
       //if (!Password.validate(password, user.password)) {
         return done(null, false, {message: 'Incorrect password.'});
       }

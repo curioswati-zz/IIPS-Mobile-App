@@ -448,7 +448,7 @@ angular.module('iips-app.controllers', ['iips-app.services'])
     //----------------------------------------------------------------------------------------------
 })
 
-.controller('DashCtrl', function($rootScope, $scope, $state,
+.controller('DashCtrl', function($rootScope, $scope, $state, $sce,
                                     $localstorage, $ionicUser, $ionicPush,
                                     Auth, Subject, Slot, TimeInterval, Faculty) {
 
@@ -571,6 +571,10 @@ angular.module('iips-app.controllers', ['iips-app.services'])
             $state.go('tab.dash');
         };
     });
+
+    $scope.syllabus = {
+        url: $sce.trustAsResourceUrl(base_url + '/web/viewer.html?file=' + 'MCA_I.pdf')
+    };
 
 //-------------------------------- To implement push service for ionic.io---------------------------
 

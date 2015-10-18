@@ -1,8 +1,8 @@
-// var api_base  = "http://ec2-54-254-218-67.ap-southeast-1.compute.amazonaws.com/api";
-// var auth_base = "http://ec2-54-254-218-67.ap-southeast-1.compute.amazonaws.com/auth";
+//var base_url = "http://localhost:8080";
+var base_url = "http://ec2-54-254-218-67.ap-southeast-1.compute.amazonaws.com";
 
-var api_base  = "http://localhost:8080/api";
-var auth_base = "http://localhost:8080/auth";
+var api_base  = base_url + "/api";
+var auth_base = base_url + "/auth";
 
 angular.module('iips-app.services', [])
 

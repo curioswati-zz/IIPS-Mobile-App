@@ -332,3 +332,12 @@ a {
 	position: relative;
 	top: 20px;
 }
+
+/*-----------------------------------------syllabus.html------------------------------------------*/
+.syllabus-pdf-box {
+    position: absolute;
+    top: 140px;
+    bottom: 45px;
+    left: 0;
+    right: 0;
+}

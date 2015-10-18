@@ -1,5 +1,6 @@
 // import modules
 var express        = require("express");
+var path           = require('path');
 var bodyParser     = require("body-parser");
 var methodOverride = require("method-override");
 var http           = require('http');
@@ -28,6 +29,9 @@ app.use(bodyParser.urlencoded({extended: true}));
 app.use(bodyParser.json());
 app.use(methodOverride('X-HTTP-Method-Override'));
 app.use(passport.initialize());
+
+// For serving PDFs 
+app.use(express.static(path.join(__dirname, 'pdfjs')));
 
 // add CORS support
 app.use(function(req, res, next) {
