@@ -3,6 +3,8 @@ angular.module('iips-app.controllers', ['iips-app.services'])
 .controller('AppCtrl', function($scope, $rootScope, $state, $http,
                                 Course, Semester, Batch) {
 
+    $rootScope.imageShown = false;
+
     Course.getCourses()
     .then(function(resp) {
         $rootScope.courses = resp;
@@ -28,6 +30,23 @@ angular.module('iips-app.controllers', ['iips-app.services'])
         $rootScope.formError = false;
     };
 
+    $rootScope.urlForImage = function(imageName) {
+        console.log("h");
+        if (!$rootScope.imageShown){
+            $scope.imageShown = true;
+
+            if(imageName == 'avatar.jpeg') {
+                console.log("image avatar");
+                return "img/"+imageName;
+            }
+            else {
+                var trueOrigin = cordova.file.dataDirectory + imageName;
+                // trueOrigin = trueOrigin.split('//')[1];
+    
+                return trueOrigin;
+            }
+        }
+    }
 })
 
 .controller('LoginCtrl', function($scope, $rootScope, $state, Auth, API, $localstorage) {
@@ -86,10 +105,10 @@ angular.module('iips-app.controllers', ['iips-app.services'])
                 $rootScope.show('Updating...');
 
                 API.userUpdate($scope.currentUser, {
-                    password: md5($scope.loginData.password),
-                    verify: md5($scope.loginData.verify)
+                    password: md5($scope.loginData.password)
                 })
                 .success(function (data) {
+                    console.log(data);
                     $localstorage.clean();
                     $rootScope.hide();
 
@@ -165,7 +184,8 @@ angular.module('iips-app.controllers', ['iips-app.services'])
                                     API, Auth) {
 
     $scope.registerData = { "ImageURI" :  "Select Image" };
-    // $scope.registerData.pic = "img/avatar.png";
+    $rootScope.uploadedPic = "avatar.jpeg";
+    $rootScope.imageShown = false;
 
     //---------------------- set the form to be clean at the time of state enter--------------------
     $scope.$on('$ionicView.enter', function(event) {
@@ -237,44 +257,35 @@ angular.module('iips-app.controllers', ['iips-app.services'])
 
     //------------------------- Select profile picture and show after upload------------------------
 
-    // $scope.urlForImage = function(imageName) {
-    //     var trueOrigin = cordova.file.dataDirectory + imageName;
-    //     // trueOrigin = trueOrigin.split('//')[1];
-    //     return trueOrigin;
-    // }
+    $scope.uploadPic = function() {
+        $scope.hideSheet = $ionicActionSheet.show({
+            buttons: [
+            { text: 'Take photo' },
+            { text: 'Photo from library' }
+            ],
+            titleText: 'Add images',
+            cancelText: 'Cancel',
 
-    // $scope.uploadPic = function() {
-    //     $scope.hideSheet = $ionicActionSheet.show({
-    //         buttons: [
-    //         { text: 'Take photo' },
-    //         { text: 'Photo from library' }
-    //         ],
-    //         titleText: 'Add images',
-    //         cancelText: 'Cancel',
+            buttonClicked: function(index) {
+                $scope.addImage(index);
+            }
+        });
+    }
 
-    //         buttonClicked: function(index) {
-    //             $scope.addImage(index);
-    //         }
-    //     });
-    // }
+    $scope.addImage = function(type) {
+        $scope.hideSheet();
+        ImageService.saveMedia(type).then(function() {
+            var images              = FileService.getImages();
+            $rootScope.uploadedPic = images[0];
 
-    // $scope.addImage = function(type) {
-    //     $scope.hideSheet();
-    //     ImageService.saveMedia(type).then(function() {
-    //         var images              = FileService.getImages();
-    //         $scope.registerData.pic = images[0];
-
-    //         // var imageLocation = $scope.urlForImage($scope.registerPic);
-    //         // $scope.registerData.pic = imageLocation;
-
-    //         setTimeout(function() {
-    //             $scope.$apply();
-    //         },1000);
-    //     },
-    //     function(err) {
-    //         console.log(err);
-    //     });
-    // }
+            setTimeout(function() {
+                $scope.$apply();
+            },100);
+        },
+        function(err) {
+            console.log("error: ",typeof(err));
+        });
+    }
 })
 
 .controller('TabCtrl', function($scope, $rootScope, $state,
@@ -634,6 +645,9 @@ angular.module('iips-app.controllers', ['iips-app.services'])
     $scope.others = ['About', 'Feedback', 'Contact Support', 'Open Source License'];
     $scope.sessionRefreshRequired = false;
     $scope.courseChanged = false;
+    $rootScope.imageShown = false;
+
+    $rootScope.uploadedPic = "avatar.jpeg";
 
     //--------------------------check whether user is admin or general user-------------------------
     if ($rootScope.role == 'user') {
@@ -656,14 +670,6 @@ angular.module('iips-app.controllers', ['iips-app.services'])
         //     $scope.proPic = 
         // }
       // });
-
-    // $scope.urlForImage = function(imageName) {
-    //     console.log("hello");
-    //     var trueOrigin = cordova.file.dataDirectory + imageName;
-    //     return trueOrigin;
-    // }
-
-    // $scope.imageUrl = $scope.urlForImage($scope.proPic);
 
     setTimeout(function() {
         $rootScope.studentData.rollno = $rootScope.studentData.rollno.toUpperCase();
@@ -723,14 +729,9 @@ angular.module('iips-app.controllers', ['iips-app.services'])
             updateUser.password = $rootScope.userData.password;
         }
 
-        console.log("yes: ", $scope.courseChanged);
-
         if($scope.courseChanged) {
             $scope.form.sem.$setValidity("semChanged", false);
         }
-        // else {
-        //     $scope.form.sem.$setValidity("semChanged", true);
-        // }
 
         //------------------------------------- check if form is valid------------------------------
         setTimeout(function() {

@@ -248,22 +248,29 @@ angular.module('iips-app.services', [])
         return true;
     };
 
-    auth.recover = function(email) {
+    auth.checkMailExist = function(email) {
         return $http.get(api_base+'/Users?email='+email)
-                .then(function(resp) {
-                    return resp.data.data;
-                });
-    }
+        .then(function(resp) {
+            return resp.data.data;
+        });
+    };
+
+    auth.sendMail = function(receiver) {
+        return $http.post(auth_base + '/forgot_password', receiver)
+        .then(function(respPasscode) {
+            return respPasscode;
+        });
+    };
 
     $rootScope.show = function (text) {
-            $rootScope.loading = $ionicLoading.show({
-                content: text ? text : 'Loading',
-                animation: 'fade-in',
-                showBackdrop: true,
-                maxWidth: 200,
-                showDelay: 0
-            });
-        };
+        $rootScope.loading = $ionicLoading.show({
+            content: text ? text : 'Loading',
+            animation: 'fade-in',
+            showBackdrop: true,
+            maxWidth: 200,
+            showDelay: 0
+        });
+    };
     $rootScope.hide = function () {
         $ionicLoading.hide();
     };
