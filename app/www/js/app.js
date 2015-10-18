@@ -54,34 +54,43 @@ angular.module('iips-app',
   });
 }])
 
+.config(function($compileProvider){
+  $compileProvider.imgSrcSanitizationWhitelist(/^\s*(https?|ftp|mailto|file|tel):/);
+})
+
 .config(function($stateProvider, $urlRouterProvider) {
   $stateProvider
 
     .state('login', {
+        cache: false,
         url: '/login',
         templateUrl: 'templates/login.html',
         controller: 'LoginCtrl',
     })
 
     .state('register', {
+        cache: false,
         url: "/register",
         templateUrl: "templates/register.html",
         controller: 'RegisterCtrl',
     })
 
     .state('tab', {
+      cache: false,
       url: "/tab",
       templateUrl: "templates/tabs.html",
       controller: 'TabCtrl'
     })
 
     .state('admin', {
+      cache: false,
       url: "/admin",
       templateUrl: "templates/admin-tabs.html",
       controller: 'TabCtrl'
     })
 
     .state('admin.dash', {
+      cache: false,
       url: "/dash",
       views: {
         'admin-dash': {
@@ -92,6 +101,7 @@ angular.module('iips-app',
     })
 
     .state('admin.profile', {
+      cache: false,
       url: "/profile",
       views: {
         'admin-profile': {
@@ -102,6 +112,7 @@ angular.module('iips-app',
     })
 
     .state('admin.faculty', {
+      cache: false,
       url: "/faculty",
       views: {
         'admin-dash': {
@@ -112,6 +123,7 @@ angular.module('iips-app',
     })
 
     .state('admin.slot', {
+      cache: false,
       url: "/slot",
       views: {
         'admin-dash': {
@@ -122,6 +134,7 @@ angular.module('iips-app',
     })
 
     .state('admin.subject', {
+      cache: false,
       url: "/subject",
       views: {
         'admin-dash': {
@@ -132,6 +145,7 @@ angular.module('iips-app',
     })
 
     .state('admin.interval', {
+      cache: false,
       url: "/interval",
       views: {
         'admin-dash': {
@@ -152,6 +166,7 @@ angular.module('iips-app',
     })
 
     .state('tab.syllabus', {
+      cache: false,
       url: "/syllabus",
       views: {
         'tab-dash': {
@@ -162,6 +177,7 @@ angular.module('iips-app',
     })
 
     .state('tab.schedule', {
+      cache: false,
       url: "/schedule",
       views: {
         'tab-dash': {
@@ -172,6 +188,7 @@ angular.module('iips-app',
     })
 
     .state('tab.profile', {
+      cache: false,
       url: "/profile",
       views: {
         'tab-profile': {
@@ -182,6 +199,7 @@ angular.module('iips-app',
     })
 
     .state('tab.edit-profile', {
+      cache: false,
       url: "/edit-profile",
       views: {
         'tab-profile': {

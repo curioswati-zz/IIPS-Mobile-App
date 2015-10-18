@@ -3,8 +3,8 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Generation Time: Oct 16, 2015 at 03:29 PM
--- Server version: 5.5.43-0ubuntu0.14.04.1
+-- Generation Time: Oct 17, 2015 at 12:00 PM
+-- Server version: 5.5.44-0ubuntu0.14.04.1
 -- PHP Version: 5.5.9-1ubuntu4.11
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
@@ -23,63 +23,15 @@ SET time_zone = "+00:00";
 -- --------------------------------------------------------
 
 --
--- Table structure for table `Batches`
---
-
-CREATE TABLE IF NOT EXISTS `Batches` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `batchID` varchar(255) DEFAULT NULL,
-  `batchName` varchar(255) DEFAULT NULL,
-  `roomNo` int(11) DEFAULT NULL,
-  `CourseId` int(11) DEFAULT NULL,
-  `FacultyId` int(11) DEFAULT NULL,
-  PRIMARY KEY (`id`),
-  UNIQUE KEY `batchName` (`batchName`),
-  UNIQUE KEY `roomNo` (`roomNo`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=25 ;
-
---
--- Dumping data for table `Batches`
---
-
-INSERT INTO `Batches` (`id`, `batchID`, `batchName`, `roomNo`, `CourseId`, `FacultyId`) VALUES
-(1, 'IT', 'IT-2K10', NULL, 1, 0),
-(2, 'IT', 'IT-2K11', NULL, 1, 0),
-(3, 'IT', 'IT-2K12', 201, 1, 29),
-(4, 'IT', 'IT-2K13', NULL, 1, 0),
-(5, 'IT', 'IT-2K14', NULL, 1, 0),
-(6, 'IT', 'IT-2K15', NULL, 1, 0),
-(7, 'IC', 'IC-2K10', NULL, 2, 0),
-(8, 'IC', 'IC-2K11', NULL, 2, 0),
-(9, 'IC', 'IC-2K12', NULL, 2, 25),
-(10, 'IC', 'IC-2K13', NULL, 2, 0),
-(11, 'IC', 'IC-2K14', NULL, 2, 0),
-(12, 'IC', 'IC-2K15', NULL, 2, 0),
-(13, 'IM', 'IM-2K11', NULL, 3, 0),
-(14, 'IM', 'IM-2K12', NULL, 3, 0),
-(15, 'IM', 'IM-2K13', NULL, 3, 0),
-(16, 'IM', 'IM-2K14', NULL, 3, 0),
-(17, 'IM', 'IM-2K15', NULL, 3, 0),
-(18, 'IB', 'IB-2K13', NULL, 5, 0),
-(19, 'IB', 'IB-2K14', NULL, 5, 0),
-(20, 'IB', 'IB-2K15', NULL, 5, 0),
-(21, 'AP', 'AP-2K14', NULL, 6, 0),
-(22, 'AP', 'AP-2K15', NULL, 6, 0),
-(23, 'TA', 'TA-2K14', NULL, 7, 0),
-(24, 'TA', 'TA-2K15', NULL, 7, 0);
-
--- --------------------------------------------------------
-
---
 -- Table structure for table `Courses`
 --
 
 CREATE TABLE IF NOT EXISTS `Courses` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `courseName` varchar(255) DEFAULT NULL,
-  `sem` int(11) DEFAULT NULL,
   `dept` varchar(255) DEFAULT NULL,
-  PRIMARY KEY (`id`)
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `courseName` (`courseName`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=10 ;
 
 --
@@ -175,72 +127,123 @@ INSERT INTO `Faculties` (`id`, `facultyID`, `facultyName`, `designation`, `quali
 -- --------------------------------------------------------
 
 --
--- Table structure for table `Slots`
+-- Table structure for table `Batches`
 --
 
-CREATE TABLE IF NOT EXISTS `Slots` (
+CREATE TABLE IF NOT EXISTS `Batches` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `Day` varchar(255) DEFAULT NULL,
-  `SemesterId` int(11) DEFAULT NULL,
-  `TimeIntervalId` int(11) DEFAULT NULL,
-  `SubjectId` int(11) DEFAULT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=33 ;
+  `batchID` varchar(255) DEFAULT NULL,
+  `batchName` varchar(255) DEFAULT NULL,
+  `roomNo` int(11) DEFAULT NULL,
+  `CourseId` int(11) DEFAULT NULL,
+  `FacultyId` int(11) DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `batchName` (`batchName`),
+  KEY `CourseId` (`CourseId`),
+  KEY `FacultyId` (`FacultyId`)
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=25 ;
 
 --
--- Dumping data for table `Slots`
+-- Dumping data for table `Batches`
 --
 
-INSERT INTO `Slots` (`id`, `Day`, `SemesterId`, `TimeIntervalId`, `SubjectId`) VALUES
-(1, 'Monday', 3, 4, 2),
-(2, 'Monday', 3, 5, 3),
-(3, 'Monday', 3, 7, 4),
-(4, 'Tuesday', 3, 4, 2),
-(5, 'Tuesday', 3, 5, 3),
-(6, 'Tuesday', 3, 7, 4),
-(7, 'Wednesday', 3, 4, 4),
-(8, 'Wednesday', 3, 5, 3),
-(9, 'Thursday', 3, 1, 1),
-(10, 'Thursday', 3, 4, 4),
-(11, 'Thursday', 3, 5, 3),
-(12, 'Friday', 3, 4, 2),
-(13, 'Friday', 3, 6, 5),
-(14, 'Saturday', 3, 1, 1),
-(15, 'Saturday', 3, 4, 2),
-(16, 'Saturday', 3, 6, 5),
-(17, 'Monday', 9, 4, 9),
-(18, 'Monday', 9, 5, 8),
-(19, 'Monday', 9, 7, 7),
-(20, 'Tuesday', 9, 4, 9),
-(21, 'Tuesday', 9, 5, 8),
-(22, 'Tuesday', 9, 7, 7),
-(23, 'Wednesday', 9, 4, 7),
-(24, 'Wednesday', 9, 5, 8),
-(25, 'Thursday', 9, 1, 10),
-(26, 'Thursday', 9, 4, 7),
-(27, 'Thursday', 9, 5, 8),
-(28, 'Friday', 9, 4, 9),
-(29, 'Friday', 9, 6, 6),
-(30, 'Saturday', 9, 1, 10),
-(31, 'Saturday', 9, 4, 9),
-(32, 'Saturday', 9, 6, 6);
+INSERT INTO `Batches` (`id`, `batchID`, `batchName`, `roomNo`, `CourseId`, `FacultyId`) VALUES
+(1, 'IT', 'IT-2K10', NULL, 1, 1),
+(2, 'IT', 'IT-2K11', NULL, 1, 2),
+(3, 'IT', 'IT-2K12', NULL, 1, 29),
+(4, 'IT', 'IT-2K13', NULL, 1, 3),
+(5, 'IT', 'IT-2K14', NULL, 1, 4),
+(6, 'IT', 'IT-2K15', NULL, 1, 5),
+(7, 'IC', 'IC-2K10', NULL, 3, 6),
+(8, 'IC', 'IC-2K11', NULL, 3, 7),
+(9, 'IC', 'IC-2K12', NULL, 3, 8),
+(10, 'IC', 'IC-2K13', NULL, 2, 9),
+(11, 'IC', 'IC-2K14', NULL, 2, 10),
+(12, 'IC', 'IC-2K15', NULL, 2, 11),
+(13, 'IM', 'IM-2K11', NULL, 5, 12),
+(14, 'IM', 'IM-2K12', NULL, 5, 13),
+(15, 'IM', 'IM-2K13', NULL, 4, 14),
+(16, 'IM', 'IM-2K14', NULL, 4, 15),
+(17, 'IM', 'IM-2K15', NULL, 4, 16),
+(18, 'IB', 'IB-2K13', NULL, 7, 17),
+(19, 'IB', 'IB-2K14', NULL, 7, 18),
+(20, 'IB', 'IB-2K15', NULL, 7, 19),
+(21, 'AP', 'AP-2K14', NULL, 8, 20),
+(22, 'AP', 'AP-2K15', NULL, 8, 21),
+(23, 'TA', 'TA-2K14', NULL, 9, 22),
+(24, 'TA', 'TA-2K15', NULL, 9, 23);
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `Students`
+-- Table structure for table `Semesters`
 --
 
-CREATE TABLE IF NOT EXISTS `Students` (
+CREATE TABLE IF NOT EXISTS `Semesters` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `fullname` varchar(50) DEFAULT NULL,
-  `course` varchar(255) DEFAULT NULL,
-  `sem` varchar(255) DEFAULT NULL,
-  `rollno` varchar(255) DEFAULT NULL,
-  `BatchId` int(11) DEFAULT NULL,
+  `semNo` varchar(255) DEFAULT NULL,
+  `syllabusUrl` varchar(255) DEFAULT NULL,
+  `CourseId` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`),
-  UNIQUE KEY `rollno` (`rollno`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+  KEY `CourseId` (`CourseId`)
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=52 ;
+
+--
+-- Dumping data for table `Semesters`
+--
+
+INSERT INTO `Semesters` (`id`, `semNo`, `syllabusUrl`, `CourseId`) VALUES
+(1, '1', NULL, 1),
+(2, '2', NULL, 1),
+(3, '3', NULL, 1),
+(4, '4', NULL, 1),
+(5, '5', NULL, 1),
+(6, '6', NULL, 1),
+(7, '7', NULL, 1),
+(8, '8', NULL, 1),
+(9, '9', NULL, 1),
+(10, '10', NULL, 1),
+(11, '11', NULL, 1),
+(12, '1', NULL, 2),
+(13, '2', NULL, 2),
+(14, '3', NULL, 2),
+(15, '4', NULL, 2),
+(16, '5', NULL, 2),
+(17, '6', NULL, 2),
+(18, '7', NULL, 3),
+(19, '8', NULL, 3),
+(20, '9', NULL, 3),
+(21, '10', NULL, 3),
+(22, '11', NULL, 3),
+(23, '12', NULL, 3),
+(24, '1', NULL, 4),
+(25, '2', NULL, 4),
+(26, '3', NULL, 4),
+(27, '4', NULL, 4),
+(28, '5', NULL, 4),
+(29, '6', NULL, 5),
+(30, '7', NULL, 5),
+(31, '8', NULL, 5),
+(32, '9', NULL, 5),
+(33, '10', NULL, 5),
+(34, '1', NULL, 6),
+(35, '2', NULL, 6),
+(36, '3', NULL, 6),
+(37, '4', NULL, 6),
+(38, '1', NULL, 7),
+(39, '2', NULL, 7),
+(40, '3', NULL, 7),
+(41, '4', NULL, 7),
+(42, '1', NULL, 8),
+(43, '2', NULL, 8),
+(44, '3', NULL, 8),
+(45, '4', NULL, 8),
+(46, '1', NULL, 9),
+(47, '2', NULL, 9),
+(48, '3', NULL, 9),
+(49, '4', NULL, 9),
+(50, '5', NULL, 9),
+(51, '6', NULL, 9);
 
 -- --------------------------------------------------------
 
@@ -254,7 +257,8 @@ CREATE TABLE IF NOT EXISTS `Subjects` (
   `subjectCode` varchar(255) DEFAULT NULL,
   `subjectName` varchar(255) DEFAULT NULL,
   `FacultyId` int(11) DEFAULT NULL,
-  PRIMARY KEY (`id`)
+  PRIMARY KEY (`id`),
+  KEY `FacultyId` (`FacultyId`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=11 ;
 
 --
@@ -303,6 +307,82 @@ INSERT INTO `TimeIntervals` (`id`, `beginTime`, `endTime`) VALUES
 (10, '2015-09-13 03:30:00', '2015-09-13 04:30:00'),
 (11, '2015-09-13 04:30:00', '2015-09-13 05:30:00'),
 (12, '2015-09-13 01:00:00', '2015-09-13 03:00:00');
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `Slots`
+--
+
+CREATE TABLE IF NOT EXISTS `Slots` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `Day` varchar(255) DEFAULT NULL,
+  `SemesterId` int(11) DEFAULT NULL,
+  `TimeIntervalId` int(11) DEFAULT NULL,
+  `SubjectId` int(11) DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `SemesterId` (`SemesterId`),
+  KEY `TimeIntervalId` (`TimeIntervalId`),
+  KEY `SubjectId` (`SubjectId`)
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=66 ;
+
+--
+-- Dumping data for table `Slots`
+--
+
+INSERT INTO `Slots` (`id`, `Day`, `SemesterId`, `TimeIntervalId`, `SubjectId`) VALUES
+(34, 'Monday', 7, 4, 2),
+(35, 'Monday', 7, 5, 3),
+(36, 'Monday', 7, 7, 4),
+(37, 'Tuesday', 7, 4, 2),
+(38, 'Tuesday', 7, 5, 3),
+(39, 'Tuesday', 7, 7, 4),
+(40, 'Wednesday', 7, 4, 4),
+(41, 'Wednesday', 7, 5, 3),
+(42, 'Thursday', 7, 1, 1),
+(43, 'Thursday', 7, 4, 4),
+(44, 'Thursday', 7, 5, 3),
+(45, 'Friday', 7, 4, 2),
+(46, 'Friday', 7, 6, 5),
+(47, 'Saturday', 7, 1, 1),
+(48, 'Saturday', 7, 4, 2),
+(49, 'Saturday', 7, 6, 5),
+(50, 'Monday', 18, 4, 9),
+(51, 'Monday', 18, 5, 8),
+(52, 'Monday', 18, 7, 7),
+(53, 'Tuesday', 18, 4, 9),
+(54, 'Tuesday', 18, 5, 8),
+(55, 'Tuesday', 18, 7, 7),
+(56, 'Wednesday', 18, 4, 7),
+(57, 'Wednesday', 18, 5, 8),
+(58, 'Thursday', 18, 1, 10),
+(59, 'Thursday', 18, 4, 7),
+(60, 'Thursday', 18, 5, 8),
+(61, 'Friday', 18, 4, 9),
+(62, 'Friday', 18, 6, 6),
+(63, 'Saturday', 18, 1, 10),
+(64, 'Saturday', 18, 4, 9),
+(65, 'Saturday', 18, 6, 6);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `Students`
+--
+
+CREATE TABLE IF NOT EXISTS `Students` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `fullname` varchar(50) DEFAULT NULL,
+  `rollno` varchar(255) DEFAULT NULL,
+  `BatchId` int(11) DEFAULT NULL,
+  `CourseId` int(11) DEFAULT NULL,
+  `SemesterId` int(11) DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `rollno` (`rollno`),
+  KEY `BatchId` (`BatchId`),
+  KEY `CourseId` (`CourseId`),
+  KEY `SemesterId` (`SemesterId`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+
 
 -- --------------------------------------------------------
 
@@ -316,8 +396,54 @@ CREATE TABLE IF NOT EXISTS `Users` (
   `password` varchar(255) DEFAULT NULL,
   `StudentId` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`),
-  UNIQUE KEY `email` (`email`)
+  UNIQUE KEY `email` (`email`),
+  KEY `StudentId` (`StudentId`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+
+--
+-- Constraints for dumped tables
+--
+
+--
+-- Constraints for table `Batches`
+--
+ALTER TABLE `Batches`
+  ADD CONSTRAINT `Batches_ibfk_1` FOREIGN KEY (`CourseId`) REFERENCES `Courses` (`id`),
+  ADD CONSTRAINT `Batches_ibfk_2` FOREIGN KEY (`FacultyId`) REFERENCES `Faculties` (`id`);
+
+--
+-- Constraints for table `Semesters`
+--
+ALTER TABLE `Semesters`
+  ADD CONSTRAINT `Semesters_ibfk_1` FOREIGN KEY (`CourseId`) REFERENCES `Courses` (`id`);
+
+--
+-- Constraints for table `Slots`
+--
+ALTER TABLE `Slots`
+  ADD CONSTRAINT `Slots_ibfk_1` FOREIGN KEY (`SemesterId`) REFERENCES `Semesters` (`id`),
+  ADD CONSTRAINT `Slots_ibfk_2` FOREIGN KEY (`TimeIntervalId`) REFERENCES `TimeIntervals` (`id`),
+  ADD CONSTRAINT `Slots_ibfk_3` FOREIGN KEY (`SubjectId`) REFERENCES `Subjects` (`id`);
+
+--
+-- Constraints for table `Students`
+--
+ALTER TABLE `Students`
+  ADD CONSTRAINT `Students_ibfk_1` FOREIGN KEY (`BatchId`) REFERENCES `Batches` (`id`),
+  ADD CONSTRAINT `Students_ibfk_2` FOREIGN KEY (`CourseId`) REFERENCES `Courses` (`id`),
+  ADD CONSTRAINT `Students_ibfk_3` FOREIGN KEY (`SemesterId`) REFERENCES `Semesters` (`id`);
+
+--
+-- Constraints for table `Subjects`
+--
+ALTER TABLE `Subjects`
+  ADD CONSTRAINT `Subjects_ibfk_1` FOREIGN KEY (`FacultyId`) REFERENCES `Faculties` (`id`);
+
+--
+-- Constraints for table `Users`
+--
+ALTER TABLE `Users`
+  ADD CONSTRAINT `Users_ibfk_1` FOREIGN KEY (`StudentId`) REFERENCES `Students` (`id`) ON DELETE SET NULL ON UPDATE CASCADE;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;

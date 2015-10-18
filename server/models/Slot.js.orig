@@ -34,9 +34,14 @@ module.exports = function(sequelize, DataType) {
       },
       classMethods: {
         associate: function(models) {
+<<<<<<< HEAD
+          //Slot.belongsTo(models.Semester);
+          Slot.belongsTo(models.TimeInterval);
+=======
           Slot.belongsTo(models.Semester, { foreignKeyConstraint: true});
           Slot.belongsTo(models.TimeInterval, { foreignKeyConstraint: true});
           Slot.belongsTo(models.Subject, { foreignKeyConstraint: true});
+>>>>>>> a6ebbc91a9ad89a17d1a8e13d94a7900a9edd3f2
         }
       }
     });

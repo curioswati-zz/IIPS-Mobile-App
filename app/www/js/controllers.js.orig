@@ -1,6 +1,9 @@
 angular.module('iips-app.controllers', ['iips-app.services'])
 
-.controller('AppCtrl', function($scope, $rootScope, $state, $http
+<<<<<<< HEAD
+.controller('LoginCtrl', function($scope, $rootScope, $state, Auth, API, $localstorage, $http) {
+=======
+.controller('AppCtrl', function($scope, $rootScope, $state,
                                 Course, Semester, Batch) {
 
     Course.getCourses()
@@ -31,6 +34,7 @@ angular.module('iips-app.controllers', ['iips-app.services'])
 })
 
 .controller('LoginCtrl', function($scope, $rootScope, $state, Auth, API, $localstorage) {
+>>>>>>> a6ebbc91a9ad89a17d1a8e13d94a7900a9edd3f2
     $scope.loginData = {};
 
     $scope.$on('$ionicView.enter', function(event) {
@@ -710,6 +714,7 @@ angular.module('iips-app.controllers', ['iips-app.services'])
 
         $scope.form = form;
 
+<<<<<<< HEAD
         if (form.$valid) {
             $rootScope.show('Please wait.. Saving');
             $scope.currentUser = $rootScope.userData.id;
@@ -733,6 +738,7 @@ angular.module('iips-app.controllers', ['iips-app.services'])
                         password: md5($rootScope.userData.password),
                         verify: $rootScope.userData.verify,
                         email: $rootScope.userData.email                        
+=======
         updateUser = {'email': $rootScope.userData.email};
 
         //--- if password was not changed, we need to send the current password with the request----
@@ -773,6 +779,7 @@ angular.module('iips-app.controllers', ['iips-app.services'])
                         alert("Session refresh required! Please login back.")
                         $rootScope.notify("Session refresh required! Please login back.")
                         $rootScope.logout();
+>>>>>>> a6ebbc91a9ad89a17d1a8e13d94a7900a9edd3f2
                     }
 
                     else if($scope.form.$valid) {

@@ -1,8 +1,18 @@
+<<<<<<< HEAD
+//var api_base  = "http://ec2-54-254-218-67.ap-southeast-1.compute.amazonaws.com/api";
+//var auth_base = "http://ec2-54-254-218-67.ap-southeast-1.compute.amazonaws.com/auth";
+var api_base  = "http://localhost:8080/api";
+var auth_base = "http://localhost:8080/auth";
+=======
 // var api_base  = "http://ec2-54-254-218-67.ap-southeast-1.compute.amazonaws.com/api";
 // var auth_base = "http://ec2-54-254-218-67.ap-southeast-1.compute.amazonaws.com/auth";
 
 var api_base  = "http://localhost:8080/api";
 var auth_base = "http://localhost:8080/auth";
+
+// var api_base  = "http://10.0.2.2:8080/api";
+// var auth_base = "http://10.0.2.2:8080/auth";
+>>>>>>> a6ebbc91a9ad89a17d1a8e13d94a7900a9edd3f2
 
 angular.module('iips-app.services', [])
 

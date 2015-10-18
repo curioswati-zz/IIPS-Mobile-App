@@ -38,7 +38,12 @@ module.exports = function(sequelize, DataType) {
   				.success(onSuccess)
   				.error(onError);
   			}
-  		}
+  		},
+      classMethods: {
+        associate: function(models) {
+          TimeInterval.hasMany(models.Slot, { foreignKeyConstraint: true, onUpdate: 'CASCADE', onDelete: 'SET NULL' });
+        }
+      }
 	});
 
 	return TimeInterval;

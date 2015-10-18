@@ -3,6 +3,7 @@ module.exports = function(sequelize, DataType) {
   	{
   		courseName: {
   			type: DataType.STRING,
+        unique: true,
   			validate: {
   				is: /^[a-zA-Z()0-9 ]+$/,
   				notNull: true,
@@ -34,7 +35,14 @@ module.exports = function(sequelize, DataType) {
 		        .success(onSuccess)
 		        .error(onError);
 		    }
-  		}
+  		},
+      classMethods: {
+        associate: function(models) {
+          Course.hasMany(models.Semester, { foreignKeyConstraint: true});
+          Course.hasMany(models.Batch, { foreignKeyConstraint: true});
+          Course.hasMany(models.Student, { foreignKeyConstraint: true});
+        }
+      }
     });
 	return Course;
 };

@@ -14,10 +14,24 @@
 
     <ion-list class="list">
 
-      <ion-item ng-repeat="item in user" class="pro-details-item">
+      <ion-item class="pro-details-item">
       <div class="row no-padding" style="margin:0;">
-        <div class="col col-33"><strong>{{item.name}}</strong></div>
-        <div class="col" >{{item.value}}</div>
+        <div class="col col-33"><strong>email</strong></div>
+        <div class="col" >{{userData.email}}</div>
+      </div>
+      </ion-item>
+
+      <ion-item class="pro-details-item">
+      <div class="row no-padding" style="margin:0;">
+        <div class="col col-33"><strong>course</strong></div>
+        <div class="col" >{{studentData.course}}</div>
+      </div>
+      </ion-item>
+
+      <ion-item class="pro-details-item">
+      <div class="row no-padding" style="margin:0;">
+        <div class="col col-33"><strong>sem</strong></div>
+        <div class="col" >{{studentData.sem}}</div>
       </div>
       </ion-item>
 

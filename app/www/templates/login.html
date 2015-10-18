@@ -22,19 +22,21 @@
     <div class="col list list-inset card login-card">
       <label class="item item-input-inset item-floating-label" ng-class="{'no-login-errors':loginForm.email.$valid}">
 
-        <i class="error icon ion-alert assertive" ng-show="emailError"></i>
-        <input name="email" type="text" ng-model="loginData.email" placeholder="email" required>
+        <input name="email" type="text" ng-model="loginData.email" ng-focus="clearFormError()" placeholder="email" required>
       </label>
 
       <label class="item item-input-inset item-floating-label" ng-class="{'no-login-errors':loginForm.password.$valid}">
-        <i class="error icon ion-alert assertive" ng-show="passwordError"></i>
-        <input name="password" type="password" ng-model="loginData.password" placeholder="Password" required>
+        <input name="password" type="password" ng-model="loginData.password" ng-focus="clearFormError()" placeholder="Password" required>
       </label>
 
       <div class="error-container" ng-show="loginForm.password.$error" ng-messages="loginForm.password.$error">
       <div class="error" ng-message="correctPassword">
         Invalid email or password
       </div>
+      </div>
+
+      <div class="error-container error" ng-show="formError">
+        <div>Please enter credentials!</div>
       </div>
 
       <label class="item">
@@ -62,8 +64,7 @@
 
     <div class="col card login-card">
       <label class="item item-floating-label" ng-if="getOTP == false" ng-class="{'no-login-errors':forgotForm.email.$valid}">
-        <i class="error icon ion-alert assertive" ng-show="emailError"></i>
-        <input name="email" type="email" ng-model="loginData.email" placeholder="Enter your email id" required>
+        <input name="email" type="email" ng-model="loginData.email" ng-focus="clearFormError()" placeholder="Enter your email id" required>
       </label>
 
       <div class="error-container" ng-show="forgotForm.email.$error" ng-messages="forgotForm.email.$error">
@@ -73,8 +74,7 @@
       </div>
 
       <label class="item item-floating-label" ng-if="getOTP == true && recoverPass == false" ng-class="{'no-login-errors':forgotForm.email.$valid}">
-        <i class="error icon ion-alert assertive" ng-show="OTPError"></i>
-        <input name="OTP" type="text" ng-model="loginData.OTP" placeholder="Enter OTP" required>
+        <input name="OTP" type="text" ng-model="loginData.OTP" ng-focus="clearFormError()" placeholder="Enter OTP" required>
       </label>
 
       <div class="error-container" ng-show="forgotForm.OTP.$error" ng-messages="forgotForm.OTP.$error">
@@ -84,8 +84,7 @@
       </div>
 
       <label class="item item-input register-input" ng-if="recoverPass == true" ng-class="{'no-login-errors':forgotForm.password.$valid}">
-        <i class="error icon ion-alert assertive" ng-show="passwordError"></i>
-        <input name="password" id="password" type="password" ng-model="loginData.password" placeholder="Password" required ng-minlength=4 ng-maxlength=20>
+        <input name="password" id="password" type="password" ng-model="loginData.password" ng-focus="clearFormError()" placeholder="Password" required ng-minlength=4 ng-maxlength=20>
       </label>
 
       <div class="error-container" ng-show="forgotForm.password.$error" ng-messages="forgotForm.password.$error">
@@ -93,12 +92,15 @@
       </div>
 
       <label class="item item-input register-input" ng-if="recoverPass == true" ng-class="{'no-login-errors':forgotForm.verify.$valid}">
-        <i class="error icon ion-alert assertive" ng-show="verifyError"></i>
-        <input name="verify" type="password" ng-model="loginData.verify" placeholder="Confirm Password" pw-check="loginData.password" required>
+        <input name="verify" type="password" ng-model="loginData.verify" ng-focus="clearFormError()" placeholder="Confirm Password" pw-check="loginData.password" required>
       </label>
 
       <div class="error-container" ng-show="forgotForm.verify.$error" ng-messages="forgotForm.verify.$error">
       <div ng-messages-include="templates/form-error.html"></div>
+      </div>
+
+      <div class="error-container error" ng-show="formError">
+        <div>Please enter valid input!</div>
       </div>
 
       <label class="item">      

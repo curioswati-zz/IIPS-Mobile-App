@@ -60,9 +60,15 @@ module.exports = function(sequelize, DataType) {
       },
       classMethods: {
         associate: function(models) {
+<<<<<<< HEAD
+          Student.belongsTo(models.Batch);
+          Student.belongsTo(models.Course);
+          //Student.belongsTo(models.Semester);
+=======
           Student.belongsTo(models.Batch, { foreignKeyConstraint: true});
           Student.belongsTo(models.Course, { foreignKeyConstraint: true});
           Student.belongsTo(models.Semester, { foreignKeyConstraint: true});
+>>>>>>> a6ebbc91a9ad89a17d1a8e13d94a7900a9edd3f2
           Student.hasOne(models.User);
         }
       }
