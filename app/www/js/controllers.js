@@ -129,15 +129,18 @@ angular.module('iips-app.controllers', ['iips-app.services'])
             $scope.form.email.$setValidity("correctEmail", true);
 
             if(form.$valid) {
-                Auth.recover($scope.loginData.email)
+                Auth.checkMailExist($scope.loginData.email)
                 .then(function(resp) {
                     if(resp.count == 0) {
                         $scope.form.email.$setValidity("correctEmail", false);
-                    } else {
-                        $http.post(auth_base + '/forgot_password', { email: $scope.loginData.email }).then(function(respPasscode) { 
+                    }
+                    else {
+                        Auth.sendMail({ email: $scope.loginData.email })
+                        .then(function(respPasscode) {
                             $scope.currentUser = resp[0].id;
                             $localstorage.set('OTP', respPasscode.data.passcode);
                             $scope.getOTP = true;
+                            console.log($scope.form.email);
                             $scope.form.email.$setViewValue('');
                         });
                     }

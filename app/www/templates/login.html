@@ -75,6 +75,7 @@
 
       <label class="item item-floating-label" ng-if="getOTP == true && recoverPass == false" ng-class="{'no-login-errors':forgotForm.email.$valid}">
         <input name="OTP" type="text" ng-model="loginData.OTP" ng-focus="clearFormError()" placeholder="Enter OTP" required>
+        <span>If you don't receive the mail in 5 seconds, please go back and provide the email back!</span>
       </label>
 
       <div class="error-container" ng-show="forgotForm.OTP.$error" ng-messages="forgotForm.OTP.$error">
