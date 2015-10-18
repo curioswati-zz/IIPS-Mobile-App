@@ -713,33 +713,20 @@ angular.module('iips-app.controllers', ['iips-app.services'])
     $scope.saveChanges = function(form) {
 
         $scope.form = form;
+        updateUser = {'email': $rootScope.userData.email};
 
-        if (form.$valid) {
-            $rootScope.show('Please wait.. Saving');
-            $scope.currentUser = $rootScope.userData.id;
-            API.userUpdate($scope.currentUser, {
-                password: md5($rootScope.userData.password),
-                verify:   md5($rootScope.userData.verify),
-                email:    $rootScope.userData.email
-            });
-            API.studentUpdate($rootScope.userData.StudentId, {
-                fullname: $rootScope.studentData.fullname,
-                course:   $rootScope.studentData.course,
-                sem:      $rootScope.studentData.sem,
-                rollno:   $rootScope.studentData.rollno
-            })
-            .success(function (data) {
-                $localstorage.clean();
-                $rootScope.hide();
-                if($scope.form.$valid) {
-                    userdata = {
-                        username: $rootScope.userData.username,
-                        password: md5($rootScope.userData.password),
-                        verify: $rootScope.userData.verify,
-                        email: $rootScope.userData.email                        
-                    }
-                }
-            });
+        //--- if password was not changed, we need to send the current password with the request----
+        if(typeof($scope.form.password.$viewValue) !== 'undefined') {
+            updateUser.password = md5($scope.form.password.$viewValue);
+        }
+        else {
+            updateUser.password = $rootScope.userData.password;
+        }
+
+        console.log("yes: ", $scope.courseChanged);
+
+        if($scope.courseChanged) {
+            $scope.form.sem.$setValidity("semChanged", false);
         }
         // else {
         //     $scope.form.sem.$setValidity("semChanged", true);
