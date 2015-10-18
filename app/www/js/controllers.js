@@ -1,6 +1,6 @@
 angular.module('iips-app.controllers', ['iips-app.services'])
 
-.controller('AppCtrl', function($scope, $rootScope, $state, $http
+.controller('AppCtrl', function($scope, $rootScope, $state, $http,
                                 Course, Semester, Batch) {
 
     Course.getCourses()
@@ -733,20 +733,9 @@ angular.module('iips-app.controllers', ['iips-app.services'])
                         password: md5($rootScope.userData.password),
                         verify: $rootScope.userData.verify,
                         email: $rootScope.userData.email                        
-        updateUser = {'email': $rootScope.userData.email};
-
-        //--- if password was not changed, we need to send the current password with the request----
-        if(typeof($scope.form.password.$viewValue) !== 'undefined') {
-            updateUser.password = md5($scope.form.password.$viewValue);
-        }
-        else {
-            updateUser.password = $rootScope.userData.password;
-        }
-
-        console.log("yes: ", $scope.courseChanged);
-
-        if($scope.courseChanged) {
-            $scope.form.sem.$setValidity("semChanged", false);
+                    }
+                }
+            });
         }
         // else {
         //     $scope.form.sem.$setValidity("semChanged", true);
