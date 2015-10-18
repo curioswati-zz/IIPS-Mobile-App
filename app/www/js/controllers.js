@@ -476,6 +476,17 @@ angular.module('iips-app.controllers', ['iips-app.services'])
     $scope.Day         = $scope.Days[0];
     var slot = 0;
 
+    //--------------------------------- get quote from api------------------------------------------
+    quoteId = Math.floor(Math.random() * 5);
+
+    setTimeout(function() {
+        Quote.getQuote(quoteId)
+        .then(function(resp) {
+            $scope.quote = resp;
+            console.log($scope.quote);
+        })
+    }, 200);
+
     //------------------------------- from the username form user email-----------------------------
     setTimeout(function() {
         $scope.currentUser = $rootScope.userData.email.split('@')[0];

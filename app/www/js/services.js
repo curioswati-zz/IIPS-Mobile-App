@@ -414,3 +414,15 @@ angular.module('iips-app.services', [])
         }
     }
 })
+.factory('Quote', function($http) {
+    return {
+        getQuote: function(id) {
+            console.log(id);
+            return $http.get(api_base+"/Quotes/"+id)
+            .then(function(resp) {
+                console.log(resp.data.data);
+                return resp.data.data;
+            })
+        }
+    }
+})
