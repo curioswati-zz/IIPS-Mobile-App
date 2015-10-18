@@ -4,15 +4,16 @@ module.exports = function(sequelize, DataType) {
       facultyID: {
         type: DataType.STRING,
         unique: true,
+        allowNull: false,
         validate: {
           is: /^[a-zA-Z]-[0-9]{3}$/,
         }
       },
       facultyName: {
         type: DataType.STRING,
+        allowNull: false,
         validate: {
           is: /^[a-zA-Z. ]+$/,
-          notNull: true,
           notEmpty: true
         }
       },
@@ -26,8 +27,8 @@ module.exports = function(sequelize, DataType) {
       },
       role: {
         type: DataType.STRING,
+        allowNull: false,
         validate: {
-          notNull: true,
           notEmpty: true
         }
       },

@@ -3,34 +3,34 @@ module.exports = function(sequelize, DataType) {
     {
       batchID: {
         type: DataType.STRING,
+        allowNull: false,
         validate: {
           is: /^[a-zA-Z]{2}$/,
-          notNull: true,
           notEmpty: true
         }
       },
       batchName: {
         type: DataType.STRING,
         unique: true,
+        allowNull: false,
         validate: {
           is: /^[a-zA-Z]{2}-2[kK][0-9]{1,2}$/,
-          notNull: true,
           notEmpty: true
         }
       },
       roomNo: {
         type: DataType.INTEGER,
+        allowNull: false,
         validate: {
           notEmpty: true,
-          notNull: true
         }
       },
       syllabusURL: {
         type: DataType.STRING,
+        allowNull: false,
         unique: false,
         validate: {
           notEmpty: true,
-          notNull: true
         }
       }
     },

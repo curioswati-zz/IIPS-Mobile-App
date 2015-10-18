@@ -4,9 +4,9 @@ module.exports = function(sequelize, DataType) {
   		courseName: {
   			type: DataType.STRING,
         unique: true,
+        allowNull: false,
   			validate: {
   				is: /^[a-zA-Z()0-9 ]+$/,
-  				notNull: true,
   				notEmpty: true
   			}
       },

@@ -5,18 +5,18 @@ module.exports = function(sequelize, DataType) {
     {
       fullname: {
         type: DataType.STRING(50),
+        allowNull: false,
         validate: {
           is: /^[a-zA-Z ]+$/,
-          notNull: true,
           notEmpty: true
         }
       },
       rollno: {
         type: DataType.STRING,
         unique: true,
+        allowNull: false,
         validate: {
           is: /^[a-zA-Z]{2}-[0-9][a-zA-Z][0-9]{2}-[0-9]{1,3}$/,
-          notNull: true,
           notEmpty: true
         }
       }
