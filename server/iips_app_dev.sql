@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Generation Time: Oct 18, 2015 at 11:29 PM
+-- Generation Time: Oct 20, 2015 at 03:22 AM
 -- Server version: 5.5.44-0ubuntu0.14.04.1
 -- PHP Version: 5.5.9-1ubuntu4.11
 
@@ -222,57 +222,57 @@ CREATE TABLE IF NOT EXISTS `Semesters` (
 --
 
 INSERT INTO `Semesters` (`id`, `semNo`, `syllabusUrl`, `CourseId`) VALUES
-(1, '1', 'http://iips.edu.in/downloads/syllabus/MTech-IT/M.Tech_I.pdf', 1),
-(2, '2', 'http://iips.edu.in/downloads/syllabus/MTech-IT/M.Tech_II.pdf', 1),
-(3, '3', 'http://iips.edu.in/downloads/syllabus/MTech-IT/M.Tech_III.pdf', 1),
-(4, '4', 'http://iips.edu.in/downloads/syllabus/MTech-IT/M.Tech_IV.pdf', 1),
-(5, '5', 'http://iips.edu.in/downloads/syllabus/MTech-IT/M.Tech_V.pdf', 1),
-(6, '6', 'http://iips.edu.in/downloads/syllabus/MTech-IT/M.Tech_VI.pdf', 1),
-(7, '7', 'http://iips.edu.in/downloads/syllabus/MTech-IT/M.Tech_VII.pdf', 1),
-(8, '8', 'http://iips.edu.in/downloads/syllabus/MTech-IT/M.Tech_VIII.pdf', 1),
-(9, '9', 'http://iips.edu.in/downloads/syllabus/MTech-IT/M.Tech_IX.pdf', 1),
-(10, '10', 'http://iips.edu.in/downloads/syllabus/MTech-IT/M.Tech_X.pdf', 1),
-(11, '11', 'http://iips.edu.in/downloads/syllabus/MTech-IT/M.Tech_XI.pdf', 1),
-(12, '1', 'http://iips.edu.in/downloads/syllabus/MCA-6year/MCA_I.pdf', 2),
-(13, '2', 'http://iips.edu.in/downloads/syllabus/MCA-6year/MCA_II.pdf', 2),
-(14, '3', 'http://iips.edu.in/downloads/syllabus/MCA-6year/MCA_III.pdf', 2),
-(15, '4', 'http://iips.edu.in/downloads/syllabus/MCA-6year/MCA_IV.pdf', 2),
-(16, '5', 'http://iips.edu.in/downloads/syllabus/MCA-6year/MCA_V.pdf', 2),
-(17, '6', 'http://iips.edu.in/downloads/syllabus/MCA-6year/MCA_VI.pdf', 2),
-(18, '7', 'http://iips.edu.in/downloads/syllabus/MCA-6year/MCA_VII.pdf', 3),
-(19, '8', 'http://iips.edu.in/downloads/syllabus/MCA-6year/MCA_VIII.pdf', 3),
-(20, '9', 'http://iips.edu.in/downloads/syllabus/MCA-6year/MCA_IX.pdf', 3),
-(21, '10', 'http://iips.edu.in/downloads/syllabus/MCA-6year/MCA_X.pdf', 3),
-(22, '11', 'http://iips.edu.in/downloads/syllabus/MCA-6year/MCA_XI.pdf', 3),
-(23, '12', 'http://iips.edu.in/downloads/syllabus/MCA-6year/MCA_XII.pdf', 3),
-(24, '1', 'http://iips.edu.in/downloads/syllabus/MBA-MS/MBA-MS-I.pdf', 4),
-(25, '2', 'http://iips.edu.in/downloads/syllabus/MBA-MS/MBA-MS-II.pdf', 4),
-(26, '3', 'http://iips.edu.in/downloads/syllabus/MBA-MS/MBA-MS-III.pdf', 4),
-(27, '4', 'http://iips.edu.in/downloads/syllabus/MBA-MS/MBA-MS-IV.pdf', 4),
-(28, '5', 'http://iips.edu.in/downloads/syllabus/MBA-MS/MBA-MS-V.pdf', 4),
-(29, '6', 'http://iips.edu.in/downloads/syllabus/MBA-MS/MBA-MS-VI.pdf', 5),
-(30, '7', 'http://iips.edu.in/downloads/syllabus/MBA-MS/MBA-MS-VII.pdf', 5),
-(31, '8', 'http://iips.edu.in/downloads/syllabus/MBA-MS/MBA-MS-VIII.pdf', 5),
-(32, '9', 'http://iips.edu.in/downloads/syllabus/MBA-MS/MBA-MS-IX.pdf', 5),
-(33, '10', 'http://iips.edu.in/downloads/syllabus/MBA-MS/MBA-MS-X.pdf', 5),
-(34, '1', '', 6),
-(35, '2', '', 6),
-(36, '3', '', 6),
-(37, '4', '', 6),
-(38, '1', 'http://iips.edu.in/downloads/syllabus/MBA-TA-2Years/I-sem-TA-Syllabus.pdf', 7),
-(39, '2', 'http://iips.edu.in/downloads/syllabus/MBA-TA-2Years/II-sem-TA-Syllabus.pdf', 7),
-(40, '3', 'http://iips.edu.in/downloads/syllabus/MBA-TA-2Years/III-sem-TA-Syllabus.pdf', 7),
-(41, '4', 'http://iips.edu.in/downloads/syllabus/MBA-TA-2Years/IV-sem-TA-Syllabus.pdf', 7),
-(42, '1', 'http://iips.edu.in/downloads/syllabus/MBA-Apr/Syllabus SEM I NEW (2013 Scheme) (2).pdf', 8),
-(43, '2', 'http://iips.edu.in/downloads/syllabus/MBA-Apr/Syllabus SEM II NEW (2013 Scheme) (2).pdf', 8),
-(44, '3', 'http://iips.edu.in/downloads/syllabus/MBA-Apr/Syllabus_SEM_III_OLD_Scheme_.pdf', 8),
-(45, '4', 'http://iips.edu.in/downloads/syllabus/MBA-Apr/Syllabus_SEM_IV_OLD_Scheme_.pdf', 8),
-(46, '1', 'http://iips.edu.in/downloads/syllabus/Bcom Hons- SC Patidar/B. Com. (H) revised Syllabus SEM I.pdf', 9),
-(47, '2', 'http://iips.edu.in/downloads/syllabus/Bcom Hons- SC Patidar/revised syllabus Bcom(H) II sem-SC PATIDAR.pdf', 9),
-(48, '3', 'http://iips.edu.in/downloads/syllabus/Bcom Hons- SC Patidar/B.Com(H) III Sem revised syllabusSC PATIDAR.pdf', 9),
-(49, '4', 'http://iips.edu.in/downloads/syllabus/Bcom Hons- SC Patidar/B. Com. SEM IV revised syllabusSC PATIDAR.pdf', 9),
-(50, '5', 'http://iips.edu.in/downloads/syllabus/Bcom Hons- SC Patidar/Final Syll. B. Com. Sem V-SC PATIDAR.pdf', 9),
-(51, '6', 'http://iips.edu.in/downloads/syllabus/Bcom Hons- SC Patidar/Syllabus -VI-SC PATIDAR.pdf', 9);
+(1, '1', 'M.Tech_I.pdf', 1),
+(2, '2', 'M.Tech_II.pdf', 1),
+(3, '3', 'M.Tech_III.pdf', 1),
+(4, '4', 'M.Tech_IV.pdf', 1),
+(5, '5', 'M.Tech_V.pdf', 1),
+(6, '6', 'M.Tech_VI.pdf', 1),
+(7, '7', 'M.Tech_VII.pdf', 1),
+(8, '8', 'M.Tech_VIII.pdf', 1),
+(9, '9', 'M.Tech_IX.pdf', 1),
+(10, '10', 'M.Tech_X.pdf', 1),
+(11, '11', 'M.Tech_X.pdf', 1),
+(12, '1', 'MCA_I.pdf', 2),
+(13, '2', 'MCA_II.pdf', 2),
+(14, '3', 'MCA_III.pdf', 2),
+(15, '4', 'MCA_IV.pdf', 2),
+(16, '5', 'MCA_V.pdf', 2),
+(17, '6', 'MCA_VI.pdf', 2),
+(18, '7', 'MCA_VII.pdf', 3),
+(19, '8', 'MCA_VIII.pdf', 3),
+(20, '9', 'MCA_IX.pdf', 3),
+(21, '10', 'MCA_X.pdf', 3),
+(22, '11', 'MCA_XI.pdf', 3),
+(23, '12', 'MCA_XII.pdf', 3),
+(24, '1', 'MBA-MS-I.pdf', 4),
+(25, '2', 'MBA-MS-II.pdf', 4),
+(26, '3', 'MBA-MS-III.pdf', 4),
+(27, '4', 'MBA-MS-IV.pdf', 4),
+(28, '5', 'MBA-MS-V.pdf', 4),
+(29, '6', 'MBA-MS-VI.pdf', 5),
+(30, '7', 'MBA-MS-VII.pdf', 5),
+(31, '8', 'MBA-MS-VIII.pdf', 5),
+(32, '9', 'MBA-MS-IX.pdf', 5),
+(33, '10', 'MBA-MS-X.pdf', 5),
+(34, '1', 'MBA-FT.pdf', 6),
+(35, '2', 'MBA-FT.pdf', 6),
+(36, '3', 'MBA-FT.pdf', 6),
+(37, '4', 'MBA-FT.pdf', 6),
+(38, '1', 'MBA-TA-I.pdf', 7),
+(39, '2', 'MBA-TA-II.pdf', 7),
+(40, '3', 'MBA-TA-III.pdf', 7),
+(41, '4', 'MBA-TA-IV.pdf', 7),
+(42, '1', 'MBA-Apr-I.pdf', 8),
+(43, '2', 'MBA-Apr-II.pdf', 8),
+(44, '3', 'MBA-Apr-III.pdf', 8),
+(45, '4', 'MBA-Apr-IV.pdf', 8),
+(46, '1', 'BCom-I.pdf', 9),
+(47, '2', 'Bcom-II.pdf', 9),
+(48, '3', 'BCom-III.pdf', 9),
+(49, '4', 'BCom-IV.pdf', 9),
+(50, '5', 'BCom-V.pdf', 9),
+(51, '6', 'BCom-VI.pdf', 9);
 
 -- --------------------------------------------------------
 
@@ -348,7 +348,7 @@ CREATE TABLE IF NOT EXISTS `Students` (
   KEY `BatchId` (`BatchId`),
   KEY `CourseId` (`CourseId`),
   KEY `SemesterId` (`SemesterId`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=7 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=2 ;
 
 --
 -- Dumping data for table `Students`
@@ -434,7 +434,7 @@ CREATE TABLE IF NOT EXISTS `Users` (
   PRIMARY KEY (`id`),
   UNIQUE KEY `email` (`email`),
   KEY `StudentId` (`StudentId`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=7 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=2 ;
 
 --
 -- Dumping data for table `Users`
