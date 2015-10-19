@@ -44,7 +44,7 @@ angular.module('iips-app.controllers', ['iips-app.services'])
                 return trueOrigin;
             }
         }
-    }
+    };
 })
 
 .controller('LoginCtrl', function($scope, $rootScope, $state, Auth, API, $localstorage) {
@@ -53,7 +53,7 @@ angular.module('iips-app.controllers', ['iips-app.services'])
     $scope.$on('$ionicView.enter', function(event) {
         $scope.forgotPass = false;
         $rootScope.formError = false;
-    })
+    });
 
     $scope.login = function(form) {
         $scope.form = form;
@@ -73,7 +73,7 @@ angular.module('iips-app.controllers', ['iips-app.services'])
 
                     if ($scope.loginData.email == 'admin@iips.edu.in' && $scope.loginData.password == 'idiot')
                     {
-                        $state.go('admin')
+                        $state.go('admin');
                         $scope.form.$setPristine();
                     }
                     else {
@@ -87,7 +87,7 @@ angular.module('iips-app.controllers', ['iips-app.services'])
                 setTimeout(function() {
                     $scope.form.password.$setValidity("correctPassword", false);
                 }, 100);
-            })
+            });
         }
         else {
             $rootScope.formError = true;
@@ -97,7 +97,7 @@ angular.module('iips-app.controllers', ['iips-app.services'])
     $scope.recover = function(form) {
         $scope.form = form;
 
-        if ($scope.recoverPass == true) {
+        if ($scope.recoverPass === true) {
 
             if(form.$valid) {
                 $rootScope.show('Updating...');
@@ -123,13 +123,13 @@ angular.module('iips-app.controllers', ['iips-app.services'])
                 loginData = {};
             }
         }
-        if($scope.getOTP == false) {
+        if($scope.getOTP === false) {
             $scope.form.email.$setValidity("correctEmail", true);
 
             if(form.$valid) {
                 Auth.checkMailExist($scope.loginData.email)
                 .then(function(resp) {
-                    if(resp.count == 0) {
+                    if(resp.count === 0) {
                         $scope.form.email.$setValidity("correctEmail", false);
                     }
                     else {
@@ -145,13 +145,13 @@ angular.module('iips-app.controllers', ['iips-app.services'])
                 },
                 function(err) {
                     console.log(err);
-                })
+                });
             }
             else {
                 $rootScope.formError = true;
             }
         }
-        else if ($scope.getOTP == true && $scope.recoverPass == false) {
+        else if ($scope.getOTP === true && $scope.recoverPass === false) {
 
             if($localstorage.get('OTP') == $scope.loginData.OTP) {
                 $scope.form.OTP.$setValidity("correctOTP", true);
@@ -167,7 +167,7 @@ angular.module('iips-app.controllers', ['iips-app.services'])
 
     $scope.backToLogin = function() {
         $scope.forgotPass = false;
-    }
+    };
 
     $scope.register = function(data) {
         $state.go('register');
@@ -191,7 +191,7 @@ angular.module('iips-app.controllers', ['iips-app.services'])
     //---------------------- set the form to be clean at the time of state enter--------------------
     $scope.$on('$ionicView.enter', function(event) {
         $rootScope.formError = false;
-    })
+    });
 
     //--------------------------------------Register the user---------------------------------------
     $scope.register = function(form) {
@@ -201,7 +201,7 @@ angular.module('iips-app.controllers', ['iips-app.services'])
         if (form.$valid) {
 
             // Need to get the batch text to append with roll no
-            for(batch in $rootScope.batches) {
+            for(var batch in $rootScope.batches) {
                 if ($rootScope.batches[batch].id == $scope.form.batch.$viewValue) {
                     $scope.batch = $rootScope.batches[batch].batchName;
                 }
@@ -271,7 +271,7 @@ angular.module('iips-app.controllers', ['iips-app.services'])
                 $scope.addImage(index);
             }
         });
-    }
+    };
 
     $scope.addImage = function(type) {
         $scope.hideSheet();
@@ -286,7 +286,7 @@ angular.module('iips-app.controllers', ['iips-app.services'])
         function(err) {
             console.log("error: ",typeof(err));
         });
-    }
+    };
 })
 
 .controller('TabCtrl', function($scope, $rootScope, $state,
@@ -333,7 +333,7 @@ angular.module('iips-app.controllers', ['iips-app.services'])
     if (typeof($scope.currentUser) != 'undefined') {
         var userData = $localstorage.getObj('userData');
 
-        if( Object.keys(userData).length == 0 ) {
+        if( Object.keys(userData).length === 0 ) {
 
             User.getUser($scope.currentUser)
             .then(function(resp) {
@@ -349,16 +349,16 @@ angular.module('iips-app.controllers', ['iips-app.services'])
                     Course.getCourse(resp.CourseId)
                     .then(function(resp) {
                         $rootScope.studentData.course = resp.courseName;
-                    })
+                    });
 
                     Semester.getSemester(resp.SemesterId)
                     .then(function(resp) {
                         $rootScope.studentData.sem = resp.semNo;
                         $rootScope.studentData.syllabusUrl = resp.syllabusUrl;
                         $localstorage.setObj('studentData', $rootScope.studentData);
-                    })
-                })
-            })
+                    });
+                });
+            });
         }
 
         // else show from local storage
@@ -372,13 +372,13 @@ angular.module('iips-app.controllers', ['iips-app.services'])
     $rootScope.logout = function() {
         logout = Auth.logout();
         $localstorage.clean();
-        if(logout == true) {
+        if(logout === true) {
             $state.go('login', {reload: true});
         }
     };
 
     //--------------------------- Get batch details to show in class info card----------------------
-    if(Object.keys($scope.batch).length == 0) {
+    if(Object.keys($scope.batch).length === 0) {
         $scope.batch = {};
 
         setTimeout(function() {
@@ -400,7 +400,7 @@ angular.module('iips-app.controllers', ['iips-app.services'])
                     $scope.batch.contact = resp.contact;
 
                     $localstorage.setObj('Batch', $scope.batch);
-                })
+                });
             });
         }, 300);
     }
@@ -412,12 +412,12 @@ angular.module('iips-app.controllers', ['iips-app.services'])
     }
 
     //--------------------------- Get course details to show in class info card----------------------
-    if (Object.keys($scope.course).length == 0) {
+    if (Object.keys($scope.course).length === 0) {
         $scope.course = {};
 
         setTimeout(function() {
             $scope.course.name = $rootScope.studentData.course;
-            var queryPI = 'PI-'+$rootScope.studentData.course
+            var queryPI = 'PI-'+$rootScope.studentData.course;
 
             Faculty.getFacultyByQuery('role',queryPI)
             .then(function(resp) {
@@ -425,13 +425,15 @@ angular.module('iips-app.controllers', ['iips-app.services'])
                 $scope.course.piName = resp[0].facultyName;
                 $scope.classDetails[2].valOne = resp[0].contact;
                 $scope.course.piContact = resp[0].contact;
-            })
+            });
+
+            var queryInc;
 
             if($scope.course.name.slice(0,2) == 'MT' || $scope.course.name.slice(0,2) == 'MC') {
-                var queryInc = 'Inc-Tech';
+                queryInc = 'Inc-Tech';
             }
             else {
-                var queryInc = 'Inc-Mgmt';
+                queryInc = 'Inc-Mgmt';
             }
             
             Faculty.getFacultyByQuery('role',queryInc)
@@ -448,7 +450,7 @@ angular.module('iips-app.controllers', ['iips-app.services'])
                     $scope.course.incName = "Unknown";                        
                 }
                 $localstorage.setObj('Course', $scope.course);
-            })
+            });
         }, 300);
     }
     // else show from localstorage
@@ -483,7 +485,7 @@ angular.module('iips-app.controllers', ['iips-app.services'])
         .then(function(resp) {
             $scope.quote = resp;
             console.log($scope.quote);
-        })
+        });
     }, 200);
 
     //------------------------------- from the username form user email-----------------------------
@@ -501,7 +503,7 @@ angular.module('iips-app.controllers', ['iips-app.services'])
             $scope.slots = $localstorage.getObj('Slot'+$scope.Day);
 
             //---------------------------- if not found in localstorage-----------------------------
-            if(Object.keys($scope.slots).length == 0) {
+            if(Object.keys($scope.slots).length === 0) {
                 setTimeout(function() {
                     var sid = $rootScope.studentData.SemesterId;
                     console.log($scope.Day);
@@ -511,7 +513,7 @@ angular.module('iips-app.controllers', ['iips-app.services'])
                         $scope.slots = resp;
                         $localstorage.setObj('Slot'+$scope.Day, resp);
                         callEmAll($scope.slots.length);
-                    })                
+                    });
                 }, 100);
             }
             //------------------------------ else from the localstorage-----------------------------
@@ -519,7 +521,7 @@ angular.module('iips-app.controllers', ['iips-app.services'])
                 slot = 0;
                 callEmAll($scope.slots.length);
             }
-        }
+        };
 
         //---------------------------- ensure that the above function called only once--------------
         if($scope.showCurrent) {
@@ -535,18 +537,18 @@ angular.module('iips-app.controllers', ['iips-app.services'])
             index = index + 1;
             $scope.Day = $scope.Days[index];
             $scope.showSlot($scope.Day);
-        }
+        };
 
         //--------------------------------- when the left chevron clicked--------------------------
         $scope.previous = function(day) {
             var index = $scope.Days.indexOf(day);
-            if (index == 0) {
+            if (index === 0) {
                 index = 6;
             }
             index = index - 1;
             $scope.Day = $scope.Days[index];
             $scope.showSlot($scope.Day);
-        }
+        };
 
         /*--------------------- function to iterate over the array of slots,------------------------
                            as the for loop does not work quite good with promises.
@@ -555,14 +557,14 @@ angular.module('iips-app.controllers', ['iips-app.services'])
         {
             if (noOfCalls > 0)
             {
-                $scope.section = {}
+                $scope.section = {};
 
                 var tid = $scope.slots[slot].TimeIntervalId;
                 TimeInterval.getInterval(tid)
                 .then(function(resp) {
                     $scope.section.begin = resp.beginTime.slice(11,13);
                     $scope.section.end = resp.endTime.slice(11,13);
-                })
+                });
 
                 var sid = $scope.slots[slot].SubjectId;
                 Subject.getSubject(sid)
@@ -578,8 +580,8 @@ angular.module('iips-app.controllers', ['iips-app.services'])
 
                         // $localstorage.setObj('Slot'+$scope.Day, $scope.sections);
                         callEmAll(noOfCalls-1);
-                    })
-                })
+                    });
+                });
             }
             slot += 1;
         }
@@ -642,11 +644,11 @@ angular.module('iips-app.controllers', ['iips-app.services'])
 
     setTimeout(function() {
         $rootScope.studentData.rollno = $rootScope.studentData.rollno.toUpperCase();
-        for (key in $rootScope.studentData) {
+        for (var key in $rootScope.studentData) {
             if (key == 'course' || key == 'sem') {
                 var studentItem = {};
-                studentItem['name'] = key;
-                studentItem['value'] = $rootScope.studentData[key];
+                studentItem.name = key;
+                studentItem.value = $rootScope.studentData[key];
                 $scope.user.push(studentItem);
             }
         }
@@ -655,7 +657,7 @@ angular.module('iips-app.controllers', ['iips-app.services'])
     userItem.name = 'email';
 
     setTimeout(function() {
-        userItem.value = $rootScope.userData['email'];        
+        userItem.value = $rootScope.userData.email;
     }, 100);
 
     $scope.user.push(userItem);
@@ -670,7 +672,7 @@ angular.module('iips-app.controllers', ['iips-app.services'])
             $state.go('admin.profile');
         else if($rootScope.role == 'user')
             $state.go('tab.profile');            
-    }
+    };
 
     //-------------------- refresh is required if course or semester was updated--------------------
     $scope.refreshRequired = function(elem) {
@@ -682,7 +684,7 @@ angular.module('iips-app.controllers', ['iips-app.services'])
             $scope.courseChanged = false;
         }
         $scope.sessionRefreshRequired = true;
-    }
+    };
 
     //---------------------------------------- save profile changes---------------------------------
     $scope.saveChanges = function(form) {
@@ -720,8 +722,8 @@ angular.module('iips-app.controllers', ['iips-app.services'])
                     $rootScope.hide();
 
                     if($scope.sessionRefreshRequired) {
-                        alert("Session refresh required! Please login back.")
-                        $rootScope.notify("Session refresh required! Please login back.")
+                        alert("Session refresh required! Please login back.");
+                        $rootScope.notify("Session refresh required! Please login back.");
                         $rootScope.logout();
                     }
 
@@ -755,7 +757,7 @@ angular.module('iips-app.controllers', ['iips-app.services'])
             }
             //------------------------------------------------------------------------------------------          
         }, 100);
-    }
+    };
 })
 
 .controller('AdminDashCtrl', function($scope, $rootScope, $state) {
@@ -785,34 +787,34 @@ angular.module('iips-app.controllers', ['iips-app.services'])
 
         if(form.$valid) {
             $rootScope.show('Submitting...');
-            submitForm = {}
+            submitForm = {};
 
             if(model == 'Faculties') {
-                submitForm['facultyID']   = $scope.data.FacultyId;
-                submitForm['facultyName'] = $scope.data.FacultyName;
-                submitForm['designation'] = $scope.data.designation;
-                submitForm['qualification'] = $scope.data.qualification;
-                submitForm['role'] = $scope.data.role;
-                submitForm['contact'] = $scope.data.contact;
+                submitForm.facultyID   = $scope.data.FacultyId;
+                submitForm.facultyName = $scope.data.FacultyName;
+                submitForm.designation = $scope.data.designation;
+                submitForm.qualification = $scope.data.qualification;
+                submitForm.role = $scope.data.role;
+                submitForm.contact = $scope.data.contact;
             }
 
             else if(model == 'TimeIntervals') {
-                submitForm['beginTime'] = $scope.data.begin;
-                submitForm['endTime']   = $scope.data.endTime;
+                submitForm.beginTime = $scope.data.begin;
+                submitForm.endTime   = $scope.data.endTime;
             }
 
             else if(model == 'Slots') {
-                submitForm['Day']            = $scope.data.day;
-                submitForm['BatchId']        = $scope.data.BatchId;
-                submitForm['TimeIntervalId'] = $scope.data.TimeIntervalId;
-                submitForm['SubjectId']      = $scope.data.SubjectId;
+                submitForm.Day            = $scope.data.day;
+                submitForm.BatchId        = $scope.data.BatchId;
+                submitForm.TimeIntervalId = $scope.data.TimeIntervalId;
+                submitForm.SubjectId      = $scope.data.SubjectId;
             }
 
             else if(model == 'Subjects') {
-                submitForm['subjectID'] = $scope.data.subjectID;
-                submitForm['subjectCode'] = $scope.data.subjectCode;
-                submitForm['subjectName'] = $scope.data.subjectName;
-                submitForm['FacultyId'] = $scope.data.FacultyId;
+                submitForm.subjectID = $scope.data.subjectID;
+                submitForm.subjectCode = $scope.data.subjectCode;
+                submitForm.subjectName = $scope.data.subjectName;
+                submitForm.FacultyId = $scope.data.FacultyId;
             }
 
             API.submitData(model, submitForm)
@@ -825,12 +827,12 @@ angular.module('iips-app.controllers', ['iips-app.services'])
             .error(function(error) {
                 $rootScope.hide();
                 $rootScope.notify("Oops something went wrong, Please try again!");
-            })
+            });
         }
     };
 
     $scope.goBack = function() {
-        console.log("back")
+        console.log("back");
         $state.go('admin.dash');
     };
 

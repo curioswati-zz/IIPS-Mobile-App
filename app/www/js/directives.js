@@ -32,7 +32,7 @@ angular.module('iips-app.directives', [])
                 });
             }, elem);
         }
-    }
+    };
 })
 .directive('wcUnique', ['API', function (API) {
   return {
@@ -43,7 +43,7 @@ angular.module('iips-app.directives', [])
       element.bind('focus', function(e) {
         ngModel.$setValidity('rollunique', true);
         ngModel.$setValidity('emailunique', true);        
-      })
+      });
 
       element.bind('blur', function (e) {
         if (!ngModel || !element.val())
@@ -71,7 +71,6 @@ angular.module('iips-app.directives', [])
         else if (keyProperty.property == 'email') {
           API.checkUniqueEmail(keyProperty.property, currentValue)
           .then(function (unique) {
-            console.log(unique)
             //Ensure value that being checked hasn't changed
             //since the Ajax call was made
             if (currentValue == element.val()) {
@@ -87,5 +86,5 @@ angular.module('iips-app.directives', [])
 
       });
     }
-  }
+  };
 }]);

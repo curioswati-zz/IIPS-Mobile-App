@@ -7,6 +7,7 @@ angular.module('iips-app',
                 'ngCordova',
                 'ngMessages',
                 'ngResource',
+                'templates',
                 'iips-app.controllers',
                 'iips-app.services',
                 'iips-app.directives'])
@@ -50,28 +51,28 @@ angular.module('iips-app',
     .state('login', {
         cache: false,
         url: '/login',
-        templateUrl: 'templates/login.html',
+        templateUrl: 'login.html',
         controller: 'LoginCtrl',
     })
 
     .state('register', {
         cache: false,
         url: "/register",
-        templateUrl: "templates/register.html",
+        templateUrl: "register.html",
         controller: 'RegisterCtrl',
     })
 
     .state('tab', {
       cache: false,
       url: "/tab",
-      templateUrl: "templates/tabs.html",
+      templateUrl: "tabs.html",
       controller: 'TabCtrl'
     })
 
     .state('admin', {
       cache: false,
       url: "/admin",
-      templateUrl: "templates/admin-tabs.html",
+      templateUrl: "admin-tabs.html",
       controller: 'TabCtrl'
     })
 
@@ -80,7 +81,7 @@ angular.module('iips-app',
       url: "/dash",
       views: {
         'admin-dash': {
-          templateUrl: "templates/admin-dash.html",
+          templateUrl: "admin-dash.html",
           controller: 'AdminDashCtrl'
         }
       }
@@ -91,7 +92,7 @@ angular.module('iips-app',
       url: "/profile",
       views: {
         'admin-profile': {
-          templateUrl: "templates/tab-profile.html",
+          templateUrl: "tab-profile.html",
           controller: 'ProCtrl'
         }
       }
@@ -102,7 +103,7 @@ angular.module('iips-app',
       url: "/faculty",
       views: {
         'admin-dash': {
-          templateUrl: "templates/submitFaculty.html",
+          templateUrl: "submitFaculty.html",
           controller: 'DataFormCtrl'
         }
       }
@@ -113,7 +114,7 @@ angular.module('iips-app',
       url: "/slot",
       views: {
         'admin-dash': {
-          templateUrl: "templates/submitSlot.html",
+          templateUrl: "submitSlot.html",
           controller: 'DataFormCtrl'
         }
       }
@@ -124,7 +125,7 @@ angular.module('iips-app',
       url: "/subject",
       views: {
         'admin-dash': {
-          templateUrl: "templates/submitSubject.html",
+          templateUrl: "submitSubject.html",
           controller: 'DataFormCtrl'
         }
       }
@@ -135,7 +136,7 @@ angular.module('iips-app',
       url: "/interval",
       views: {
         'admin-dash': {
-          templateUrl: "templates/submitInterval.html",
+          templateUrl: "submitInterval.html",
           controller: 'DataFormCtrl'
         }
       }
@@ -145,7 +146,7 @@ angular.module('iips-app',
       url: "/dash",
       views: {
         'tab-dash': {
-          templateUrl: "templates/tab-dash.html",
+          templateUrl: "tab-dash.html",
           controller: 'DashCtrl'
         }
       }
@@ -156,7 +157,7 @@ angular.module('iips-app',
       url: "/syllabus",
       views: {
         'tab-dash': {
-          templateUrl: "templates/syllabus.html",
+          templateUrl: "syllabus.html",
           controller: 'DashCtrl'          
         }
       }
@@ -167,7 +168,7 @@ angular.module('iips-app',
       url: "/schedule",
       views: {
         'tab-dash': {
-          templateUrl: "templates/schedule.html",
+          templateUrl: "schedule.html",
           controller: 'DashCtrl'
         }
       }
@@ -178,7 +179,7 @@ angular.module('iips-app',
       url: "/profile",
       views: {
         'tab-profile': {
-          templateUrl: "templates/tab-profile.html",
+          templateUrl: "tab-profile.html",
           controller: 'ProCtrl'
         }
       }
@@ -189,7 +190,7 @@ angular.module('iips-app',
       url: "/edit-profile",
       views: {
         'tab-profile': {
-          templateUrl: "templates/edit-profile.html",
+          templateUrl: "edit-profile.html",
           controller: 'ProCtrl'
         }
       }
