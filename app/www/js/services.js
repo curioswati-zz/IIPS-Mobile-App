@@ -1,8 +1,11 @@
-//var base_url = "http://localhost:8080";
 var base_url = "http://ec2-54-254-218-67.ap-southeast-1.compute.amazonaws.com";
+// var base_url = "http://localhost:8080";
+// var base_url = "http://10.0.2.2:8080";
 
 var api_base  = base_url + "/api";
 var auth_base = base_url + "/auth";
+// var quote_api = "http://api.theysaidso.com/qod.json";
+// var quote_api = "http://quotesondesign.com/api/3.0/api-3.0.json";
 
 angular.module('iips-app.services', [])
 
@@ -37,7 +40,7 @@ angular.module('iips-app.services', [])
             $window.localStorage.clear();
             $ionicHistory.clearCache();
         }
-    }
+    };
 })
 .factory('FileService', function($localstorage) {
     var images = [];
@@ -59,10 +62,10 @@ angular.module('iips-app.services', [])
             images.push(img);
             $localstorage.set(IMAGE_STORAGE_KEY, JSON.stringify(images));
         }
-    }
+    };
 })
 .factory('ImageService', function($cordovaCamera, FileService, $q, $cordovaFile) {
-    imgService = {}
+    imgService = {};
 
     //--------------------------- create a random id for image -------------------------------------
     imgService.makeid = function() {
@@ -92,7 +95,7 @@ angular.module('iips-app.services', [])
             encodingType: Camera.EncodingType.JPEG,
             popoverOptions: CameraPopoverOptions,
             saveToPhotoAlbum: false
-        }
+        };
     };
 
     //----------------- select image from gallery or camera and save to app directory---------------
@@ -137,8 +140,8 @@ angular.module('iips-app.services', [])
                     });
                 }
             });
-        })
-    }
+        });
+    };
     return imgService;
 })
 .factory('API', function($rootScope, $http, $ionicLoading, $window, $resource) {
@@ -161,7 +164,7 @@ angular.module('iips-app.services', [])
             }, 1999);
         };
         $rootScope.setToken = function (token) {
-            return $window.localStorage.token = token;
+            return ($window.localStorage.token = token);
         };
         return {
             userSignup: function(userForm) {
@@ -186,7 +189,7 @@ angular.module('iips-app.services', [])
                 return $http.get(api_base+"/Students?"+property+"="+escape(value))
                 .then(function(resp) {
                     if (resp.data.count > 0) {
-                        return false
+                        return false;
                     }
                     else {
                         return true;                        
@@ -197,14 +200,14 @@ angular.module('iips-app.services', [])
                 return $http.get(api_base+"/Users?"+property+"="+escape(value))
                 .then(function(resp) {
                     if (resp.data.count > 0) {
-                        return false
+                        return false;
                     }
                     else {
                         return true;                        
                     }
                 });
             }
-        }
+        };
 })
 .factory('Auth', function($rootScope, $http, $ionicLoading, $ionicHistory, $window) {
     var auth = {};
@@ -215,7 +218,7 @@ angular.module('iips-app.services', [])
 
     auth.getToken = function (){
       return $window.localStorage['auth-token'];
-    }
+    };
 
     auth.isLoggedIn = function(){
       var token = auth.getToken();
@@ -223,7 +226,7 @@ angular.module('iips-app.services', [])
       if(token){
         var payload = JSON.parse($window.atob(token.split('.')[1]));
 
-        $window.localStorage['email'] = payload.email;
+        $window.localStorage.email = payload.email;
         return payload.exp > Date.now() / 1000;
       } else {
         return false;
@@ -306,7 +309,7 @@ angular.module('iips-app.services', [])
                 return resp.data.data;
             });
         }
-    }
+    };
 })
 
 .factory('User', function($http) {
@@ -317,7 +320,7 @@ angular.module('iips-app.services', [])
                 return resp.data.data[0];
             });
         }
-    }
+    };
 })
 
 .factory('Student', function($http) {
@@ -328,7 +331,7 @@ angular.module('iips-app.services', [])
                 return resp.data.data;
             });
         }
-    }
+    };
 })
 
 .factory('Semester', function($http) {
@@ -337,15 +340,15 @@ angular.module('iips-app.services', [])
             return $http.get(api_base+"/Semesters/"+sid)
             .then(function(resp) {
                 return resp.data.data;
-            })
+            });
         },
         getSemesters: function(cid) {
             return $http.get(api_base+"/Semesters?CourseId="+cid)
             .then(function(resp) {
                 return resp.data.data;
-            })
+            });
         }
-    }
+    };
 })
 
 .factory('Batch', function($http) {
@@ -362,7 +365,7 @@ angular.module('iips-app.services', [])
                 return resp.data.data;
             });
         }
-    }
+    };
 })
 
 .factory('Slot', function($http, $q) {
@@ -373,7 +376,7 @@ angular.module('iips-app.services', [])
                 return resp.data.data;
             });
         }
-    }
+    };
 })
 
 .factory('TimeInterval', function($http) {
@@ -385,7 +388,7 @@ angular.module('iips-app.services', [])
                 return resp.data.data;
             });
         }
-    }
+    };
 })
 
 .factory('Subject', function($http) {
@@ -396,7 +399,7 @@ angular.module('iips-app.services', [])
                 return resp.data.data;
             });
         }
-    }
+    };
 })
 
 .factory('Faculty', function($http) {
@@ -413,7 +416,7 @@ angular.module('iips-app.services', [])
                 return resp.data.data;
             });
         }
-    }
+    };
 })
 .factory('Quote', function($http) {
     return {
@@ -423,7 +426,7 @@ angular.module('iips-app.services', [])
             .then(function(resp) {
                 console.log(resp.data.data);
                 return resp.data.data;
-            })
+            });
         }
-    }
-})
+    };
+});

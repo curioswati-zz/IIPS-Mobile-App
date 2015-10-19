@@ -1,4 +1,11 @@
 {
   "name": "app",
-  "app_id": "3600dcdc"
+  "app_id": "3600dcdc",
+  "gulpStartupTasks": [
+    "sass",
+    "templatecache",
+    "ng_annotate",
+    "useref",
+    "watch"
+  ]
 }
