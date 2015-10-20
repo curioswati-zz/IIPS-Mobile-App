@@ -105,6 +105,7 @@ angular.module('iips-app.controllers', ['iips-app.services'])
                     password: md5($scope.loginData.password)
                 })
                 .success(function (data) {
+                    $rootScope.hide();
                     console.log(data);
                     $localstorage.clean();
                     $rootScope.hide();
@@ -126,8 +127,10 @@ angular.module('iips-app.controllers', ['iips-app.services'])
             $scope.form.email.$setValidity("correctEmail", true);
 
             if(form.$valid) {
+                $rootScope.show("Checking email...");
                 Auth.checkMailExist($scope.loginData.email)
                 .then(function(resp) {
+                    $rootScope.hide();
                     if(resp.count === 0) {
                         $scope.form.email.$setValidity("correctEmail", false);
                     }

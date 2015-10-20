@@ -25,19 +25,25 @@
         <div ng-messages-include="form-error.html"></div>
         </div>
 
-        <select ng-change="refreshRequired(editProfile.course)" class="item item-input item-select empty" name="course" ng-model="studentData.CourseId" ng-class="{'no-register-errors':editProfile.course.$valid}" style="width:265px;">
-        <option selected disabled>{{studentData.course}}</option>
-        <option ng-repeat="course in courses" value={{course.id}}>{{course.courseName}}</option>
-        </select>
+        <label class="item item-input item-select">
+          <span>Course</span>
+          <select ng-change="refreshRequired(editProfile.course)" name="course" ng-model="studentData.CourseId" ng-class="{'no-register-errors':editProfile.course.$valid}" style="width:265px;">
+          <!-- <option selected disabled>{{studentData.course}}</option> -->
+          <option ng-repeat="course in courses" value={{course.id}}>{{course.courseName}}</option>
+          </select>
+        </label>
 
         <div class="error-container" ng-show="editProfile.course.$error" ng-messages="editProfile.course.$error">
         <div ng-messages-include="form-error.html"></div>
         </div>
  
-        <select ng-focus="getSemester(editProfile.course)" ng-change="refreshRequired(editProfile.sem)" class="item item-input item-select register-input empty" ng-class="{'no-register-errors':editProfile.sem.$valid}" name="sem" ng-model="studentData.SemesterId" style="width:265px;">
-          <option selected disabled>{{studentData.sem}}</option>
-          <option ng-repeat="sem in semesters" value={{sem.id}}>{{sem.semNo}}</option>
-        </select>
+        <label class="item item-input item-select">
+          <span>Semester</span>
+          <select ng-focus="getSemester(editProfile.course)" ng-change="refreshRequired(editProfile.sem)" ng-class="{'no-register-errors':editProfile.sem.$valid}" name="sem" ng-model="studentData.SemesterId" style="width:265px;">
+            <!-- <option selected disabled>{{studentData.sem}}</option> -->
+            <option ng-repeat="sem in semesters" value={{sem.id}}>{{sem.semNo}}</option>
+          </select>
+        </label>
 
         <div class="error-container" ng-show="editProfile.sem.$error" ng-messages="editProfile.sem.$error">
         <div class="error" ng-message="semChanged">
