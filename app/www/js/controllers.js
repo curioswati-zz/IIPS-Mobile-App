@@ -21,7 +21,6 @@ angular.module('iips-app.controllers', ['iips-app.services'])
 
         Semester.getSemesters(cid)
         .then(function(resp) {
-            console.log(resp);
             $rootScope.semesters = resp;
         });
     };
@@ -180,12 +179,13 @@ angular.module('iips-app.controllers', ['iips-app.services'])
     };
 })
 
-.controller('RegisterCtrl', function($rootScope, $scope, $state, $ionicActionSheet,
+.controller('RegisterCtrl', function($rootScope, $scope, $state,
+                                    $ionicActionSheet, $localstorage,
                                     ImageService, FileService,
                                     API, Auth) {
 
     $scope.registerData = { "ImageURI" :  "Select Image" };
-    $rootScope.uploadedPic = "avatar.jpeg";
+    $scope.uploadedPic = "avatar.jpeg";
     $rootScope.imageShown = false;
 
     //---------------------- set the form to be clean at the time of state enter--------------------
@@ -227,6 +227,7 @@ angular.module('iips-app.controllers', ['iips-app.services'])
                     .then(function (resp) {
                         $rootScope.hide();
                         $scope.form.$setPristine();
+                        $localstorage.set($scope.registerData.email, $scope.uploadedPic);
 
                         if($scope.form.$valid) {
                             $state.go('login');
@@ -277,7 +278,7 @@ angular.module('iips-app.controllers', ['iips-app.services'])
         $scope.hideSheet();
         ImageService.saveMedia(type).then(function() {
             var images              = FileService.getImages();
-            $rootScope.uploadedPic = images[0];
+            $scope.uploadedPic = images[0];
 
             setTimeout(function() {
                 $scope.$apply();
@@ -353,8 +354,9 @@ angular.module('iips-app.controllers', ['iips-app.services'])
 
                     Semester.getSemester(resp.SemesterId)
                     .then(function(resp) {
+                        console.log("resp:",resp);
                         $rootScope.studentData.sem = resp.semNo;
-                        $rootScope.studentData.syllabusUrl = resp.syllabusUrl;
+                        $rootScope.studentData.syllabusFile = resp.syllabusUrl;
                         $localstorage.setObj('studentData', $rootScope.studentData);
                     });
                 });
@@ -370,9 +372,11 @@ angular.module('iips-app.controllers', ['iips-app.services'])
 
     //------------------------------ Logout cleans the localstorage---------------------------------
     $rootScope.logout = function() {
+        $rootScope.show('Signing out...');
         logout = Auth.logout();
         $localstorage.clean();
         if(logout === true) {
+            $rootScope.hide();
             $state.go('login', {reload: true});
         }
     };
@@ -486,7 +490,7 @@ angular.module('iips-app.controllers', ['iips-app.services'])
             $scope.quote = resp;
             console.log($scope.quote);
         });
-    }, 200);
+    }, 100);
 
     //------------------------------- from the username form user email-----------------------------
     setTimeout(function() {
@@ -600,11 +604,11 @@ angular.module('iips-app.controllers', ['iips-app.services'])
 
     setTimeout(function() {
         $scope.syllabus = {
-            // url: $sce.trustAsResourceUrl($rootScope.studentData.syllabusUrl)
-            url: $sce.trustAsResourceUrl(base_url + '/web/viewer.html?file=' + 'MCA_II.pdf')
+            // url: $sce.trustAsResourceUrl($rootScope.studentData.syllabusFile)
+            url: $sce.trustAsResourceUrl('http://ec2-54-254-218-67.ap-southeast-1.compute.amazonaws.com/web/viewer.html?file=' + $rootScope.studentData.syllabusFile)
         };
-        console.log("syllabus url: ",$scope.studentData.syllabusUrl);
-    }, 200);
+        console.log("syllabus url: http://ec2-54-254-218-67.ap-southeast-1.compute.amazonaws.com/web/viewer.html?file=" + $rootScope.studentData.syllabusFile);
+    }, 300);
 })
 
 .controller('ProCtrl', function($scope, $rootScope, $state,
@@ -618,7 +622,11 @@ angular.module('iips-app.controllers', ['iips-app.services'])
     $scope.courseChanged = false;
     $rootScope.imageShown = false;
 
-    $rootScope.uploadedPic = "avatar.jpeg";
+    setTimeout(function() {
+        console.log($rootScope.userData.email);
+        $scope.uploadedPic = $localstorage.get($rootScope.userData.email);
+        console.log("uploaded pic: ",$scope.uploadedPic);
+    }, 100);
 
     //--------------------------check whether user is admin or general user-------------------------
     if ($rootScope.role == 'user') {

@@ -1,6 +1,6 @@
 <ion-header-bar class="iips-reg-header">
   <div class="col"></div>
-    <img ng-src="{{urlForImage(uploadedPic)}}" class="col col-50 col-center item-thumbnail-center upload-pic" height="138px" data-tap-disabled="true" ng-click="uploadPic()">
+    <img ng-src="{{urlForImage(uploadedPic)}}" class="col col-50 col-center item-thumbnail-center upload-pic no-vertical-padding" height="90px" data-tap-disabled="true" ng-click="uploadPic()">
   <div class="col"></div>
 </ion-header-bar>
 
@@ -29,34 +29,41 @@
         </label>
 
         <div class="error-container" ng-show="registerForm.fullname.$error" ng-messages="registerForm.fullname.$error">
-        <div ng-messages-include="templates/form-error.html"></div>
+        <div ng-messages-include="form-error.html"></div>
         </div>
 
-        <select ng-blur="getSemester(registerForm.course)" class="item item-input item-select register-input empty" name="course" ng-model="registerData.course" ng-class="{'no-register-errors':registerForm.course.$valid}" required style="width:265px;">
-          <option value="" selected disabled>Course</option>
-          <option ng-repeat="course in courses" value={{course.id}}>{{course.courseName}}</option>
-        </select>
+        <label class="item item-input item-select register-input">
+          <span class="input-label">Course</span>
+          <select ng-blur="getSemester(registerForm.course)"  name="course" ng-model="registerData.course" ng-class="{'no-register-errors':registerForm.course.$valid}" required>
+            <!-- <option value="" selected disabled>Course</option> -->
+            <option ng-repeat="course in courses" value={{course.id}}>{{course.courseName}}</option>
+          </select>          
+        </label>
 
         <div class="error-container" ng-show="registerForm.course.$error" ng-messages="registerForm.course.$error">
-        <div ng-messages-include="templates/form-error.html"></div>
+        <div ng-messages-include="form-error.html"></div>
         </div>
 
-        <select class="item item-input item-select register-input empty" ng-class="{'no-register-errors':registerForm.sem.$valid}" name="sem" ng-model="registerData.sem" required style="width:265px;">
-          <option value="" selected disabled>Semester</option>
-          <option ng-repeat="sem in semesters" value={{sem.id}}>{{sem.semNo}}</option>
-        </select>
+        <label class="item item-input item-select register-input">
+          <span class="input-label">Semester</span>
+          <select ng-class="{'no-register-errors':registerForm.sem.$valid}" name="sem" ng-model="registerData.sem" required>
+            <option ng-repeat="sem in semesters" value={{sem.id}}>{{sem.semNo}}</option>
+          </select>
+        </label>
 
         <div class="error-container" ng-show="registerForm.sem.$error" ng-messages="registerForm.sem.$error">
-        <div ng-messages-include="templates/form-error.html"></div>
+        <div ng-messages-include="form-error.html"></div>
         </div>
-    
-        <select class="item item-input item-select register-input empty" ng-class="{'no-register-errors':registerForm.batch.$valid}" name="batch" ng-model="registerData.batch" required style="width:265px;">
-          <option value="" selected disabled>Batch</option>
-          <option ng-repeat="batch in batches" value={{batch.id}}>{{batch.batchName}}</option>
-        </select>
+
+        <label class="item item-input item-select register-input">
+          <span class="input-label">Batch</span>
+          <select ng-class="{'no-register-errors':registerForm.batch.$valid}" name="batch" ng-model="registerData.batch" required>
+            <option ng-repeat="batch in batches" value={{batch.id}}>{{batch.batchName}}</option>
+          </select>
+        </label>
 
         <div class="error-container" ng-show="registerForm.batch.$error" ng-messages="registerForm.batch.$error">
-        <div ng-messages-include="templates/form-error.html"></div>
+        <div ng-messages-include="form-error.html"></div>
         </div>
     
         <label class="item item-input register-input" ng-class="{'no-register-errors':registerForm.roll.$valid}">
@@ -64,7 +71,7 @@
         </label>
 
         <div class="error-container" ng-show="registerForm.roll.$error" ng-messages="registerForm.roll.$error">
-        <div ng-messages-include="templates/form-error.html"></div>
+        <div ng-messages-include="form-error.html"></div>
         </div>
         
         <label class="item item-input register-input" ng-class="{'no-register-errors':registerForm.email.$valid}">
@@ -72,7 +79,7 @@
         </label>
  
         <div class="error-container" ng-show="registerForm.email.$error" ng-messages="registerForm.email.$error">
-        <div ng-messages-include="templates/form-error.html"></div>
+        <div ng-messages-include="form-error.html"></div>
         </div>
 
         <label class="item item-input register-input" ng-class="{'no-register-errors':registerForm.password.$valid}">
@@ -80,7 +87,7 @@
         </label>
  
         <div class="error-container" ng-show="registerForm.password.$error" ng-messages="registerForm.password.$error">
-        <div ng-messages-include="templates/form-error.html"></div>
+        <div ng-messages-include="form-error.html"></div>
         </div>
 
         <label class="item item-input register-input" ng-class="{'no-register-errors':registerForm.verify.$valid}">
@@ -88,11 +95,11 @@
         </label>
 
         <div class="error-container" ng-show="registerForm.verify.$error" ng-messages="registerForm.verify.$error">
-        <div ng-messages-include="templates/form-error.html"></div>
+        <div ng-messages-include="form-error.html"></div>
         </div>
 
         <div class="error-container error" ng-show="formError" style="position:relative; border: 1px solid red; padding:10px 50px; border-radius:5px;">
-          <div>Please fill out all fields</div>
+          <div>Please fill out all fields correctly!</div>
         </div>
 
       </div>

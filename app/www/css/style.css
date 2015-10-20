@@ -68,8 +68,9 @@ ion-content {
 }
 /*-----------------------------------Register.html------------------------------------------------*/
 .iips-reg-header {
-	height: 130px;
+	height: 100px;
 	background-color: #545454;
+	padding: 0;
 }
 .upload-pic {
 	/*height: 80px;*/
@@ -82,27 +83,28 @@ ion-content {
 	border-radius: 5px;
 	font-family: Sans-Serif;
 }
-.item-input input {
-	color: gray;
-}
 .register-input select, .login-card > .item-input select {
 	padding: 0 5px 0;
 }
-select option {
-	color: black;
+.item-select select {
+    right: auto;
+    direction: ltr;
 }
-select:first-child {
+.input-label {
 	color: gray;
+	font-size: 14px;
+	font-family: sans-serif;
+	width: 5px;
 }
-select.empty {
+/*select.empty {
 	color: gray;
 	font-size: 14px;
 	font-family: sans-serif;
 	padding: 10px;
-}
-select option[disabled]:first-child {
+}*/
+/*select option[disabled]:first-child {
 	display: none;
-}
+}*/
 .has-errors {
   border-bottom: 3px solid #B83E2C;
 }
@@ -267,7 +269,7 @@ select option[disabled]:first-child {
 }
 .pull-right {
 	position: relative;
-	right: -20em;
+	right: -18em;
 	top: 0.3em;
 }
 .pro-details-item {
