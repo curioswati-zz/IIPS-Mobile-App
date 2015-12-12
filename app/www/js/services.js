@@ -42,16 +42,16 @@ angular.module('iips-app.services', [])
         }
     };
 })
-.factory('FileService', function($localstorage) {
+.factory('FileService', function($localStorage) {
     var images = [];
     var IMAGE_STORAGE_KEY = 'images';
 
     return {
         getImages: function() {
-            var img = $localstorage.get(IMAGE_STORAGE_KEY);
+            var img = $localStorage[IMAGE_STORAGE_KEY];
 
             if(img) {
-                images = JSON.parse(img);
+                images = img;
             }
             else {
                 images = [];
@@ -60,7 +60,7 @@ angular.module('iips-app.services', [])
         },
         storeImage: function(img) {
             images.push(img);
-            $localstorage.set(IMAGE_STORAGE_KEY, JSON.stringify(images));
+            $localStorage[IMAGE_STORAGE_KEY] = images;
         }
     };
 })
@@ -144,7 +144,7 @@ angular.module('iips-app.services', [])
     };
     return imgService;
 })
-.factory('API', function($rootScope, $http, $ionicLoading, $window, $resource) {
+.factory('API', function($rootScope, $http, $ionicLoading, $localStorage) {
     $rootScope.show = function (text) {
             $rootScope.loading = $ionicLoading.show({
                 content: text ? text : 'Loading',
@@ -159,12 +159,12 @@ angular.module('iips-app.services', [])
         };
         $rootScope.notify =function(text){
             $rootScope.show(text);
-            $window.setTimeout(function () {
+            setTimeout(function () {
               $rootScope.hide();
             }, 1999);
         };
         $rootScope.setToken = function (token) {
-            return ($window.localStorage.token = token);
+            return ($localStorage.token = token);
         };
         return {
             userSignup: function(userForm) {
@@ -209,15 +209,16 @@ angular.module('iips-app.services', [])
             }
         };
 })
-.factory('Auth', function($rootScope, $http, $ionicLoading, $ionicHistory, $window) {
+.factory('Auth', function($rootScope, $http, $window,
+		         $ionicLoading, $ionicHistory, $localStorage) {
     var auth = {};
 
     auth.saveToken = function (token){
-      $window.localStorage['auth-token'] = token;
+      $localStorage.authtoken = token;
     };
 
     auth.getToken = function (){
-      return $window.localStorage['auth-token'];
+      return $localStorage.authtoken;
     };
 
     auth.isLoggedIn = function(){
@@ -226,7 +227,7 @@ angular.module('iips-app.services', [])
       if(token){
         var payload = JSON.parse($window.atob(token.split('.')[1]));
 
-        $window.localStorage.email = payload.email;
+        $localStorage.email = payload.email;
         return payload.exp > Date.now() / 1000;
       } else {
         return false;
@@ -236,7 +237,7 @@ angular.module('iips-app.services', [])
     auth.currentUser = function(){
       if(auth.isLoggedIn()){
         var token = auth.getToken();
-        var payload = JSON.parse($window.atob(token.split('.')[1]));
+        var payload = token.split('.')[1];
 
         return payload.email;
       }
@@ -247,7 +248,7 @@ angular.module('iips-app.services', [])
 
     auth.logout = function(){
         console.log("loginout");
-        $window.localStorage.clear();
+        $localStorage.$reset();
         $ionicHistory.clearCache();
         return true;
     };
@@ -280,7 +281,7 @@ angular.module('iips-app.services', [])
     };
     $rootScope.notify =function(text){
         $rootScope.show(text);
-        $window.setTimeout(function () {
+        setTimeout(function () {
           $rootScope.hide();
         }, 1999);
     };
@@ -368,7 +369,7 @@ angular.module('iips-app.services', [])
     };
 })
 
-.factory('Slot', function($http, $q) {
+.factory('Slot', function($http) {
     return {
         getSlot: function(id, day) {
             return $http.get(api_base+'/Slots?SemesterId='+id+'&&Day='+day+'&&sort=TimeIntervalId')
@@ -421,7 +422,6 @@ angular.module('iips-app.services', [])
 .factory('Quote', function($http) {
     return {
         getQuote: function(id) {
-            console.log(id);
             return $http.get(api_base+"/Quotes/"+id)
             .then(function(resp) {
                 console.log(resp.data.data);

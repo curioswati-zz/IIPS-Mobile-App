@@ -46,7 +46,7 @@ angular.module('iips-app.controllers', ['iips-app.services'])
     };
 })
 
-.controller('LoginCtrl', function($scope, $rootScope, $state, Auth, API, $localstorage) {
+.controller('LoginCtrl', function($scope, $rootScope, $state, Auth, API, $localStorage) {
     $scope.loginData = {};
 
     $scope.$on('$ionicView.enter', function(event) {
@@ -106,8 +106,7 @@ angular.module('iips-app.controllers', ['iips-app.services'])
                 })
                 .success(function (data) {
                     $rootScope.hide();
-                    console.log(data);
-                    $localstorage.clean();
+                    $localStorage.$reset();
                     $rootScope.hide();
 
                     $scope.forgotPass = false;
@@ -138,7 +137,7 @@ angular.module('iips-app.controllers', ['iips-app.services'])
                         Auth.sendMail({ email: $scope.loginData.email })
                         .then(function(respPasscode) {
                             $scope.currentUser = resp[0].id;
-                            $localstorage.set('OTP', respPasscode.data.passcode);
+                            $localStorage.OTP = respPasscode.data.passcode;
                             $scope.getOTP = true;
                             console.log($scope.form.email);
                             $scope.form.email.$setViewValue('');
@@ -155,7 +154,7 @@ angular.module('iips-app.controllers', ['iips-app.services'])
         }
         else if ($scope.getOTP === true && $scope.recoverPass === false) {
 
-            if($localstorage.get('OTP') == $scope.loginData.OTP) {
+            if($localStorage.OTP == $scope.loginData.OTP) {
                 $scope.form.OTP.$setValidity("correctOTP", true);
                 $scope.recoverPass = true;
                 $scope.form.OTP.$setViewValue('');
@@ -183,7 +182,7 @@ angular.module('iips-app.controllers', ['iips-app.services'])
 })
 
 .controller('RegisterCtrl', function($rootScope, $scope, $state,
-                                    $ionicActionSheet, $localstorage,
+                                    $ionicActionSheet, $localStorage,
                                     ImageService, FileService,
                                     API, Auth) {
 
@@ -230,7 +229,7 @@ angular.module('iips-app.controllers', ['iips-app.services'])
                     .then(function (resp) {
                         $rootScope.hide();
                         $scope.form.$setPristine();
-                        $localstorage.set($scope.registerData.email, $scope.uploadedPic);
+                        $localStorage[$scope.registerData.email] = $scope.uploadedPic;
 
                         if($scope.form.$valid) {
                             $state.go('login');
@@ -294,7 +293,7 @@ angular.module('iips-app.controllers', ['iips-app.services'])
 })
 
 .controller('TabCtrl', function($scope, $rootScope, $state,
-                                $localstorage,
+                                $localStorage,
                                 Auth, User, Student, Batch,
                                 Semester, Course, Faculty) {
 
@@ -310,9 +309,11 @@ angular.module('iips-app.controllers', ['iips-app.services'])
                             {name: 'Prog Incharge'}, {name: 'Coordinator'}];
 
     //------------------------------Collect data from localstorage----------------------------------
-    $scope.currentUser = $localstorage.get('email');
-    $scope.batch       = $localstorage.getObj('Batch');
-    $scope.course      = $localstorage.getObj('Course');
+    $scope.currentUser = $localStorage.email;
+    $scope.batch       = $localStorage.Batch;
+    $scope.course      = $localStorage.Course;
+    $scope.studentData = $localStorage.studentData;
+    $scope.userData    = $localStorage.userData;
 
     //----------------------------------------------------------------------------------------------
 
@@ -335,41 +336,39 @@ angular.module('iips-app.controllers', ['iips-app.services'])
 
     //----------------Getting the details; If the details not in localstorage-----------------------
     if (typeof($scope.currentUser) != 'undefined') {
-        var userData = $localstorage.getObj('userData');
+        var userData = $localStorage.userData;
 
-        if( Object.keys(userData).length === 0 ) {
+        if(!userData) {
 
             User.getUser($scope.currentUser)
             .then(function(resp) {
 
-                $rootScope.userData = resp;
-                $localstorage.setObj('userData', resp);
+                $localStorage.userData = resp;
+		setTimeout(function() {
+		    $scope.$apply();
+		}, 100);
 
                 Student.getStudent(resp.StudentId)
                 .then(function(resp) {
 
-                    $rootScope.studentData = resp;
+                    $localStorage.studentData = resp;
 
                     Course.getCourse(resp.CourseId)
                     .then(function(resp) {
-                        $rootScope.studentData.course = resp.courseName;
+                        $localStorage.studentData.course = resp.courseName;
                     });
 
                     Semester.getSemester(resp.SemesterId)
                     .then(function(resp) {
-                        console.log("resp:",resp);
-                        $rootScope.studentData.sem = resp.semNo;
-                        $rootScope.studentData.syllabusFile = resp.syllabusUrl;
-                        $localstorage.setObj('studentData', $rootScope.studentData);
+                        $localStorage.studentData.sem = resp.semNo;
+                        $localStorage.studentData.syllabusFile = resp.syllabusUrl;
+                        $localStorage.studentData = $localStorage.studentData;
+                        setTimeout(function() {
+		            $scope.$apply();
+		        }, 100);
                     });
                 });
             });
-        }
-
-        // else show from local storage
-        else {
-            $rootScope.userData = $localstorage.getObj('userData');
-            $rootScope.studentData = $localstorage.getObj('studentData');
         }
     }
 
@@ -377,7 +376,6 @@ angular.module('iips-app.controllers', ['iips-app.services'])
     $rootScope.logout = function() {
         $rootScope.show('Signing out...');
         logout = Auth.logout();
-        $localstorage.clean();
         if(logout === true) {
             $rootScope.hide();
             $state.go('login', {reload: true});
@@ -385,31 +383,30 @@ angular.module('iips-app.controllers', ['iips-app.services'])
     };
 
     //--------------------------- Get batch details to show in class info card----------------------
-    if(Object.keys($scope.batch).length === 0) {
-        $scope.batch = {};
+    if(!$scope.batch) {
+        $localStorage.Batch = {};
 
         setTimeout(function() {
-            var bid = $rootScope.studentData.BatchId;
+	    
+            var bid = $localStorage.studentData.BatchId;
 
             Batch.getBatch(bid)
             .then(function(resp) {
                 $scope.classDetails[0].valZero = resp.roomNo;
-                $scope.batch.roomNo = resp.roomNo;
+                $localStorage.Batch.roomNo = resp.roomNo;
 
                 var fid = resp.FacultyId;
 
                 Faculty.getFaculty(fid)
                 .then(function(resp) {
                     $scope.classDetails[3].valZero = resp.facultyName;                    
-                    $scope.batch.batchMentor = resp.facultyName;
+                    $localStorage.Batch.batchMentor = resp.facultyName;
 
                     $scope.classDetails[3].valOne = resp.contact;
-                    $scope.batch.contact = resp.contact;
-
-                    $localstorage.setObj('Batch', $scope.batch);
+                    $localStorage.Batch.contact = resp.contact;
                 });
             });
-        }, 300);
+        }, 1000);
     }
     // else fetch from localstorage
     else {
@@ -419,24 +416,25 @@ angular.module('iips-app.controllers', ['iips-app.services'])
     }
 
     //--------------------------- Get course details to show in class info card----------------------
-    if (Object.keys($scope.course).length === 0) {
-        $scope.course = {};
+    if (!$scope.course) {
+        $localStorage.Course = {};
 
         setTimeout(function() {
-            $scope.course.name = $rootScope.studentData.course;
-            var queryPI = 'PI-'+$rootScope.studentData.course;
+
+            var courseName = $localStorage.studentData.course;
+            var queryPI = 'PI-'+courseName;
 
             Faculty.getFacultyByQuery('role',queryPI)
             .then(function(resp) {
                 $scope.classDetails[2].valZero = resp[0].facultyName;
-                $scope.course.piName = resp[0].facultyName;
+                $localStorage.Course.piName = resp[0].facultyName;
                 $scope.classDetails[2].valOne = resp[0].contact;
-                $scope.course.piContact = resp[0].contact;
+                $localStorage.Course.piContact = resp[0].contact;
             });
 
             var queryInc;
 
-            if($scope.course.name.slice(0,2) == 'MT' || $scope.course.name.slice(0,2) == 'MC') {
+            if(courseName.slice(0,2) == 'MT' || courseName.slice(0,2) == 'MC') {
                 queryInc = 'Inc-Tech';
             }
             else {
@@ -448,17 +446,16 @@ angular.module('iips-app.controllers', ['iips-app.services'])
 
                 if (resp.length>0) {
                     $scope.classDetails[1].valZero = resp[0].facultyName;
-                    $scope.course.incName = resp[0].facultyName;
+                    $localStorage.Course.incName = resp[0].facultyName;
                     $scope.classDetails[1].valOne = resp[0].contact;                        
-                    $scope.course.incContact = resp[0].contact;                        
+                    $localStorage.Course.incContact = resp[0].contact;                        
                 }
                 else {
                     $scope.classDetails[1].valZero = "Unknown";                        
-                    $scope.course.incName = "Unknown";                        
+                    $localStorage.Course.incName = "Unknown";                        
                 }
-                $localstorage.setObj('Course', $scope.course);
             });
-        }, 300);
+        }, 1000);
     }
     // else show from localstorage
     else {
@@ -471,7 +468,7 @@ angular.module('iips-app.controllers', ['iips-app.services'])
 })
 
 .controller('DashCtrl', function($rootScope, $scope, $state, $sce,
-                                    $localstorage, Auth, Subject,
+                                    $localStorage, Auth, Subject,
                                     Slot, TimeInterval, Faculty, Quote) {
 
     //------------------------------- some globals used in the controller---------------------------
@@ -606,30 +603,31 @@ angular.module('iips-app.controllers', ['iips-app.services'])
     });
 
     setTimeout(function() {
+    $scope.$watch('studentData', function(newVal, oldVal) {
+	if (!newVal) return;
+
         $scope.syllabus = {
             // url: $sce.trustAsResourceUrl($rootScope.studentData.syllabusFile)
-            url: $sce.trustAsResourceUrl('http://ec2-54-254-218-67.ap-southeast-1.compute.amazonaws.com/web/viewer.html?file=' + $rootScope.studentData.syllabusFile)
+            url: $sce.trustAsResourceUrl('http://ec2-54-254-218-67.ap-southeast-1.compute.amazonaws.com/web/viewer.html?file=' + $localStorage.studentData.syllabusFile)
         };
-        console.log("syllabus url: http://ec2-54-254-218-67.ap-southeast-1.compute.amazonaws.com/web/viewer.html?file=" + $rootScope.studentData.syllabusFile);
-    }, 300);
+    });
+    }, 1000);
 })
 
 .controller('ProCtrl', function($scope, $rootScope, $state,
-                                $localstorage, $ionicPlatform, FileService,
+                                $localStorage, $ionicPlatform, FileService,
                                 API, Auth) {
 
     //------------------------------ some globals for use in controller-----------------------------
     $scope.user   = [];
+    var userItem = {};
+    var studentItem = {};
     $scope.others = ['About', 'Feedback', 'Contact Support', 'Open Source License'];
     $scope.sessionRefreshRequired = false;
     $scope.courseChanged = false;
     $rootScope.imageShown = false;
-
-    setTimeout(function() {
-        console.log($rootScope.userData.email);
-        $scope.uploadedPic = $localstorage.get($rootScope.userData.email);
-        console.log("uploaded pic: ",$scope.uploadedPic);
-    }, 100);
+    $scope.userData = $localStorage.userData;
+    $scope.studentData = $localStorage.studentData;
 
     //--------------------------check whether user is admin or general user-------------------------
     if ($rootScope.role == 'user') {
@@ -640,6 +638,20 @@ angular.module('iips-app.controllers', ['iips-app.services'])
     }
 
     //--------------------------------prepare data for template-------------------------------------
+
+ //   setTimeout(function() {
+    $scope.$watch('userData', function(newVal, oldVal) {
+	if (!newVal) return;
+
+        $scope.uploadedPic = $localStorage[$localStorage.userData.email];
+        console.log("uploaded pic: ",$scope.uploadedPic);
+
+        userItem.value = $localStorage.userData.email;
+    });
+//    }, 1000);
+
+    userItem.name = 'email';
+    $scope.user.push(userItem);
 
     // profile pic
     // $ionicPlatform.ready(function() {
@@ -653,25 +665,21 @@ angular.module('iips-app.controllers', ['iips-app.services'])
         // }
       // });
 
-    setTimeout(function() {
-        $rootScope.studentData.rollno = $rootScope.studentData.rollno.toUpperCase();
-        for (var key in $rootScope.studentData) {
+ //   setTimeout(function() {
+    $scope.$watch('studentData', function(newVal, oldVal) {
+	if (!newVal) return;
+
+        $localStorage.studentData.rollno = $localStorage.studentData.rollno.toUpperCase();
+        for (var key in $localStorage.studentData) {
             if (key == 'course' || key == 'sem') {
-                var studentItem = {};
                 studentItem.name = key;
-                studentItem.value = $rootScope.studentData[key];
+                studentItem.value = $localStorage.studentData[key];
                 $scope.user.push(studentItem);
             }
         }
-    }, 100);
-    userItem = {};
-    userItem.name = 'email';
+    });
+//    }, 1000);
 
-    setTimeout(function() {
-        userItem.value = $rootScope.userData.email;
-    }, 100);
-
-    $scope.user.push(userItem);
 
     //---------------------------------edit profile-------------------------------------------------
     $scope.editProfile = function() {
@@ -701,14 +709,14 @@ angular.module('iips-app.controllers', ['iips-app.services'])
     $scope.saveChanges = function(form) {
 
         $scope.form = form;
-        updateUser = {'email': $rootScope.userData.email};
+        updateUser = {'email': $localStorage.userData.email};
 
         //--- if password was not changed, we need to send the current password with the request----
         if(typeof($scope.form.password.$viewValue) !== 'undefined') {
             updateUser.password = md5($scope.form.password.$viewValue);
         }
         else {
-            updateUser.password = $rootScope.userData.password;
+            updateUser.password = $localStorage.userData.password;
         }
 
         if($scope.courseChanged) {
@@ -720,14 +728,14 @@ angular.module('iips-app.controllers', ['iips-app.services'])
             if (form.$valid) {
                 $rootScope.show('Please wait.. Saving');
 
-                $scope.currentUser = $rootScope.userData.id;
+                $scope.currentUser = $localStorage.userData.id;
 
                 //---------------------------------- submit form----------------------------------------
                 API.userUpdate($scope.currentUser, updateUser);
-                API.studentUpdate($rootScope.userData.StudentId, {
-                    fullname:   $rootScope.studentData.fullname,
-                    CourseId:   $rootScope.studentData.CourseId,
-                    SemesterId: $rootScope.studentData.SemesterId,
+                API.studentUpdate($localStorage.userData.StudentId, {
+                    fullname:   $localStorage.studentData.fullname,
+                    CourseId:   $localStorage.studentData.CourseId,
+                    SemesterId: $slocalStorage.tudentData.SemesterId,
                 })
                 .success(function (data) {
                     $rootScope.hide();
@@ -741,14 +749,14 @@ angular.module('iips-app.controllers', ['iips-app.services'])
                     else if($scope.form.$valid) {
                         //-------------------- update all the scope user information--------------------
 
-                        $localstorage.setObj('studentData', data.data);
+                        $localStorage.studentData = data.data;
 
-                        course = $rootScope.studentData.course;
-                        sem = $rootScope.studentData.sem;
+                        course = $localStorage.studentData.course;
+                        sem = $localStorage.studentData.sem;
 
-                        $rootScope.studentData = data.data;                
-                        $rootScope.studentData.course = course;
-                        $rootScope.studentData.sem = sem;
+                        $localStorage.studentData = data.data;                
+                        $localStorage.studentData.course = course;
+                        $localStorage.studentData.sem = sem;
                     }
 
                     //------------------------ go back to appropriate profile view----------------------
@@ -843,7 +851,6 @@ angular.module('iips-app.controllers', ['iips-app.services'])
     };
 
     $scope.goBack = function() {
-        console.log("back");
         $state.go('admin.dash');
     };
 
