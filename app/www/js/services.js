@@ -9,39 +9,6 @@ var auth_base = base_url + "/auth";
 
 angular.module('iips-app.services', [])
 
-.factory('$localstorage', function($window, $ionicHistory) {
-    return {
-        show: function() {
-            return $window.localStorage;
-        },
-        set: function(key, value) {
-            $window.localStorage[key] = value;
-        },
-        get: function(key, defaultValue) {
-            if (key in $window.localStorage && $window.localStorage[key] !== "undefined") {
-                return $window.localStorage[key];                
-            }
-            else {
-                return '';
-            }
-        },
-        setObj: function(key, value) {
-            $window.localStorage[key] = JSON.stringify(value);
-        },
-        getObj: function(key) {
-            if (key in $window.localStorage && $window.localStorage[key] !== "undefined") {
-                return JSON.parse($window.localStorage[key]);                
-            }
-            else {
-                return JSON.parse('{}');
-            }
-        },
-        clean: function() {
-            $window.localStorage.clear();
-            $ionicHistory.clearCache();
-        }
-    };
-})
 .factory('FileService', function($localStorage) {
     var images = [];
     var IMAGE_STORAGE_KEY = 'images';

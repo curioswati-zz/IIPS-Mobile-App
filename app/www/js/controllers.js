@@ -16,7 +16,6 @@ angular.module('iips-app.controllers', ['iips-app.services'])
     });
 
     $rootScope.getSemester = function(course) {
-        console.log("selected:",course.$viewValue);
         cid = course.$viewValue;
 
         Semester.getSemesters(cid)
@@ -312,8 +311,6 @@ angular.module('iips-app.controllers', ['iips-app.services'])
     $scope.currentUser = $localStorage.email;
     $scope.batch       = $localStorage.Batch;
     $scope.course      = $localStorage.Course;
-    $scope.studentData = $localStorage.studentData;
-    $scope.userData    = $localStorage.userData;
 
     //----------------------------------------------------------------------------------------------
 
@@ -484,18 +481,16 @@ angular.module('iips-app.controllers', ['iips-app.services'])
     //--------------------------------- get quote from api------------------------------------------
     quoteId = Math.floor(Math.random() * 5);
 
-    setTimeout(function() {
-        Quote.getQuote(quoteId)
-        .then(function(resp) {
-            $scope.quote = resp;
-            console.log($scope.quote);
-        });
-    }, 100);
+    Quote.getQuote(quoteId)
+    .then(function(resp) {
+        $scope.quote = resp;
+    });
 
     //------------------------------- from the username form user email-----------------------------
     setTimeout(function() {
-        $scope.currentUser = $rootScope.userData.email.split('@')[0];
-    }, 100);
+        $scope.currentUser = $localStorage.userData.email.split('@')[0];
+	$scope.studentData = $localStorage.studentData;
+    }, 400);
 
     //----------------------------- start fetching data on state enter------------------------------
     $scope.$on('$ionicView.enter', function(event) {
@@ -504,21 +499,20 @@ angular.module('iips-app.controllers', ['iips-app.services'])
         $scope.showSlot = function(day) {
             slot = 0;
             $scope.sections = [];
-            $scope.slots = $localstorage.getObj('Slot'+$scope.Day);
+            $scope.slots = $localStorage['Slot'+$scope.Day];
 
             //---------------------------- if not found in localstorage-----------------------------
-            if(Object.keys($scope.slots).length === 0) {
+            if(!$scope.slots) {
                 setTimeout(function() {
-                    var sid = $rootScope.studentData.SemesterId;
-                    console.log($scope.Day);
+                    var sid = $localStorage.studentData.SemesterId;
 
                     Slot.getSlot(sid, day)
                     .then(function(resp) {
                         $scope.slots = resp;
-                        $localstorage.setObj('Slot'+$scope.Day, resp);
+                        $localStorage['Slot'+$scope.Day] = resp;
                         callEmAll($scope.slots.length);
                     });
-                }, 100);
+                }, 1000);
             }
             //------------------------------ else from the localstorage-----------------------------
             else {
@@ -582,7 +576,6 @@ angular.module('iips-app.controllers', ['iips-app.services'])
                         $scope.section.faculty = resp.facultyName;
                         $scope.sections.push($scope.section);
 
-                        // $localstorage.setObj('Slot'+$scope.Day, $scope.sections);
                         callEmAll(noOfCalls-1);
                     });
                 });
@@ -603,14 +596,10 @@ angular.module('iips-app.controllers', ['iips-app.services'])
     });
 
     setTimeout(function() {
-    $scope.$watch('studentData', function(newVal, oldVal) {
-	if (!newVal) return;
-
         $scope.syllabus = {
             // url: $sce.trustAsResourceUrl($rootScope.studentData.syllabusFile)
             url: $sce.trustAsResourceUrl('http://ec2-54-254-218-67.ap-southeast-1.compute.amazonaws.com/web/viewer.html?file=' + $localStorage.studentData.syllabusFile)
         };
-    });
     }, 1000);
 })
 
@@ -639,7 +628,6 @@ angular.module('iips-app.controllers', ['iips-app.services'])
 
     //--------------------------------prepare data for template-------------------------------------
 
- //   setTimeout(function() {
     $scope.$watch('userData', function(newVal, oldVal) {
 	if (!newVal) return;
 
@@ -648,7 +636,6 @@ angular.module('iips-app.controllers', ['iips-app.services'])
 
         userItem.value = $localStorage.userData.email;
     });
-//    }, 1000);
 
     userItem.name = 'email';
     $scope.user.push(userItem);
@@ -665,7 +652,6 @@ angular.module('iips-app.controllers', ['iips-app.services'])
         // }
       // });
 
- //   setTimeout(function() {
     $scope.$watch('studentData', function(newVal, oldVal) {
 	if (!newVal) return;
 
@@ -678,8 +664,6 @@ angular.module('iips-app.controllers', ['iips-app.services'])
             }
         }
     });
-//    }, 1000);
-
 
     //---------------------------------edit profile-------------------------------------------------
     $scope.editProfile = function() {
