@@ -1,0 +1,22 @@
+<ion-view view-title="Info">  
+  <ion-content>
+    <div class="row">
+      <div class="col"></div>
+      <div class="card details-list col col-80">
+
+        <div class="class-info-bar">Class-Info</div>
+	<ion-list>
+	  <ion-item ng-repeat="detail in classDetails" class="list-item details-list-item">
+          <div class="row">
+            <div class="col col-33">{{detail.name}}</div>
+            <div class="col">:</div>
+	    <div class="col">{{detail.valZero}}</div>
+            <div class="col"></div>
+          </div>
+	  </ion-item>
+	</ion-list>
+      </div>
+      <div class="col"></div>
+    </div>
+  </ion-content>
+</ion-view>

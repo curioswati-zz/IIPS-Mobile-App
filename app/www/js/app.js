@@ -142,6 +142,16 @@ angular.module('iips-app',
       }
     })
 
+    .state('tab.info', {
+      url: "/info",
+      views: {
+        'tab-info': {
+          templateUrl: "class-info.html",
+          controller: 'InfoCtrl'
+        }
+      }
+    })
+
     .state('tab.dash', {
       url: "/dash",
       views: {
