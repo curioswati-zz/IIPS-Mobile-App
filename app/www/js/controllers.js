@@ -467,6 +467,7 @@ angular.module('iips-app.controllers', ['iips-app.services'])
 
     //------------------------------- some globals used in the controller---------------------------
     $scope.data        = {};
+    $scope.userData    = $localStorage.userData;
     $scope.showCurrent = true;
     $scope.showQuote   = true;
     $scope.session     = 'July-Dec 2015';
@@ -484,10 +485,12 @@ angular.module('iips-app.controllers', ['iips-app.services'])
     });
 
     //------------------------------- from the username form user email-----------------------------
-    setTimeout(function() {
+    $scope.$watch('userData', function(newVal, oldVal) {
+        if (!newVal) return;
+
         $scope.currentUser = $localStorage.userData.email.split('@')[0];
 	$scope.studentData = $localStorage.studentData;
-    }, 400);
+    });
 
     //----------------------------- start fetching data on state enter------------------------------
     $scope.$on('$ionicView.enter', function(event) {
@@ -592,12 +595,14 @@ angular.module('iips-app.controllers', ['iips-app.services'])
         };
     });
 
-    setTimeout(function() {
+    $scope.$watch('studentData', function(newVal, oldVal) {
+        if (!newVal) return;
+
         $scope.syllabus = {
             // url: $sce.trustAsResourceUrl($rootScope.studentData.syllabusFile)
             url: $sce.trustAsResourceUrl('http://ec2-54-254-218-67.ap-southeast-1.compute.amazonaws.com/web/viewer.html?file=' + $localStorage.studentData.syllabusFile)
         };
-    }, 1000);
+    });
 })
 
 .controller('ProCtrl', function($scope, $rootScope, $state,

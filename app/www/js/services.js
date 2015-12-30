@@ -390,7 +390,6 @@ angular.module('iips-app.services', [])
         getQuote: function(id) {
             return $http.get(api_base+"/Quotes/"+id)
             .then(function(resp) {
-                console.log(resp.data.data);
                 return resp.data.data;
             });
         }
