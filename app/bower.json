@@ -4,6 +4,10 @@
   "devDependencies": {
     "ionic": "driftyco/ionic-bower#1.0.1",
     "ionic-service-core": "~0.1.7",
-    "ionic-service-push": "~0.1.8"
+    "ionic-service-push": "~0.1.8",
+    "angular-messages": "1.4.4",
+    "angular-resource": "1.4.3",
+    "ng-cordova": "*",
+    "ngstorage": "0.3.10"
   }
 }
