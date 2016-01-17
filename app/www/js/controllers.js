@@ -485,12 +485,10 @@ angular.module('iips-app.controllers', ['iips-app.services'])
     });
 
     //------------------------------- from the username form user email-----------------------------
-    $scope.$watch('userData', function(newVal, oldVal) {
-        if (!newVal) return;
-
+    setTimeout(function() {
         $scope.currentUser = $localStorage.userData.email.split('@')[0];
 	$scope.studentData = $localStorage.studentData;
-    });
+    }, 200);
 
     //----------------------------- start fetching data on state enter------------------------------
     $scope.$on('$ionicView.enter', function(event) {

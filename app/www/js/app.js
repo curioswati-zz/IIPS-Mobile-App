@@ -26,17 +26,21 @@ angular.module('iips-app',
   });
 
   $rootScope.$on('$stateChangeStart', function(event, next) {
-    if ($state.current !== 'login') {
-      if (!Auth.isLoggedIn()) {
-        $state.go('login', {reload:true});
+    if ($state.current.name !== 'login' && $state.current.name !== 'register') {
+      var loggedIn = Auth.isLoggedIn()
 
-        console.log(next.name);
-
-        if(next.name !== 'login' && next.name !== 'register')
-        {
-          event.preventDefault();
+      setTimeout(function() {
+        if (!loggedIn) {
+          $state.go('login');
+  
+          console.log(next.name);
+  
+          if(next.name !== 'login' && next.name !== 'register')
+          {
+            event.preventDefault();
+          }
         }
-      }     
+      }, 1000);
     }
   });
 })
