@@ -59,6 +59,7 @@ angular.module('iips-app.controllers', ['iips-app.services'])
     $scope.login = function(form) {
         $scope.form = form;
         $scope.form.password.$setValidity("correctPassword", true);
+        $scope.networkError = false;
 
         if(form.$valid) {
             $rootScope.show('Signing in...');
@@ -94,25 +95,24 @@ angular.module('iips-app.controllers', ['iips-app.services'])
                         });
                     });
                 });
-
-                if($scope.form.$valid) {
-
-                    if ($scope.loginData.email == 'admin@iips.edu.in' && $scope.loginData.password == 'idiot')
-                    {
-                        $state.go('admin');
-                        $scope.form.$setPristine();
-                    }
-                    else {
-                        $state.go('tab.dash');                        
-                        $scope.form.$setPristine();
-                    }
-                 }
+                if ($scope.loginData.email == 'admin@iips.edu.in')
+                {
+                    $state.go('admin');
+                    $scope.form.$setPristine();
+                }
+                else {
+                    $state.go('tab.dash');                        
+                    $scope.form.$setPristine();
+                }
             })
             .error(function(error) {
                 $rootScope.hide();
-                setTimeout(function() {
-                    $scope.form.password.$setValidity("correctPassword", false);
-                }, 100);
+		if (error && error.message == "Incorrect password.") {
+                  $scope.form.password.$setValidity("correctPassword", false);
+		}
+		else {
+		  $scope.networkError = true;
+		}
             });
         }
         else {
