@@ -50,11 +50,12 @@ angular.module('iips-app.directives', [])
           return;
 
         var keyProperty = scope.$eval(attrs.wcUnique);
+        var batch = scope.registerData.batch;
 
         var currentValue = element.val();
 
         if (keyProperty.property == 'rollno') {
-          API.checkUniqueRoll(keyProperty.property, currentValue)
+          API.checkUniqueRoll(keyProperty.property, currentValue, batch)
           .then(function (unique) {
             //Ensure value that being checked hasn't changed
             //since the Ajax call was made

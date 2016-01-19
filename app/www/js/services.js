@@ -152,16 +152,21 @@ angular.module('iips-app.services', [])
             submitData: function(model, form) {
                 return $http.post(api_base+'/'+model, form);
             },
-            checkUniqueRoll: function(property, value) {
-                return $http.get(api_base+"/Students?"+property+"="+escape(value))
+            checkUniqueRoll: function(property, value, batch){
+                return $http.get(api_base+"/Batches/"+escape(batch))
                 .then(function(resp) {
-                    if (resp.data.count > 0) {
-                        return false;
-                    }
-                    else {
-                        return true;                        
-                    }
-                });
+                    value = resp.data.data.batchName +"-"+ value;
+
+                    return $http.get(api_base+"/Students?"+property+"="+escape(value))
+                    .then(function(resp) {
+                        if (resp.data.count > 0) {
+                            return false;
+                        }
+                        else {
+                            return true;                        
+                        }
+                    });
+                })
             },
             checkUniqueEmail: function(property, value) {
                 return $http.get(api_base+"/Users?"+property+"="+escape(value))
