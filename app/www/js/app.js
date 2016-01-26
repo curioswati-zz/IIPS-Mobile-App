@@ -27,7 +27,7 @@ angular.module('iips-app',
 
   $rootScope.$on('$stateChangeStart', function(event, next) {
     if ($state.current.name !== 'login' && $state.current.name !== 'register') {
-      var loggedIn = Auth.isLoggedIn()
+      var loggedIn = Auth.isLoggedIn();
 
       setTimeout(function() {
         if (!loggedIn) {

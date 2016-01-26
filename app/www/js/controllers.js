@@ -71,7 +71,7 @@ angular.module('iips-app.controllers', ['iips-app.services'])
                 Auth.saveToken(data.token);
                 $rootScope.hide();
 
-		$scope.currentUser=Auth.currentUser()
+		$scope.currentUser=Auth.currentUser();
                 User.getUser($scope.currentUser)
                 .then(function(resp) {
     

@@ -67,7 +67,7 @@
         </div>
     
         <label class="item item-input register-input" ng-class="{'no-register-errors':registerForm.roll.$valid}">
-          <input name="roll" type="text" ng-model="registerData.rollno" ng-focus="clearFormError()" placeholder="Roll No." required ng-pattern="/^[0-9]+$/" wc-unique="{property: 'rollno'}">
+          <input name="roll" type="text" ng-model="registerData.rollno" ng-focus="clearFormError()" placeholder="Roll no: 35 (for example)" required ng-pattern="/^[0-9]+$/" wc-unique="{property: 'rollno'}">
         </label>
 
         <div class="error-container" ng-show="registerForm.roll.$error" ng-messages="registerForm.roll.$error">

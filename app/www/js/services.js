@@ -166,7 +166,7 @@ angular.module('iips-app.services', [])
                             return true;                        
                         }
                     });
-                })
+                });
             },
             checkUniqueEmail: function(property, value) {
                 return $http.get(api_base+"/Users?"+property+"="+escape(value))
