@@ -468,7 +468,7 @@ angular.module('iips-app.controllers', ['iips-app.services'])
     //------------------------------- some globals used in the controller---------------------------
     $scope.data        = {};
     $scope.userData    = $localStorage.userData;
-    $scope.showCurrent = true;
+    $scope.studentData = $localStorage.studentData;
     $scope.showQuote   = true;
     $scope.session     = 'July-Dec 2015';
     $scope.Days        = ['Monday', 'Tuesday', 'Wednesday',
@@ -500,8 +500,11 @@ angular.module('iips-app.controllers', ['iips-app.services'])
             $scope.slots = $localStorage['Slot'+$scope.Day];
 
             //---------------------------- if not found in localstorage-----------------------------
-            if(!$scope.slots) {
-                setTimeout(function() {
+            if($scope.slots === undefined) {
+                $rootScope.show('loading...');
+                $scope.$watch('studentData', function(newVal, oldVal) {
+                    if (!newVal) return;
+
                     var sid = $localStorage.studentData.SemesterId;
 
                     Slot.getSlot(sid, day)
@@ -510,20 +513,13 @@ angular.module('iips-app.controllers', ['iips-app.services'])
                         $localStorage['Slot'+$scope.Day] = resp;
                         callEmAll($scope.slots.length);
                     });
-                }, 1000);
+                });
             }
             //------------------------------ else from the localstorage-----------------------------
             else {
-                slot = 0;
-                callEmAll($scope.slots.length);
+                $scope.sections = $localStorage['Sections'+$scope.Day];
             }
         };
-
-        //---------------------------- ensure that the above function called only once--------------
-        if($scope.showCurrent) {
-            $scope.showCurrent = false;
-            $scope.showSlot($scope.Day);
-        }
 
         //--------------------------------- when the right chevron clicked--------------------------
         $scope.next = function(day) {
@@ -573,18 +569,28 @@ angular.module('iips-app.controllers', ['iips-app.services'])
                     .then(function(resp) {
                         $scope.section.faculty = resp.facultyName;
                         $scope.sections.push($scope.section);
+                        $localStorage['Sections'+$scope.Day] = $scope.sections;
 
                         callEmAll(noOfCalls-1);
                     });
                 });
             }
+            else {
+                $rootScope.hide();
+            }
             slot += 1;
         }
         $scope.openSyllabus = function() {
+            $rootScope.show('loading...');
             $state.go('tab.syllabus');
+            setTimeout(function() {
+                $rootScope.hide();
+            }, 1000);
+
         };
 
         $scope.openSchedule = function() {
+            $scope.showSlot($scope.Day);
             $state.go('tab.schedule');
         };
 
