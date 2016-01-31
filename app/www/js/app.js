@@ -24,25 +24,6 @@ angular.module('iips-app',
       StatusBar.styleDefault();
     }
   });
-
-  $rootScope.$on('$stateChangeStart', function(event, next) {
-    if ($state.current.name !== 'login' && $state.current.name !== 'register') {
-      var loggedIn = Auth.isLoggedIn();
-
-      setTimeout(function() {
-        if (!loggedIn) {
-          $state.go('login');
-  
-          console.log(next.name);
-  
-          if(next.name !== 'login' && next.name !== 'register')
-          {
-            event.preventDefault();
-          }
-        }
-      }, 1000);
-    }
-  });
 })
 
 .config(function($compileProvider){
@@ -69,8 +50,14 @@ angular.module('iips-app',
     .state('tab', {
       cache: false,
       url: "/tab",
+      abstract: true,
       templateUrl: "tabs.html",
-      controller: 'TabCtrl'
+      controller: 'TabCtrl',
+      onEnter: function($state, Auth) {
+          if(!Auth.isLoggedIn()) {
+              $state.go('login');
+          }
+      }
     })
 
     .state('admin', {
@@ -211,6 +198,6 @@ angular.module('iips-app',
     });
 
     // if none of the above states are matched, use this as the fallback
-    $urlRouterProvider.otherwise('/login');
+    $urlRouterProvider.otherwise('/tab/dash');
 
 });
